@@ -74,6 +74,7 @@ export default function ProductDetailPage({ params }: ProductDetailPageProps) {
                   alt={product.name}
                   fill
                   className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>
             </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
 import styles from './coming-soon.module.css';
 
@@ -785,19 +786,60 @@ const ingredients: Ingredient[] = [
   },
 ];
 
+const compactIngredients = ingredients.filter((_, index) => index % 2 === 0);
+const compactMediaQuery = '(max-width: 900px), (prefers-reduced-motion: reduce)';
+
+const getOptimizedIngredientSrc = (src: string) => {
+  const fileName = src
+    .split('/')
+    .pop()
+    ?.replace('.png', '.webp')
+    .toLowerCase()
+    .replace(/_/g, '-');
+
+  return `/optimized/ingredients/${fileName}`;
+};
+
+function useCompactIngredientStage() {
+  const [isCompact, setIsCompact] = useState(true);
+
+  useEffect(() => {
+    const media = window.matchMedia(compactMediaQuery);
+    const update = () => setIsCompact(media.matches);
+
+    update();
+    media.addEventListener('change', update);
+
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  return isCompact;
+}
+
 export default function IngredientStage() {
+  const isCompact = useCompactIngredientStage();
+  const visibleIngredients = useMemo(
+    () => (isCompact ? compactIngredients : ingredients),
+    [isCompact]
+  );
+
   return (
     <div className={styles.ingredientStage} aria-hidden="true">
-      {ingredients.map((ingredient, index) => (
+      {visibleIngredients.map((ingredient) => (
         <span
-          key={`${ingredient.src}-${index}`}
+          key={`${ingredient.src}-${ingredient.style['--x']}-${ingredient.style['--y']}`}
           className={styles.ingredientDrop}
           style={ingredient.style}
         >
           <img
             className={styles.ingredientSprite}
-            src={ingredient.src}
+            src={getOptimizedIngredientSrc(ingredient.src)}
             alt=""
+            width={360}
+            height={360}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
             draggable={false}
           />
         </span>

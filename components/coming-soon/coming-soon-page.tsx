@@ -75,11 +75,12 @@ export default function ComingSoonPage() {
 
       <header className={styles.brandMark} aria-label="ActivBite">
         <Image
-          src="/AB-LOGO.png"
+          src="/optimized/ab-logo.webp"
           alt="ActivBite"
-          width={190}
-          height={190}
+          width={640}
+          height={640}
           priority
+          sizes="190px"
         />
       </header>
 
@@ -171,19 +172,19 @@ export default function ComingSoonPage() {
           <span className={`${styles.launchSpark} ${styles.sparkThree}`} />
           <Image
             className={styles.productBar}
-            src="/PNG/PRODUCT-PACKAGING.png"
+            src="/optimized/product-packaging.webp"
             alt=""
-            width={2400}
-            height={1330}
+            width={1600}
+            height={887}
             priority
             sizes="(max-width: 900px) 94vw, 64vw"
           />
           <Image
             className={styles.productBox}
-            src="/PNG/Product-Box.png"
+            src="/optimized/product-box.webp"
             alt=""
-            width={1448}
-            height={1086}
+            width={900}
+            height={675}
             priority
             sizes="(max-width: 900px) 60vw, 33vw"
           />

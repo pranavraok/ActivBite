@@ -138,7 +138,14 @@ export default function WaitlistSuccessModal({ isOpen, email, onClose }: Props) 
       >
         {/* Floating Images (Product Bar) */}
         <div className={styles.floatingImages} aria-hidden="true">
-          <Image src="/PNG/PRODUCT-PACKAGING.png" width={320} height={180} alt="" className={styles.productImage} priority />
+          <Image
+            src="/optimized/product-packaging.webp"
+            width={320}
+            height={178}
+            alt=""
+            className={styles.productImage}
+            sizes="320px"
+          />
         </div>
 
         <div className={styles.cardContent}>
