@@ -1,0 +1,8 @@
+Place your legally licensed Tusker Grotesk 6700 Bold webfont files here.
+
+Expected filenames used by the CSS:
+- TuskerGrotesk-6700Bold.woff2
+- TuskerGrotesk-6700Bold.woff  optional fallback
+
+This kit does not include, copy, clone, embed, or redistribute any Tusker Grotesk font binaries.
+Only use font files covered by your website/webfont license.

@@ -1,0 +1,10 @@
+{
+  "kit": "Tusker Grotesk 6700 Bold Website Integration Kit",
+  "contains_font_binaries": false,
+  "expected_font_files": [
+    "fonts/TuskerGrotesk-6700Bold.woff2",
+    "fonts/TuskerGrotesk-6700Bold.woff"
+  ],
+  "css_entry": "css/tusker-grotesk-6700-bold.css",
+  "example": "examples/index.html"
+}

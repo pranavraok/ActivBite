@@ -1,0 +1,40 @@
+/*
+  Tusker Grotesk 6700 Bold — website integration kit
+  --------------------------------------------------
+  This CSS expects legally licensed webfont files placed in ../fonts/.
+  No font binaries are included in this kit.
+
+  Expected filenames:
+    TuskerGrotesk-6700Bold.woff2
+    TuskerGrotesk-6700Bold.woff   optional fallback
+*/
+
+@font-face {
+  font-family: 'Tusker Grotesk 6700';
+  src: url('../fonts/TuskerGrotesk-6700Bold.woff2') format('woff2'),
+       url('../fonts/TuskerGrotesk-6700Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --font-tusker-6700-bold: 'Tusker Grotesk 6700', Impact, Haettenschweiler, 'Arial Narrow Bold', 'Arial Narrow', sans-serif;
+}
+
+.tusker-6700-bold {
+  font-family: var(--font-tusker-6700-bold);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+}
+
+.tusker-hero {
+  font-family: var(--font-tusker-6700-bold);
+  font-weight: 700;
+  font-style: normal;
+  line-height: 0.86;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
