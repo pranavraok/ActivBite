@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description:
     'Delicious and nutritious breakfast bars designed for active students. Perfect for pre-workout, post-workout, and daily nutrition.',
   keywords: ['breakfast bars', 'student nutrition', 'protein bars', 'energy bars'],
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
 export const viewport: Viewport = {
