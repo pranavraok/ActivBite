@@ -1,137 +1,232 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+import LegalPage, { type LegalSection } from '@/components/legal-page';
 
+const LAST_UPDATED = '11 July 2026';
+const SUPPORT_EMAIL = 'support@activbite.com';
 
+export const metadata: Metadata = {
+  title: 'Terms & Conditions | ActivBite',
+  description:
+    'Terms and Conditions for buying ActivBite Breakfast Bars through the ActivBite shop.',
+};
 
-import Footer from '@/components/footer';
-import Header from '@/components/header';
+const quickCards = [
+  {
+    label: 'Product',
+    value: 'ActivBite Breakfast Bars available in packs of 10, 20, and 30.',
+  },
+  {
+    label: 'Price',
+    value: '₹40 per bar: ₹400, ₹800, and ₹1,200 respectively.',
+  },
+  {
+    label: 'Delivery',
+    value: 'First launch delivery is limited to NITK campus.',
+  },
+];
+
+const sections: LegalSection[] = [
+  {
+    title: 'Acceptance of terms',
+    body: (
+      <p>
+        By accessing activbite.com, joining our waitlist, placing an order, or using
+        the ActivBite shop page, you agree to these Terms & Conditions and our{' '}
+        <Link href="/privacy-policy">Privacy Policy</Link>.
+      </p>
+    ),
+  },
+  {
+    title: 'About ActivBite',
+    body: (
+      <p>
+        ActivBite is a registered partnership firm based in Kundapura, Karnataka,
+        India. The website is operated for ActivBite&apos;s breakfast bar brand and
+        related customer support.
+      </p>
+    ),
+  },
+  {
+    title: 'Product information',
+    body: (
+      <>
+        <p>
+          ActivBite currently offers one product: ActivBite Breakfast Bar. The bar is
+          sold through the shop page in packs of 10, 20, and 30. Product details,
+          prices, nutrition highlights, ingredients, packaging, and availability may
+          be updated from time to time.
+        </p>
+        <p>
+          Nutrition highlights shown on the website, such as 300 kcal, 9.3g protein,
+          and 6.5g fibre, are product information and not medical advice. ActivBite
+          is a food product and is not intended to diagnose, treat, cure, or prevent
+          any medical condition.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Ingredients and allergen notice',
+    body: (
+      <>
+        <p>
+          ActivBite Breakfast Bar contains or is made using ingredients such as oats,
+          peanuts, dates, poha, jaggery, elaichi, and chocolate. The product may not
+          be suitable for people with allergies or sensitivities to peanuts, nuts,
+          cereals, milk, soy, chocolate, or other ingredients used in food production.
+        </p>
+        <p>
+          Customers should read the product label before consumption. If you have a
+          severe allergy, dietary restriction, or medical concern, please avoid
+          consuming the product unless you are satisfied that it is safe for you.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Orders and payments',
+    body: (
+      <ul>
+        <li>Orders are placed from the ActivBite shop page.</li>
+        <li>Payments are handled through Cashfree or another authorised payment partner.</li>
+        <li>An order is confirmed only after successful payment confirmation.</li>
+        <li>
+          Prices are shown in Indian Rupees. Any applicable taxes, fees, or changes
+          will be shown before payment where required.
+        </li>
+        <li>
+          If a payment is debited but the order is not confirmed, contact us with
+          payment proof so we can verify it with the payment partner.
+        </li>
+      </ul>
+    ),
+  },
+  {
+    title: 'Campus delivery',
+    body: (
+      <>
+        <p>
+          During the first launch phase, ActivBite delivery is limited to National
+          Institute of Technology Karnataka (NITK). The customer must provide
+          accurate name, phone number, and campus delivery address or pickup details.
+          Delivery timelines are estimates and may vary because of campus access,
+          availability, weather, events, or operational reasons.
+        </p>
+        <p>
+          ActivBite currently offers free delivery on your campus unless stated
+          otherwise on the shop page.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Delivery issue, replacement, and refund policy',
+    body: (
+      <>
+        <p>
+          Because ActivBite sells a packaged food product, returns are limited. Any
+          issue such as wrong pack, missing quantity, damaged pack, broken seal, or
+          visible quality concern must be reported during delivery itself.
+        </p>
+        <p>
+          If a valid issue is reported during delivery, ActivBite may offer a
+          correction, replacement, or refund depending on the situation. Once an
+          order is accepted at delivery, it is generally not eligible for return or
+          refund unless required by applicable law.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Availability and changes',
+    body: (
+      <p>
+        Product availability, pack sizes, prices, offers, and delivery coverage may
+        change. We try to keep the website accurate, but mistakes can happen. If
+        there is an obvious pricing or product error, ActivBite may cancel or correct
+        the affected order and inform the customer.
+      </p>
+    ),
+  },
+  {
+    title: 'Website use',
+    body: (
+      <p>
+        Customers must use the website lawfully and must not misuse the shop, payment
+        flow, forms, brand assets, or website code. ActivBite may block or cancel
+        activity that appears fraudulent, abusive, automated, or harmful to the
+        website or customers.
+      </p>
+    ),
+  },
+  {
+    title: 'Intellectual property',
+    body: (
+      <p>
+        The ActivBite name, logo, product visuals, website design, text, packaging
+        concepts, and brand materials belong to ActivBite or its licensors. They may
+        not be copied or used without permission except as allowed by law.
+      </p>
+    ),
+  },
+  {
+    title: 'Limitation of liability',
+    body: (
+      <p>
+        To the maximum extent permitted by law, ActivBite is not liable for indirect,
+        incidental, special, or consequential losses arising from website use, delayed
+        delivery, payment partner issues, or product misuse. Nothing in these terms
+        limits any customer rights that cannot be excluded under applicable law.
+      </p>
+    ),
+  },
+  {
+    title: 'Governing law',
+    body: (
+      <p>
+        These Terms & Conditions are governed by the laws of India. Disputes will be
+        subject to the jurisdiction of competent courts in Karnataka, India, unless
+        applicable law requires otherwise.
+      </p>
+    ),
+  },
+  {
+    title: 'Updates to terms',
+    body: (
+      <p>
+        ActivBite may update these Terms & Conditions as the brand starts operations,
+        expands delivery, adds products, or changes payment and support processes.
+        The latest version will be posted on this page.
+      </p>
+    ),
+  },
+  {
+    title: 'Contact us',
+    highlight: true,
+    body: (
+      <>
+        <p>
+          For order, delivery, refund, or terms-related questions, contact ActivBite
+          at <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+        </p>
+        <p>Business location: Kundapura, Karnataka, India.</p>
+      </>
+    ),
+  },
+];
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-
-      <main className="flex-1">
-        <section className="bg-secondary py-12">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-4xl font-bold text-foreground mb-2">
-              Terms and Conditions
-            </h1>
-            <p className="text-muted-foreground">Last updated: January 2024</p>
-          </div>
-        </section>
-
-        <section className="py-16">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-sm max-w-none">
-            <div className="space-y-8 text-muted-foreground">
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  1. Terms and Conditions of Use
-                </h2>
-                <p>
-                  These Terms and Conditions (&quot;Agreement&quot;) constitute a legal agreement
-                  between you and ActivBite. By accessing and using this website, you accept and
-                  agree to be bound by the terms and provision of this agreement.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  2. Use License
-                </h2>
-                <p>
-                  Permission is granted to temporarily download one copy of the materials
-                  (information or software) on ActivBite&apos;s website for personal,
-                  non-commercial transitory viewing only.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  3. Disclaimer
-                </h2>
-                <p>
-                  The materials on ActivBite&apos;s website are provided &quot;as is&quot;.
-                  ActivBite makes no warranties, expressed or implied, and hereby disclaims and
-                  negates all other warranties including, without limitation, implied warranties
-                  or conditions of merchantability, fitness for a particular purpose, or
-                  non-infringement of intellectual property or other violation of rights.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  4. Limitations of Liability
-                </h2>
-                <p>
-                  In no event shall ActivBite or its suppliers be liable for any damages
-                  (including, without limitation, damages for loss of data or profit, or due to
-                  business interruption) arising out of the use or inability to use the materials
-                  on ActivBite&apos;s website, even if ActivBite or an authorized representative
-                  has been notified orally or in writing of the possibility of such damage.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  5. Product Information
-                </h2>
-                <p>
-                  We strive to provide accurate product descriptions and prices. However, we do
-                  not warrant that product descriptions, pricing, or other content of the website
-                  is accurate, complete, reliable, current, or error-free.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  6. Return and Refund Policy
-                </h2>
-                <p>
-                  We offer a 7-day money-back guarantee on all products. If you are not satisfied
-                  with your purchase, please contact our support team with proof of purchase
-                  within 7 days for a refund or replacement.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  7. Modifications
-                </h2>
-                <p>
-                  ActivBite may revise these terms of service for its website at any time without
-                  notice. By using this website, you are agreeing to be bound by the then current
-                  version of these terms of service.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">
-                  8. Governing Law
-                </h2>
-                <p>
-                  These terms and conditions are governed by and construed in accordance with the
-                  laws of India, and you irrevocably submit to the exclusive jurisdiction of the
-                  courts in that location.
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-2xl font-bold text-foreground mb-3">9. Contact Us</h2>
-                <p>
-                  If you have any questions about these Terms and Conditions, please contact us
-                  at:
-                </p>
-                <p className="mt-3">
-                  <a href="mailto:hello@activbite.com" className="text-primary hover:underline">
-                    hello@activbite.com
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <Footer />
-    </div>
+    <LegalPage
+      title="Terms & Conditions"
+      intro="A clear, customer-friendly agreement for ActivBite Breakfast Bar purchases, NITK campus delivery, issue reporting, and secure payment handling."
+      lastUpdated={LAST_UPDATED}
+      quickCards={quickCards}
+      sections={sections}
+      activeLabel="Terms"
+      alternateHref="/privacy-policy"
+      alternateLabel="Privacy"
+    />
   );
 }

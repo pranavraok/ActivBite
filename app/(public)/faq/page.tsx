@@ -12,7 +12,7 @@ const faqs = [
   {
     question: 'What are the main ingredients in ActivBite bars?',
     answer:
-      'Our bars are made from natural ingredients including oats, honey, nuts, dark chocolate, and protein powder. We do not use any artificial additives or preservatives. Each bar is carefully crafted to provide optimal nutrition.',
+      'ActivBite Breakfast Bars are made using ingredients such as oats, peanuts, dates, poha, jaggery, elaichi, and chocolate. Please check the product label before consuming, especially if you have allergies.',
   },
   {
     question: 'Are your bars suitable for vegetarians?',
@@ -37,7 +37,7 @@ const faqs = [
   {
     question: 'What is your return policy?',
     answer:
-      'We offer a 7-day money-back guarantee on all products. If you are not satisfied with your purchase, please contact our support team with proof of purchase.',
+      'Because this is a packaged food product, delivery issues must be reported during delivery itself. If there is a wrong pack, missing quantity, damaged pack, broken seal, or visible quality concern, we may offer a correction, replacement, or refund depending on the issue.',
   },
   {
     question: 'How do you ensure product quality?',
@@ -45,9 +45,9 @@ const faqs = [
       'Each batch is tested for quality and safety. We follow strict hygiene standards and use only sourced ingredients from trusted suppliers. Our facilities are regularly audited.',
   },
   {
-    question: 'Do you deliver outside India?',
+    question: 'Where do you currently deliver?',
     answer:
-      'Currently, we deliver only within India. We are expanding our international shipping soon. Please check back or subscribe to our newsletter for updates.',
+      'For the first launch phase, ActivBite delivery is limited to National Institute of Technology Karnataka (NITK).',
   },
 ];
 

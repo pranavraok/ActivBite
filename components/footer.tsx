@@ -16,7 +16,7 @@ export default function Footer() {
               <span className="text-xl font-bold">ActivBite</span>
             </div>
             <p className="text-gray-300 text-sm">
-              Nutritious breakfast bars for active students.
+              Breakfast bars made for busy campus mornings.
             </p>
           </div>
 
@@ -78,9 +78,9 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-sm text-gray-300">
-              <li>Email: hello@activbite.com</li>
-              <li>Phone: +91 9876543210</li>
-              <li>Address: Delhi, India</li>
+              <li>Email: support@activbite.com</li>
+              <li>Campus delivery: NITK</li>
+              <li>Address: Kundapura, Karnataka, India</li>
             </ul>
           </div>
         </div>

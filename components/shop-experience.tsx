@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   ArrowRight,
@@ -17,50 +18,6 @@ import {
   Zap,
 } from 'lucide-react';
 import styles from './shop-experience.module.css';
-
-type CashfreeCheckout = {
-  checkout: (options: {
-    paymentSessionId: string;
-    redirectTarget?: '_self' | '_blank' | '_top' | '_modal';
-  }) => Promise<unknown> | void;
-};
-
-declare global {
-  interface Window {
-    Cashfree?: (options: { mode: 'sandbox' | 'production' }) => CashfreeCheckout;
-  }
-}
-
-let cashfreeSdkPromise: Promise<void> | null = null;
-
-const loadCashfreeSdk = () => {
-  if (typeof window === 'undefined' || window.Cashfree) {
-    return Promise.resolve();
-  }
-
-  if (!cashfreeSdkPromise) {
-    cashfreeSdkPromise = new Promise((resolve, reject) => {
-      const existingScript = document.querySelector<HTMLScriptElement>(
-        'script[src="https://sdk.cashfree.com/js/v3/cashfree.js"]'
-      );
-
-      if (existingScript) {
-        existingScript.addEventListener('load', () => resolve(), { once: true });
-        existingScript.addEventListener('error', () => reject(new Error('Unable to load Cashfree checkout.')), { once: true });
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
-      script.async = true;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Unable to load Cashfree checkout.'));
-      document.head.appendChild(script);
-    });
-  }
-
-  return cashfreeSdkPromise;
-};
 
 const PACKS = [
   {
@@ -97,49 +54,17 @@ const formatPrice = (price: number) =>
   }).format(price);
 
 export default function ShopExperience() {
+  const router = useRouter();
   const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[1]);
   const [quantity, setQuantity] = useState(1);
-  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
-  const [paymentError, setPaymentError] = useState('');
 
-  const handleBuyNow = async () => {
-    setPaymentError('');
-    setIsPaymentLoading(true);
+  const handleBuyNow = () => {
+    const params = new URLSearchParams({
+      pack: String(selectedPack.count),
+      qty: String(quantity),
+    });
 
-    try {
-      const response = await fetch('/api/cashfree/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          packCount: selectedPack.count,
-          quantity,
-        }),
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok || !data.paymentSessionId) {
-        throw new Error(data.error || 'Unable to open Cashfree payment right now.');
-      }
-
-      await loadCashfreeSdk();
-
-      if (!window.Cashfree) {
-        throw new Error('Cashfree checkout is not available right now.');
-      }
-
-      const cashfree = window.Cashfree({
-        mode: data.mode === 'production' ? 'production' : 'sandbox',
-      });
-
-      await cashfree.checkout({
-        paymentSessionId: data.paymentSessionId,
-        redirectTarget: '_self',
-      });
-    } catch (error) {
-      setPaymentError(error instanceof Error ? error.message : 'Unable to open payment gateway right now.');
-      setIsPaymentLoading(false);
-    }
+    router.push(`/checkout?${params.toString()}`);
   };
 
   return (
@@ -255,11 +180,9 @@ export default function ShopExperience() {
             type="button"
             className={styles.buyNow}
             onClick={handleBuyNow}
-            disabled={isPaymentLoading}
           >
-            {isPaymentLoading ? 'Opening Cashfree...' : <>Purchase now <ArrowRight size={20} /></>}
+            Purchase now <ArrowRight size={20} />
           </button>
-          {paymentError && <p className={styles.paymentError} role="alert">{paymentError}</p>}
 
           <div className={styles.reassurance}>
             <span><Truck size={17} /> Free delivery on your campus</span>

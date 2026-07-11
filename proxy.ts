@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_FILE = /\.(.*)$/;
-const LIVE_COMMERCE_PATHS = ['/shop'];
-const OLD_COMMERCE_PATHS = ['/cart', '/checkout', '/product'];
+const LIVE_COMMERCE_PATHS = ['/shop', '/checkout'];
+const LEGAL_PATHS = ['/terms', '/privacy-policy'];
+const OLD_COMMERCE_PATHS = ['/cart', '/product'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -20,6 +21,9 @@ export function proxy(request: NextRequest) {
   if (
     pathname === '/' ||
     LIVE_COMMERCE_PATHS.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`)
+    ) ||
+    LEGAL_PATHS.some(
       (path) => pathname === path || pathname.startsWith(`${path}/`)
     ) ||
     pathname.startsWith('/admin') ||

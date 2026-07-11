@@ -1,14 +1,12 @@
 'use client';
 
-
-
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Loader2, Mail, MapPin } from 'lucide-react';
+import { z } from 'zod';
 import Footer from '@/components/footer';
 import Header from '@/components/header';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useState } from 'react';
-import { Mail, Phone, MapPin, Loader2 } from 'lucide-react';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name is required'),
@@ -34,11 +32,10 @@ export default function ContactPage() {
   const onSubmit = async (data: ContactForm) => {
     setIsLoading(true);
     try {
-      // TODO: Save to Supabase
-      console.log('[v0] Contact enquiry:', data);
+      console.log('[Contact enquiry]:', data);
       setIsSubmitted(true);
     } catch (error) {
-      console.error('[v0] Contact error:', error);
+      console.error('[Contact error]:', error);
     } finally {
       setIsLoading(false);
     }
@@ -76,26 +73,24 @@ export default function ContactPage() {
       <Header />
 
       <main className="flex-1">
-        {/* Hero */}
         <section className="bg-secondary py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl font-bold text-foreground mb-4">Contact Us</h1>
             <p className="text-lg text-muted-foreground">
-              We&apos;d love to hear from you. Get in touch with our team.
+              For orders, delivery support, campus launch updates, or product questions.
             </p>
           </div>
         </section>
 
-        {/* Content */}
         <section className="py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {/* Contact Info */}
               <div className="space-y-8">
                 <div>
                   <h2 className="text-3xl font-bold text-foreground mb-8">
                     Get in Touch
                   </h2>
+
                   <div className="space-y-6">
                     <div className="flex gap-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -104,23 +99,25 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-foreground mb-1">Email</h3>
                         <a
-                          href="mailto:hello@activbite.com"
+                          href="mailto:support@activbite.com"
                           className="text-primary hover:underline"
                         >
-                          hello@activbite.com
+                          support@activbite.com
                         </a>
                       </div>
                     </div>
 
                     <div className="flex gap-4">
                       <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Phone size={24} className="text-primary" />
+                        <MapPin size={24} className="text-primary" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-foreground mb-1">Phone</h3>
-                        <a href="tel:+919876543210" className="text-primary hover:underline">
-                          +91 9876543210
-                        </a>
+                        <h3 className="font-semibold text-foreground mb-1">
+                          Campus Delivery
+                        </h3>
+                        <p className="text-muted-foreground">
+                          National Institute of Technology Karnataka (NITK)
+                        </p>
                       </div>
                     </div>
 
@@ -131,7 +128,7 @@ export default function ContactPage() {
                       <div>
                         <h3 className="font-semibold text-foreground mb-1">Address</h3>
                         <p className="text-muted-foreground">
-                          New Delhi, Delhi, India
+                          Kundapura, Karnataka, India
                         </p>
                       </div>
                     </div>
@@ -144,13 +141,12 @@ export default function ContactPage() {
                   </h3>
                   <ul className="space-y-2 text-sm text-muted-foreground">
                     <li>• Email: 24 hours</li>
-                    <li>• Phone: Business hours (9 AM - 6 PM IST)</li>
+                    <li>• Delivery support: During campus delivery hours</li>
                     <li>• Wholesale inquiries: 24-48 hours</li>
                   </ul>
                 </div>
               </div>
 
-              {/* Contact Form */}
               <div>
                 <div className="bg-white border border-border rounded-lg p-8">
                   <h2 className="text-2xl font-bold text-foreground mb-6">
