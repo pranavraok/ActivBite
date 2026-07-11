@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
-import { useCartStore } from '@/lib/store/cart-store';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const totalItems = useCartStore((state) => state.getTotalItems());
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -45,21 +43,8 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Right side - Cart and Admin */}
+          {/* Right side - Admin */}
           <div className="flex items-center gap-4">
-            {/* Cart */}
-            <Link
-              href="/cart"
-              className="relative p-2 text-foreground hover:text-primary transition-colors"
-            >
-              <ShoppingCart size={24} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </Link>
-
             {/* Admin Link */}
             <Link
               href="/admin/login"

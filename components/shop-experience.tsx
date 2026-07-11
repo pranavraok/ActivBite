@@ -2,20 +2,65 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import {
   ArrowRight,
-  Check,
+  BicepsFlexed,
+  Leaf,
   Minus,
   Plus,
+  Rocket,
   ShieldCheck,
-  ShoppingBag,
-  Sparkles,
+  Soup,
+  Sunrise,
   Truck,
+  Zap,
 } from 'lucide-react';
-import { useCartStore } from '@/lib/store/cart-store';
 import styles from './shop-experience.module.css';
+
+type CashfreeCheckout = {
+  checkout: (options: {
+    paymentSessionId: string;
+    redirectTarget?: '_self' | '_blank' | '_top' | '_modal';
+  }) => Promise<unknown> | void;
+};
+
+declare global {
+  interface Window {
+    Cashfree?: (options: { mode: 'sandbox' | 'production' }) => CashfreeCheckout;
+  }
+}
+
+let cashfreeSdkPromise: Promise<void> | null = null;
+
+const loadCashfreeSdk = () => {
+  if (typeof window === 'undefined' || window.Cashfree) {
+    return Promise.resolve();
+  }
+
+  if (!cashfreeSdkPromise) {
+    cashfreeSdkPromise = new Promise((resolve, reject) => {
+      const existingScript = document.querySelector<HTMLScriptElement>(
+        'script[src="https://sdk.cashfree.com/js/v3/cashfree.js"]'
+      );
+
+      if (existingScript) {
+        existingScript.addEventListener('load', () => resolve(), { once: true });
+        existingScript.addEventListener('error', () => reject(new Error('Unable to load Cashfree checkout.')), { once: true });
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
+      script.async = true;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('Unable to load Cashfree checkout.'));
+      document.head.appendChild(script);
+    });
+  }
+
+  return cashfreeSdkPromise;
+};
 
 const PACKS = [
   {
@@ -52,32 +97,49 @@ const formatPrice = (price: number) =>
   }).format(price);
 
 export default function ShopExperience() {
-  const router = useRouter();
-  const addItem = useCartStore((state) => state.addItem);
-  const totalCartItems = useCartStore((state) => state.getTotalItems());
   const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[1]);
   const [quantity, setQuantity] = useState(1);
-  const [isAdded, setIsAdded] = useState(false);
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState('');
 
-  const addSelectedPack = () => {
-    addItem({
-      product_id: `breakfast-bar-${selectedPack.count}-pack`,
-      name: `ActivBite Breakfast Bar — Pack of ${selectedPack.count}`,
-      price: selectedPack.price,
-      quantity,
-      image_url: selectedPack.image,
-    });
-  };
+  const handleBuyNow = async () => {
+    setPaymentError('');
+    setIsPaymentLoading(true);
 
-  const handleAddToCart = () => {
-    addSelectedPack();
-    setIsAdded(true);
-    window.setTimeout(() => setIsAdded(false), 1800);
-  };
+    try {
+      const response = await fetch('/api/cashfree/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          packCount: selectedPack.count,
+          quantity,
+        }),
+      });
 
-  const handleBuyNow = () => {
-    addSelectedPack();
-    router.push('/checkout');
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.paymentSessionId) {
+        throw new Error(data.error || 'Unable to open Cashfree payment right now.');
+      }
+
+      await loadCashfreeSdk();
+
+      if (!window.Cashfree) {
+        throw new Error('Cashfree checkout is not available right now.');
+      }
+
+      const cashfree = window.Cashfree({
+        mode: data.mode === 'production' ? 'production' : 'sandbox',
+      });
+
+      await cashfree.checkout({
+        paymentSessionId: data.paymentSessionId,
+        redirectTarget: '_self',
+      });
+    } catch (error) {
+      setPaymentError(error instanceof Error ? error.message : 'Unable to open payment gateway right now.');
+      setIsPaymentLoading(false);
+    }
   };
 
   return (
@@ -96,57 +158,39 @@ export default function ShopExperience() {
           />
         </Link>
 
-        <Link href="/cart" className={styles.cartLink} aria-label={`Cart with ${totalCartItems} items`}>
-          <ShoppingBag size={20} strokeWidth={2.4} />
-          <span>Cart</span>
-          {totalCartItems > 0 && <b>{totalCartItems}</b>}
-        </Link>
       </header>
 
       <section className={styles.hero}>
         <div className={styles.copy}>
-          <div className={styles.eyebrow}>
-            <Sparkles size={16} />
-            <span>Your everyday breakfast bar</span>
-          </div>
-
           <h1>
-            GOOD MORNINGS,
+            BREAKFAST,
             <span>PACKED.</span>
           </h1>
 
+          <div className={styles.decorativeRule} aria-hidden="true">
+            <span />
+            <i />
+            <span />
+          </div>
+
           <p className={styles.intro}>
-            A satisfying breakfast bar made with familiar ingredients—built for busy
-            mornings, long days, and everything in between.
+            Made for busy mornings, long days, and quick checkouts.
           </p>
 
-          <div className={styles.proofRow} aria-label="Product highlights">
-            <span><Check size={15} /> High protein</span>
-            <span><Check size={15} /> High fibre</span>
-            <span><Check size={15} /> Real ingredients</span>
+          <div className={styles.statsGrid} aria-label="Nutrition highlights">
+            <div>
+              <Zap size={28} fill="currentColor" />
+              <strong>300 <small>kcal</small></strong>
+            </div>
+            <div>
+              <BicepsFlexed size={30} fill="currentColor" />
+              <strong>9.3g <small>Protein</small></strong>
+            </div>
+            <div>
+              <Leaf size={30} fill="currentColor" />
+              <strong>6.5g <small>Fibre</small></strong>
+            </div>
           </div>
-        </div>
-
-        <div className={styles.productVisual}>
-          <span className={`${styles.ingredient} ${styles.oat}`}>OATS</span>
-          <span className={`${styles.ingredient} ${styles.date}`}>DATES</span>
-          <span className={`${styles.ingredient} ${styles.cocoa}`}>COCOA</span>
-          <div className={styles.sunburst} aria-hidden="true" />
-          <div className={styles.packCount}>
-            <strong>{selectedPack.count}</strong>
-            <span>BARS</span>
-          </div>
-          <Image
-            key={selectedPack.count}
-            className={styles.productImage}
-            src={selectedPack.image}
-            alt={`ActivBite Breakfast Bar pack of ${selectedPack.count}`}
-            width={1440}
-            height={1080}
-            priority
-            unoptimized
-            sizes="(max-width: 900px) 92vw, 48vw"
-          />
         </div>
 
         <aside className={styles.buyPanel}>
@@ -174,7 +218,7 @@ export default function ShopExperience() {
                   <span className={styles.radio}>{selected && <i />}</span>
                   <span className={styles.packCopy}>
                     <strong>{pack.label}</strong>
-                    <small>Pack of {pack.count} · {pack.note}</small>
+                    <small>Pack of {pack.count} - {pack.note}</small>
                   </span>
                   <b>{formatPrice(pack.price)}</b>
                 </button>
@@ -207,24 +251,67 @@ export default function ShopExperience() {
             </div>
           </div>
 
-          <button type="button" className={styles.buyNow} onClick={handleBuyNow}>
-            Purchase now <ArrowRight size={20} />
+          <button
+            type="button"
+            className={styles.buyNow}
+            onClick={handleBuyNow}
+            disabled={isPaymentLoading}
+          >
+            {isPaymentLoading ? 'Opening Cashfree...' : <>Purchase now <ArrowRight size={20} /></>}
           </button>
-          <button type="button" className={styles.addToCart} onClick={handleAddToCart}>
-            {isAdded ? <><Check size={18} /> Added to cart</> : <><ShoppingBag size={18} /> Add to cart</>}
-          </button>
+          {paymentError && <p className={styles.paymentError} role="alert">{paymentError}</p>}
 
           <div className={styles.reassurance}>
-            <span><Truck size={17} /> Free delivery above ₹500</span>
+            <span><Truck size={17} /> Free delivery on your campus</span>
             <span><ShieldCheck size={17} /> Secure checkout</span>
           </div>
         </aside>
+
+        <div className={styles.productVisual}>
+          <span className={`${styles.ingredient} ${styles.oat}`} aria-label="Oats">
+            <Image src="/PNG/OAT.png" alt="Oats" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.date}`} aria-label="Dates">
+            <Image src="/PNG/DATES.png" alt="Dates" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.peanuts}`} aria-label="Peanuts">
+            <Image src="/PNG/PEANUTS.png" alt="Peanuts" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.chocolate}`} aria-label="Chocolate">
+            <Image src="/PNG/CHOCOLATE.png" alt="Chocolate" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.poha}`} aria-label="Poha">
+            <Image src="/PNG/POHA.png" alt="Poha" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.jaggery}`} aria-label="Jaggery">
+            <Image src="/PNG/JAGGERY.png" alt="Jaggery" width={180} height={180} unoptimized />
+          </span>
+          <span className={`${styles.ingredient} ${styles.elaichi}`} aria-label="Elaichi">
+            <Image src="/PNG/ELAICHI.png" alt="Elaichi" width={180} height={180} unoptimized />
+          </span>
+          <div className={styles.sunburst} aria-hidden="true" />
+          <div className={styles.packCount}>
+            <strong>{selectedPack.count}</strong>
+            <span>BARS</span>
+          </div>
+          <Image
+            key={selectedPack.count}
+            className={styles.productImage}
+            src={selectedPack.image}
+            alt={`ActivBite Breakfast Bar pack of ${selectedPack.count}`}
+            width={1440}
+            height={1080}
+            priority
+            unoptimized
+            sizes="(max-width: 900px) 92vw, 48vw"
+          />
+        </div>
       </section>
 
       <section className={styles.bottomStrip}>
-        <span>ONE BAR.</span>
-        <span>REAL BREAKFAST.</span>
-        <span>ZERO MORNING DRAMA.</span>
+        <span><Sunrise size={34} /> ONE BAR.</span>
+        <span><Soup size={34} /> REAL BREAKFAST.</span>
+        <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>
       </section>
     </main>
   );

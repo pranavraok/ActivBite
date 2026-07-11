@@ -104,9 +104,6 @@ export const ITEMS_PER_PAGE = 10;
 
 // Toast messages
 export const TOAST_MESSAGES = {
-  addedToCart: 'Added to cart!',
-  removedFromCart: 'Removed from cart',
-  cartCleared: 'Cart cleared',
   orderCreated: 'Order created successfully!',
   errorOccurred: 'An error occurred. Please try again.',
 };
