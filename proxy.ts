@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const PUBLIC_FILE = /\.(.*)$/;
 const LIVE_COMMERCE_PATHS = ['/shop', '/checkout'];
 const LEGAL_PATHS = ['/terms', '/privacy-policy'];
+const PUBLIC_MARKETING_PATHS = ['/wholesale'];
 const OLD_COMMERCE_PATHS = ['/cart', '/product'];
 
 export function proxy(request: NextRequest) {
@@ -24,6 +25,9 @@ export function proxy(request: NextRequest) {
       (path) => pathname === path || pathname.startsWith(`${path}/`)
     ) ||
     LEGAL_PATHS.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`)
+    ) ||
+    PUBLIC_MARKETING_PATHS.some(
       (path) => pathname === path || pathname.startsWith(`${path}/`)
     ) ||
     pathname.startsWith('/admin') ||
