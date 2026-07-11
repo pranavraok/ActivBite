@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent, useMemo, useState } from 'react';
 import {
   ArrowLeft,
@@ -17,19 +17,6 @@ import {
   Truck,
 } from 'lucide-react';
 import styles from './checkout-experience.module.css';
-
-type CashfreeCheckout = {
-  checkout: (options: {
-    paymentSessionId: string;
-    redirectTarget?: '_self' | '_blank' | '_top' | '_modal';
-  }) => Promise<unknown> | void;
-};
-
-declare global {
-  interface Window {
-    Cashfree?: (options: { mode: 'sandbox' | 'production' }) => CashfreeCheckout;
-  }
-}
 
 type CheckoutForm = {
   fullName: string;
@@ -79,41 +66,6 @@ const DELIVERY_POINTS = [
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9]{10}$/;
 
-let cashfreeSdkPromise: Promise<void> | null = null;
-
-const loadCashfreeSdk = () => {
-  if (typeof window === 'undefined' || window.Cashfree) {
-    return Promise.resolve();
-  }
-
-  if (!cashfreeSdkPromise) {
-    cashfreeSdkPromise = new Promise((resolve, reject) => {
-      const existingScript = document.querySelector<HTMLScriptElement>(
-        'script[src="https://sdk.cashfree.com/js/v3/cashfree.js"]'
-      );
-
-      if (existingScript) {
-        existingScript.addEventListener('load', () => resolve(), { once: true });
-        existingScript.addEventListener(
-          'error',
-          () => reject(new Error('Unable to load Cashfree checkout.')),
-          { once: true }
-        );
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://sdk.cashfree.com/js/v3/cashfree.js';
-      script.async = true;
-      script.onload = () => resolve();
-      script.onerror = () => reject(new Error('Unable to load Cashfree checkout.'));
-      document.head.appendChild(script);
-    });
-  }
-
-  return cashfreeSdkPromise;
-};
-
 const formatPrice = (price: number) =>
   new Intl.NumberFormat('en-IN', {
     style: 'currency',
@@ -130,6 +82,7 @@ const clampQuantity = (value: number) => {
 };
 
 export default function CheckoutExperience() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [form, setForm] = useState<CheckoutForm>({
     fullName: '',
@@ -210,55 +163,38 @@ export default function CheckoutExperience() {
 
     setIsSubmitting(true);
 
-    try {
-      const response = await fetch('/api/cashfree/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          packCount: selectedPack.count,
-          quantity,
-          customer: {
-            name: form.fullName.trim(),
-            phone: form.phone.replace(/\D/g, ''),
-            email: form.email.trim(),
-            campus: 'National Institute of Technology Karnataka (NITK)',
-            deliveryPoint: form.deliveryPoint,
-            hostelBlock: form.hostelBlock.trim(),
-            roomOrLandmark: form.roomOrLandmark.trim(),
-            deliveryNote: '',
-          },
-        }),
-      });
+    const cleanedPhone = form.phone.replace(/\D/g, '');
+    const orderId = `AB-NITK-${Date.now().toString(36).toUpperCase().slice(-6)}`;
+    const order = {
+      orderId,
+      packCount: selectedPack.count,
+      packLabel: selectedPack.label,
+      packNote: selectedPack.note,
+      quantity,
+      total,
+      customerName: form.fullName.trim(),
+      phone: cleanedPhone,
+      email: form.email.trim(),
+      deliveryPoint: form.deliveryPoint,
+      hostelBlock: form.hostelBlock.trim(),
+      roomOrLandmark: form.roomOrLandmark.trim(),
+      createdAt: new Date().toISOString(),
+    };
 
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok || !data.paymentSessionId) {
-        throw new Error(data.error || 'Unable to open Cashfree payment right now.');
-      }
-
-      await loadCashfreeSdk();
-
-      if (!window.Cashfree) {
-        throw new Error('Cashfree checkout is not available right now.');
-      }
-
-      const cashfree = window.Cashfree({
-        mode: data.mode === 'production' ? 'production' : 'sandbox',
-      });
-
-      await cashfree.checkout({
-        paymentSessionId: data.paymentSessionId,
-        redirectTarget: '_self',
-      });
-    } catch (error) {
-      setErrors({
-        payment:
-          error instanceof Error
-            ? error.message
-            : 'Unable to open payment gateway right now.',
-      });
-      setIsSubmitting(false);
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.setItem('activbite:lastOrder', JSON.stringify(order));
     }
+
+    const params = new URLSearchParams({
+      order: orderId,
+      pack: String(selectedPack.count),
+      qty: String(quantity),
+      total: String(total),
+      name: form.fullName.trim(),
+      point: form.deliveryPoint,
+    });
+
+    router.push(`/order-status?${params.toString()}`);
   };
 
   return (
@@ -287,18 +223,18 @@ export default function CheckoutExperience() {
           <div className={styles.copy}>
             <p className={styles.eyebrow}>Checkout</p>
             <h1>Almost there.</h1>
-            <p>Add your delivery details and continue to secure Cashfree payment.</p>
+            <p>Add your delivery details and lock your ActivBite campus order.</p>
             <div className={styles.promiseGrid}>
               <span><MapPin size={20} /> NITK only</span>
               <span><Truck size={20} /> Free delivery</span>
-              <span><ShieldCheck size={20} /> Secure payment</span>
+              <span><ShieldCheck size={20} /> Order confirmed</span>
             </div>
           </div>
 
           <form className={styles.formCard} onSubmit={handleSubmit} noValidate>
             <div className={styles.formHeading}>
               <h2>Delivery details</h2>
-              <span>Step 1 of 2</span>
+              <span>Step 1 of 1</span>
             </div>
 
             <div className={styles.gridTwo}>
@@ -400,18 +336,18 @@ export default function CheckoutExperience() {
               {isSubmitting ? (
                 <>
                   <Loader2 size={20} className={styles.spinner} />
-                  Opening Cashfree...
+                  Locking order...
                 </>
               ) : (
                 <>
-                  Continue to Cashfree
+                  Confirm my breakfast
                   <ArrowRight size={24} />
                 </>
               )}
             </button>
 
             <p className={styles.legalLinks}>
-              By continuing, you agree to the <Link href="/terms">Terms</Link> and{' '}
+              By confirming, you agree to the <Link href="/terms">Terms</Link> and{' '}
               <Link href="/privacy-policy">Privacy Policy</Link>.
             </p>
           </form>

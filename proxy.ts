@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 const PUBLIC_FILE = /\.(.*)$/;
-const LIVE_COMMERCE_PATHS = ['/shop', '/checkout'];
+const LIVE_COMMERCE_PATHS = ['/shop', '/checkout', '/order-status'];
 const LEGAL_PATHS = ['/terms', '/privacy-policy'];
-const PUBLIC_MARKETING_PATHS = ['/wholesale'];
+const PUBLIC_MARKETING_PATHS = ['/wholesale', '/faq'];
 const OLD_COMMERCE_PATHS = ['/cart', '/product'];
 
 export function proxy(request: NextRequest) {

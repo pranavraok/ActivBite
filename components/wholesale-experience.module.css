@@ -186,10 +186,6 @@
   line-height: 1.48;
 }
 
-.mobileMetrics {
-  display: none;
-}
-
 .formCard {
   overflow: hidden;
   padding: 1.45rem;
@@ -562,54 +558,6 @@
     width: 100%;
     padding: 1rem;
     border-radius: 1.2rem;
-  }
-
-  .mobileMetrics {
-    order: 3;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    width: 100%;
-    gap: .58rem;
-  }
-
-  .mobileMetrics div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 4.2rem;
-    padding: .65rem .55rem;
-    border: 1.35px solid rgba(255,213,29,.62);
-    border-radius: .9rem;
-    color: #fff;
-    background: rgba(214,55,0,.22);
-    gap: .38rem;
-  }
-
-  .mobileMetrics svg {
-    flex: 0 0 auto;
-    color: #ffd51d;
-    stroke-width: 2.5;
-  }
-
-  .mobileMetrics strong {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: center;
-    color: #fff;
-    font-size: .9rem;
-    font-weight: 900;
-    line-height: 1.05;
-    white-space: nowrap;
-    gap: .12rem;
-  }
-
-  .mobileMetrics small {
-    display: block;
-    color: #fff;
-    font-size: .5rem;
-    font-weight: 850;
-    line-height: 1.05;
   }
 
   .gridTwo {

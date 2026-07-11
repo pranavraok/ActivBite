@@ -5,9 +5,7 @@ import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 import {
   ArrowRight,
-  BicepsFlexed,
   CheckCircle2,
-  Leaf,
   Loader2,
   Mail,
   MapPin,
@@ -19,7 +17,6 @@ import {
   Store,
   Sunrise,
   Truck,
-  Zap,
 } from 'lucide-react';
 import styles from './wholesale-experience.module.css';
 
@@ -414,24 +411,6 @@ export default function WholesaleExperience() {
           )}
         </section>
 
-        <div className={styles.mobileMetrics} aria-label="Product highlights">
-          <div>
-            <ShoppingBag size={22} />
-            <strong>₹40 <small>/ bar</small></strong>
-          </div>
-          <div>
-            <Zap size={22} fill="currentColor" />
-            <strong>300 <small>kcal</small></strong>
-          </div>
-          <div>
-            <BicepsFlexed size={23} fill="currentColor" />
-            <strong>9.3g <small>Protein</small></strong>
-          </div>
-          <div>
-            <Leaf size={23} fill="currentColor" />
-            <strong>6.5g <small>Fibre</small></strong>
-          </div>
-        </div>
       </section>
 
       <section className={styles.partnerStrip}>
