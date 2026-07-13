@@ -32,24 +32,39 @@ type FormErrors = Partial<Record<keyof CheckoutForm | 'payment', string>>;
 
 const PACKS = [
   {
+    count: 5,
+    price: 225,
+    mrp: 225,
+    discount: 0,
+    label: 'Mini Pack',
+    note: 'Try 5 easy breakfasts',
+    image: '/PNG/PACKOF5.png',
+  },
+  {
     count: 10,
-    price: 400,
+    price: 420,
+    mrp: 450,
+    discount: 30,
     label: 'Starter Pack',
     note: '10 easy breakfasts',
     image: '/PNG/PACKOF10.png',
   },
   {
     count: 20,
-    price: 800,
+    price: 825,
+    mrp: 900,
+    discount: 75,
     label: 'Routine Pack',
-    note: 'Most popular',
+    note: 'Campus favourite',
     image: '/PNG/PACKOF20.png',
   },
   {
     count: 30,
-    price: 1200,
+    price: 1149,
+    mrp: 1350,
+    discount: 201,
     label: 'Power Pack',
-    note: 'Stock up for the month',
+    note: 'Best value - stock up',
     image: '/PNG/PACKOF30.png',
   },
 ] as const;
@@ -98,7 +113,7 @@ export default function CheckoutExperience() {
 
   const selectedPack = useMemo(() => {
     const packCount = Number(searchParams.get('pack'));
-    return PACKS.find((pack) => pack.count === packCount) || PACKS[1];
+    return PACKS.find((pack) => pack.count === packCount) || PACKS[3];
   }, [searchParams]);
 
   const quantity = useMemo(
@@ -221,14 +236,8 @@ export default function CheckoutExperience() {
       <section className={styles.shell}>
         <div className={styles.leftColumn}>
           <div className={styles.copy}>
-            <p className={styles.eyebrow}>Checkout</p>
             <h1>Almost there.</h1>
-            <p>Add your delivery details and lock your ActivBite campus order.</p>
-            <div className={styles.promiseGrid}>
-              <span><MapPin size={20} /> NITK only</span>
-              <span><Truck size={20} /> Free delivery</span>
-              <span><ShieldCheck size={20} /> Order confirmed</span>
-            </div>
+            <p>Add your delivery details, then pay instantly using the UPI QR.</p>
           </div>
 
           <form className={styles.formCard} onSubmit={handleSubmit} noValidate>
@@ -353,57 +362,82 @@ export default function CheckoutExperience() {
           </form>
         </div>
 
-        <aside className={styles.summaryCard} aria-label="Order summary">
-          <div className={styles.summaryHeader}>
-            <h2>Order summary</h2>
-            <strong>{formatPrice(total)}</strong>
+        <div className={styles.summaryColumn}>
+          <div className={styles.promiseGrid}>
+            <span><MapPin size={20} /> NITK only</span>
+            <span><Truck size={20} /> Free delivery</span>
+              <span><ShieldCheck size={20} /> QR payment next</span>
           </div>
 
-          <div className={styles.summaryBody}>
-            <div className={styles.summaryImage}>
-              <Image
-                src={selectedPack.image}
-                alt={`ActivBite Breakfast Bar pack of ${selectedPack.count}`}
-                width={900}
-                height={675}
-                priority
-                unoptimized
-              />
-            </div>
-
-            <div className={styles.summaryCopy}>
-              <span>Breakfast ticket</span>
-              <h2>{selectedPack.label}</h2>
-              <p>Pack of {selectedPack.count} - {selectedPack.note}</p>
-            </div>
-
-            <div className={styles.summaryRows}>
-              <div>
-                <span>Pack</span>
-                <strong>{formatPrice(selectedPack.price)}</strong>
-              </div>
-              <div>
-                <span>Qty</span>
-                <strong>{quantity}</strong>
-              </div>
-              <div>
-                <span>Delivery</span>
-                <strong>Free</strong>
-              </div>
-            </div>
-
-            <div className={styles.totalRow}>
-              <span>Total</span>
+          <aside className={styles.summaryCard} aria-label="Order summary">
+            <div className={styles.summaryHeader}>
+              <h2>Order summary</h2>
               <strong>{formatPrice(total)}</strong>
             </div>
 
-            <p className={styles.foodNotice}>
-              <CheckCircle2 size={17} />
-              Oats, peanuts, dates, poha, jaggery, elaichi, chocolate.
-              Check allergens before consuming.
-            </p>
-          </div>
-        </aside>
+            <div className={styles.summaryBody}>
+              <div className={styles.summaryImage}>
+                <Image
+                  src={selectedPack.image}
+                  alt={`ActivBite Breakfast Bar pack of ${selectedPack.count}`}
+                  width={900}
+                  height={675}
+                  priority
+                  unoptimized
+                />
+              </div>
+
+              <div className={styles.summaryCopy}>
+                <span>Breakfast ticket</span>
+                <h2>{selectedPack.label}</h2>
+                <p>Pack of {selectedPack.count} - {selectedPack.note}</p>
+                <small className={styles.summaryOffer}>
+                  {selectedPack.discount > 0
+                    ? `You save ${formatPrice(selectedPack.discount)} on this pack`
+                    : 'No offer on this mini pack'}
+                </small>
+              </div>
+
+              <div className={styles.summaryRows}>
+                {selectedPack.discount > 0 && (
+                  <>
+                    <div>
+                      <span>MRP</span>
+                      <strong>{formatPrice(selectedPack.mrp)}</strong>
+                    </div>
+                    <div className={styles.discountRow}>
+                      <span>Offer</span>
+                      <strong>-{formatPrice(selectedPack.discount)}</strong>
+                    </div>
+                  </>
+                )}
+                <div>
+                  <span>Pack</span>
+                  <strong>{formatPrice(selectedPack.price)}</strong>
+                </div>
+                <div>
+                  <span>Qty</span>
+                  <strong>{quantity}</strong>
+                </div>
+                <div>
+                  <span>Delivery</span>
+                  <strong>Free</strong>
+                </div>
+              </div>
+
+              <div className={styles.totalRow}>
+                <span>Total</span>
+                <strong>{formatPrice(total)}</strong>
+              </div>
+
+              <p className={styles.foodNotice}>
+                <CheckCircle2 size={17} />
+                Oats, peanuts, dates, poha, jaggery, elaichi, chocolate.
+                Check allergens before consuming.
+              </p>
+            </div>
+          </aside>
+        </div>
       </section>
 
       <section className={styles.bottomStrip} aria-label="ActivBite promise">

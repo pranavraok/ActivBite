@@ -360,6 +360,7 @@ export default function WholesaleExperience() {
                       onChange={(event) => updateField('preferredPack', event.target.value)}
                     >
                       <option value="Mixed packs">Mixed packs</option>
+                      <option value="Pack of 5">Pack of 5</option>
                       <option value="Pack of 10">Pack of 10</option>
                       <option value="Pack of 20">Pack of 20</option>
                       <option value="Pack of 30">Pack of 30</option>
@@ -424,7 +425,7 @@ export default function WholesaleExperience() {
         </div>
         <div>
           <Store size={20} />
-          <span>Pack of 10, 20, and 30</span>
+          <span>Pack of 5, 10, 20, and 30</span>
         </div>
       </section>
 

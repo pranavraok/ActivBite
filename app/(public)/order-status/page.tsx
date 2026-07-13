@@ -5,7 +5,7 @@ import OrderStatusExperience from '@/components/order-status-experience';
 export const metadata: Metadata = {
   title: 'Order Status | ActivBite',
   description:
-    'ActivBite order confirmation and campus delivery status for breakfast bar orders.',
+    'ActivBite UPI QR payment reference and campus delivery status for breakfast bar orders.',
 };
 
 export default function OrderStatusPage() {

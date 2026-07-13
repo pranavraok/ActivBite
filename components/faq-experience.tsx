@@ -50,14 +50,14 @@ const faqs: Faq[] = [
     category: 'Product',
     question: 'What pack sizes can I buy?',
     answer:
-      'You can choose pack of 10, pack of 20, or pack of 30 breakfast bars.',
+      'You can choose pack of 5, pack of 10, pack of 20, or pack of 30 breakfast bars.',
   },
   {
     id: 'pricing',
     category: 'Product',
     question: 'What is the price?',
     answer:
-      'One bar is ₹40. So pack of 10 is ₹400, pack of 20 is ₹800, and pack of 30 is ₹1,200.',
+      'One bar is ₹45. Pack of 5 is ₹225 with no offer. Launch packs are ₹420 for 10 bars (₹30 off), ₹825 for 20 bars (₹75 off), and ₹1,149 for 30 bars (₹201 off — best deal).',
   },
   {
     id: 'nutrition',
@@ -106,7 +106,7 @@ const faqs: Faq[] = [
     category: 'Payment',
     question: 'How does payment work?',
     answer:
-      'Choose your pack, enter delivery details at checkout, and then continue to secure Cashfree payment.',
+      'Choose your pack, enter delivery details, pay using the UPI QR, and submit the transaction/reference ID for team verification.',
   },
   {
     id: 'bulk-orders',
@@ -133,8 +133,8 @@ const faqs: Faq[] = [
 ];
 
 const highlights = [
-  { icon: ShoppingBag, label: '₹40 / bar' },
-  { icon: PackageCheck, label: '10 · 20 · 30 packs' },
+  { icon: ShoppingBag, label: '₹45 / bar' },
+  { icon: PackageCheck, label: '5 · 10 · 20 · 30 packs' },
   { icon: MapPin, label: 'NITK first' },
 ];
 
@@ -331,7 +331,7 @@ export default function FaqExperience() {
               </span>
               <span>
                 <ShieldCheck size={18} />
-                Secure Cashfree checkout
+                UPI QR payment
               </span>
               <span>
                 <Soup size={18} />

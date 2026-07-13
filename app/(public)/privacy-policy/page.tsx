@@ -17,7 +17,7 @@ const quickCards = [
   },
   {
     label: 'What we sell',
-    value: 'ActivBite Breakfast Bars, currently sold in packs of 10, 20, and 30.',
+    value: 'ActivBite Breakfast Bars, currently sold in packs of 5, 10, 20, and 30.',
   },
   {
     label: 'Current delivery',
@@ -63,9 +63,9 @@ const sections: LegalSection[] = [
     title: 'Payments',
     body: (
       <p>
-        Payments on the shop page are processed through Cashfree or another authorised
-        payment partner. ActivBite does not store full card numbers, UPI credentials,
-        net banking passwords, or other sensitive payment credentials on its website.
+        Payments on the shop page may use UPI QR/manual verification or another
+        authorised payment partner. ActivBite does not store full card numbers, UPI
+        PINs, net banking passwords, or other sensitive payment credentials on its website.
       </p>
     ),
   },

@@ -115,7 +115,7 @@ export default function LegalPage({
             <li>ActivBite is a registered partnership firm.</li>
             <li>First launch deliveries are for NITK campus.</li>
             <li>Issues must be reported during delivery for packaged food orders.</li>
-            <li>Cashfree handles secure payment processing.</li>
+            <li>UPI QR payments are manually verified until a gateway is active.</li>
           </ul>
           <div className={styles.sideDivider} />
           <div className={styles.sideActions}>

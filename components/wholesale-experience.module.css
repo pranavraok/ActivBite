@@ -1,5 +1,5 @@
 .wholesalePage {
-  --display-font: 'Tusker Grotesk 6700', 'Tusker Grotesk 6700 Bold', Impact, 'Arial Black', sans-serif;
+  --display-font: var(--activbite-display-font);
   position: relative;
   min-width: 320px;
   min-height: 100dvh;
@@ -9,7 +9,7 @@
     radial-gradient(circle at 78% 28%, rgba(255, 214, 45, .32), transparent 21rem),
     radial-gradient(circle at 5% 8%, rgba(255, 156, 47, .65), transparent 25rem),
     linear-gradient(120deg, #f86f05 0%, #f45a00 42%, #f46300 72%, #d83f00 100%);
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   isolation: isolate;
 }
 
@@ -95,7 +95,7 @@
   border-radius: 999px;
   color: #fff;
   font-size: .84rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .55rem;
   text-decoration: none;
   transition: background .18s ease, transform .18s ease;
@@ -126,10 +126,11 @@
   max-width: 45rem;
   margin: 0;
   color: #fff;
-  font-size: clamp(3.5rem, 6vw, 6.8rem);
-  font-weight: 950;
-  letter-spacing: -.07em;
-  line-height: .9;
+  font-family: var(--display-font);
+  font-size: var(--activbite-hero-heading-size);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: var(--activbite-hero-heading-line-height);
   text-transform: uppercase;
   text-shadow: 0 .55rem 0 rgba(148,37,0,.09);
 }
@@ -144,7 +145,7 @@
   margin: 1.2rem 0 0;
   color: rgba(255,255,255,.94);
   font-size: clamp(1rem, 1.15vw, 1.18rem);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.6;
 }
 
@@ -174,15 +175,15 @@
   margin: .7rem 0 .28rem;
   color: #2b2019;
   font-size: .95rem;
-  font-weight: 950;
-  letter-spacing: -.025em;
+  font-weight: 900;
+  letter-spacing: 0;
 }
 
 .benefits p {
   margin: 0;
   color: #695247;
   font-size: .76rem;
-  font-weight: 550;
+  font-weight: 500;
   line-height: 1.48;
 }
 
@@ -209,7 +210,7 @@
   margin: 0 0 .38rem;
   color: #f05d00;
   font-size: .72rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -219,8 +220,8 @@
   margin: 0;
   color: #2b2019;
   font-size: clamp(1.5rem, 2.1vw, 2.05rem);
-  font-weight: 950;
-  letter-spacing: -.05em;
+  font-weight: 900;
+  letter-spacing: 0;
   line-height: 1.04;
 }
 
@@ -234,7 +235,7 @@
   color: #f05d00;
   background: #fff2ea;
   font-size: .72rem;
-  font-weight: 950;
+  font-weight: 900;
   white-space: nowrap;
 }
 
@@ -253,7 +254,7 @@
   display: grid;
   color: #2b2019;
   font-size: .78rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .42rem;
 }
 
@@ -299,7 +300,7 @@
   margin: 0;
   color: #b22b00;
   font-size: .68rem;
-  font-weight: 850;
+  font-weight: 800;
   line-height: 1.32;
 }
 
@@ -323,7 +324,7 @@
 .confirmRow span {
   color: #4d3b31;
   font-size: .72rem;
-  font-weight: 560;
+  font-weight: 500;
   line-height: 1.45;
 }
 
@@ -340,7 +341,7 @@
   background: linear-gradient(180deg,#ffd829,#ffc400);
   box-shadow: 0 1rem 1.5rem rgba(142,59,0,.18);
   cursor: pointer;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .95rem;
   font-weight: 900;
   gap: .75rem;
@@ -388,7 +389,7 @@
   margin: .85rem 0 0;
   color: #5d463b;
   font-size: .95rem;
-  font-weight: 560;
+  font-weight: 500;
   line-height: 1.55;
 }
 
@@ -415,7 +416,7 @@
   padding: .85rem;
   color: #fff;
   font-size: .84rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .62rem;
 }
 
@@ -536,7 +537,6 @@
     order: 1;
     width: 100%;
     margin-inline: auto;
-    font-size: clamp(2.95rem, 11vw, 4.7rem);
   }
 
   .intro {

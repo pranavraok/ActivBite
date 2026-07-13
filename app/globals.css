@@ -47,6 +47,15 @@
 
 :root {
   color-scheme: light;
+  --activbite-display-font:
+    'Tusker Grotesk 6700',
+    'Tusker Grotesk 6700 Bold',
+    Impact,
+    'Arial Black',
+    sans-serif;
+  --activbite-body-font: var(--font-poppins), Poppins, Arial, sans-serif;
+  --activbite-hero-heading-size: clamp(4rem, 4.8vw, 5.9rem);
+  --activbite-hero-heading-line-height: .88;
   /* ActivBite Theme - White background, Orange primary, Cream secondary */
   --background: #FFFFFF;
   --foreground: #1A1A1A;
@@ -80,6 +89,24 @@
   --sidebar-accent-foreground: #1A1A1A;
   --sidebar-border: #E8E8E8;
   --sidebar-ring: #FF8C42;
+}
+
+@media (max-width: 1280px) {
+  :root {
+    --activbite-hero-heading-size: clamp(3.65rem, 5vw, 5.35rem);
+  }
+}
+
+@media (max-width: 960px) {
+  :root {
+    --activbite-hero-heading-size: clamp(3.3rem, 10vw, 5rem);
+  }
+}
+
+@media (max-width: 520px) {
+  :root {
+    --activbite-hero-heading-size: clamp(2.9rem, 12vw, 3.75rem);
+  }
 }
 
 .dark {
@@ -160,5 +187,6 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: var(--activbite-body-font);
   }
 }

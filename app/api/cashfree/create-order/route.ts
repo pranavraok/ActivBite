@@ -2,9 +2,10 @@ import { randomUUID } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
 const PACK_PRICES = {
-  10: 400,
-  20: 800,
-  30: 1200,
+  5: 225,
+  10: 420,
+  20: 825,
+  30: 1149,
 } as const;
 
 const CASHFREE_API_VERSION = process.env.CASHFREE_API_VERSION || '2025-01-01';
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
   const roomOrLandmark = cleanText(customer.roomOrLandmark, 160);
   const deliveryNote = cleanText(customer.deliveryNote, 220);
 
-  if (!(packCount === 10 || packCount === 20 || packCount === 30)) {
+  if (!(packCount === 5 || packCount === 10 || packCount === 20 || packCount === 30)) {
     return NextResponse.json({ error: 'Please select a valid pack.' }, { status: 400 });
   }
 

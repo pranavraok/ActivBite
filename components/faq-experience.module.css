@@ -1,5 +1,5 @@
 .faqPage {
-  --display-font: 'Tusker Grotesk 6700', 'Tusker Grotesk 6700 Bold', Impact, 'Arial Black', sans-serif;
+  --display-font: var(--activbite-display-font);
   position: relative;
   min-width: 320px;
   min-height: 100dvh;
@@ -90,8 +90,8 @@
   border: 1.5px solid rgba(255,255,255,.78);
   border-radius: 999px;
   color: #fff;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
-  font-weight: 850;
+  font-family: var(--activbite-body-font);
+  font-weight: 800;
   text-decoration: none;
   gap: .45rem;
   transition: transform .18s ease, background .18s ease;
@@ -126,9 +126,9 @@
   border-radius: 999px;
   color: #3d250f;
   background: #ffd51d;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .84rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .08em;
   text-transform: uppercase;
   gap: .45rem;
@@ -137,10 +137,10 @@
 .copy h1 {
   margin: 0;
   font-family: var(--display-font);
-  font-size: clamp(5.2rem, 8.4vw, 9.2rem);
+  font-size: var(--activbite-hero-heading-size);
   font-weight: 900;
   letter-spacing: 0;
-  line-height: .83;
+  line-height: var(--activbite-hero-heading-line-height);
   text-transform: uppercase;
   text-shadow: 0 .52rem 0 rgba(148,37,0,.09);
 }
@@ -176,9 +176,9 @@
   max-width: 31rem;
   margin: 0;
   color: rgba(255,255,255,.95);
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: clamp(1rem, 1.28vw, 1.2rem);
-  font-weight: 750;
+  font-weight: 700;
   line-height: 1.45;
 }
 
@@ -198,7 +198,7 @@
   border-radius: .9rem;
   background: rgba(214,55,0,.22);
   color: #fff;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .86rem;
   font-weight: 900;
   gap: .42rem;
@@ -226,13 +226,13 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: .9rem;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
 }
 
 .cardTopline span {
   color: #735846;
   font-size: .76rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -301,9 +301,9 @@
 
 .packBubble span {
   margin-top: .34rem;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .73rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .14em;
 }
 
@@ -320,7 +320,7 @@
   border-radius: 999px;
   color: #7b3e10;
   background: #fff8ef;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .72rem;
   font-weight: 900;
 }
@@ -349,9 +349,9 @@
 .faqIntro span {
   display: block;
   color: #f16000;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .76rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -380,7 +380,7 @@
   color: #725946;
   background: #fff;
   cursor: pointer;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .78rem;
   font-weight: 900;
   transition: border-color .18s ease, color .18s ease, background .18s ease, transform .18s ease;
@@ -438,15 +438,15 @@
   border-radius: 999px;
   color: #f16000;
   background: #fff3e9;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .64rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
 
 .questionButton strong {
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .98rem;
   font-weight: 900;
   line-height: 1.25;
@@ -468,7 +468,7 @@
   border-radius: .8rem;
   color: #725c4d;
   background: #fff9f1;
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   font-size: .92rem;
   font-weight: 600;
   line-height: 1.55;
@@ -491,7 +491,7 @@
   background:
     radial-gradient(circle at 84% 5%, rgba(255,213,29,.36), transparent 7rem),
     linear-gradient(145deg, #fff8ef, #fff);
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
 }
 
 .sideTag {
@@ -502,7 +502,7 @@
   color: #4b2600;
   background: #ffd51d;
   font-size: .68rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .1em;
   text-transform: uppercase;
 }
@@ -518,7 +518,7 @@
   margin: .55rem 0 1rem;
   color: #725c4d;
   font-size: .86rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.45;
 }
 
@@ -566,7 +566,7 @@
   align-items: center;
   color: #725c4d;
   font-size: .78rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .42rem;
 }
 
@@ -691,9 +691,6 @@
     display: none;
   }
 
-  .copy h1 {
-    font-size: clamp(3.8rem, 15vw, 6rem);
-  }
 
   .kicker {
     margin-bottom: .9rem;

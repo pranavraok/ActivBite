@@ -1,5 +1,5 @@
 .legalPage {
-  --display-font: 'Tusker Grotesk 6700', 'Tusker Grotesk 6700 Bold', Impact, 'Arial Black', sans-serif;
+  --display-font: var(--activbite-display-font);
   position: relative;
   min-width: 320px;
   min-height: 100dvh;
@@ -9,7 +9,7 @@
     radial-gradient(circle at 77% 23%, rgba(255, 214, 45, .3), transparent 20rem),
     radial-gradient(circle at 7% 8%, rgba(255, 156, 47, .62), transparent 25rem),
     linear-gradient(120deg, #f86f05 0%, #f45a00 42%, #f46300 72%, #d83f00 100%);
-  font-family: var(--font-poppins), Poppins, Arial, sans-serif;
+  font-family: var(--activbite-body-font);
   isolation: isolate;
 }
 
@@ -94,7 +94,7 @@
   border-radius: 999px;
   color: #fff;
   font-size: .84rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .55rem;
   text-decoration: none;
   transition: background .18s ease, transform .18s ease;
@@ -132,7 +132,7 @@
   background: #ffd51d;
   box-shadow: 0 .7rem 1.4rem rgba(118,36,0,.13);
   font-size: .78rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .14em;
   text-transform: uppercase;
 }
@@ -141,10 +141,12 @@
   max-width: 42rem;
   margin: 0;
   color: #fff;
-  font-size: clamp(3.15rem, 5.8vw, 6.2rem);
-  font-weight: 950;
-  letter-spacing: -.065em;
-  line-height: .92;
+  font-family: var(--display-font);
+  font-size: var(--activbite-hero-heading-size);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: var(--activbite-hero-heading-line-height);
+  text-transform: uppercase;
   text-shadow: 0 .5rem 0 rgba(148,37,0,.09);
 }
 
@@ -153,7 +155,7 @@
   margin: 1.2rem 0 0;
   color: rgba(255,255,255,.92);
   font-size: clamp(1rem, 1.25vw, 1.22rem);
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.55;
 }
 
@@ -175,7 +177,7 @@
   background: rgba(255,255,255,.93);
   box-shadow: 0 .75rem 1.5rem rgba(115,33,0,.08);
   font-size: .8rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .55rem;
 }
 
@@ -207,7 +209,7 @@
 .heroCardTop span {
   color: rgba(255,255,255,.86);
   font-size: .74rem;
-  font-weight: 850;
+  font-weight: 800;
   letter-spacing: .12em;
   text-transform: uppercase;
 }
@@ -237,7 +239,7 @@
 .heroCardBody span {
   color: #f05d00;
   font-size: .68rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .13em;
   text-transform: uppercase;
 }
@@ -245,7 +247,7 @@
 .heroCardBody strong {
   color: #2b2019;
   font-size: .92rem;
-  font-weight: 850;
+  font-weight: 800;
   line-height: 1.35;
 }
 
@@ -278,7 +280,7 @@
   margin: 0;
   color: #2b2019;
   font-size: .76rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .13em;
   text-transform: uppercase;
 }
@@ -297,7 +299,7 @@
   align-items: start;
   color: #5f4938;
   font-size: .83rem;
-  font-weight: 650;
+  font-weight: 600;
   line-height: 1.42;
   gap: .48rem;
 }
@@ -374,7 +376,7 @@
   display: block;
   color: #f05d00;
   font-size: .68rem;
-  font-weight: 950;
+  font-weight: 900;
   letter-spacing: .13em;
   text-transform: uppercase;
 }
@@ -384,7 +386,7 @@
   margin-top: .55rem;
   color: #2b2019;
   font-size: .96rem;
-  font-weight: 850;
+  font-weight: 800;
   line-height: 1.38;
 }
 
@@ -417,16 +419,18 @@
   background: #f05d00;
   box-shadow: 0 .65rem 1.05rem rgba(240,93,0,.18);
   font-size: .9rem;
-  font-weight: 950;
+  font-weight: 900;
 }
 
 .section h2 {
   margin: 0;
   color: #2b2019;
+  font-family: var(--display-font);
   font-size: clamp(1.18rem, 1.6vw, 1.55rem);
-  font-weight: 950;
-  letter-spacing: -.035em;
-  line-height: 1.12;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: .95;
+  text-transform: uppercase;
 }
 
 .sectionBody {
@@ -456,7 +460,7 @@
 
 .sectionBody a {
   color: #f05d00;
-  font-weight: 850;
+  font-weight: 800;
   text-decoration: underline;
   text-underline-offset: .16rem;
 }
@@ -491,7 +495,7 @@
 .pageFooter p {
   margin: 0;
   font-size: .85rem;
-  font-weight: 650;
+  font-weight: 600;
 }
 
 .pageFooter div {
@@ -505,7 +509,7 @@
   align-items: center;
   color: #fff;
   font-size: .84rem;
-  font-weight: 850;
+  font-weight: 800;
   gap: .25rem;
   text-decoration: none;
 }
@@ -598,9 +602,6 @@
     gap: 1rem;
   }
 
-  .hero h1 {
-    font-size: clamp(2.65rem, 12vw, 4.5rem);
-  }
 
   .heroText {
     font-size: .92rem;

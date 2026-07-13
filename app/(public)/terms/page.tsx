@@ -14,11 +14,11 @@ export const metadata: Metadata = {
 const quickCards = [
   {
     label: 'Product',
-    value: 'ActivBite Breakfast Bars available in packs of 10, 20, and 30.',
+    value: 'ActivBite Breakfast Bars available in packs of 5, 10, 20, and 30.',
   },
   {
     label: 'Price',
-    value: '₹40 per bar: ₹400, ₹800, and ₹1,200 respectively.',
+    value: '₹45 per bar. Pack of 5 is ₹225 with no offer. Launch packs go up to ₹201 off.',
   },
   {
     label: 'Delivery',
@@ -53,7 +53,7 @@ const sections: LegalSection[] = [
       <>
         <p>
           ActivBite currently offers one product: ActivBite Breakfast Bar. The bar is
-          sold through the shop page in packs of 10, 20, and 30. Product details,
+          sold through the shop page in packs of 5, 10, 20, and 30. Product details,
           prices, nutrition highlights, ingredients, packaging, and availability may
           be updated from time to time.
         </p>
@@ -89,15 +89,15 @@ const sections: LegalSection[] = [
     body: (
       <ul>
         <li>Orders are placed from the ActivBite shop page.</li>
-        <li>Payments are handled through Cashfree or another authorised payment partner.</li>
-        <li>An order is confirmed only after successful payment confirmation.</li>
+        <li>Payments may be handled through UPI QR/manual verification or another authorised payment partner.</li>
+        <li>An order is confirmed only after successful payment verification.</li>
         <li>
           Prices are shown in Indian Rupees. Any applicable taxes, fees, or changes
           will be shown before payment where required.
         </li>
         <li>
-          If a payment is debited but the order is not confirmed, contact us with
-          payment proof so we can verify it with the payment partner.
+          If a payment is debited but the order is not verified, contact us with
+          payment proof so we can verify it with the payment record.
         </li>
       </ul>
     ),

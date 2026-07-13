@@ -21,27 +21,47 @@ import styles from './shop-experience.module.css';
 
 const PACKS = [
   {
+    count: 5,
+    price: 225,
+    mrp: 225,
+    discount: 0,
+    label: 'Mini Pack',
+    note: 'Try 5 easy breakfasts',
+    badge: '',
+    popular: false,
+    image: '/PNG/PACKOF5.png',
+  },
+  {
     count: 10,
-    price: 400,
+    price: 420,
+    mrp: 450,
+    discount: 30,
     label: 'Starter Pack',
     note: '10 easy breakfasts',
+    badge: '₹30 OFF',
     popular: false,
     image: '/PNG/PACKOF10.png',
   },
   {
     count: 20,
-    price: 800,
+    price: 825,
+    mrp: 900,
+    discount: 75,
     label: 'Routine Pack',
-    note: 'Most popular',
-    popular: true,
+    note: 'Campus favourite',
+    badge: '₹75 OFF',
+    popular: false,
     image: '/PNG/PACKOF20.png',
   },
   {
     count: 30,
-    price: 1200,
+    price: 1149,
+    mrp: 1350,
+    discount: 201,
     label: 'Power Pack',
-    note: 'Stock up for the month',
-    popular: false,
+    note: 'Best value - stock up',
+    badge: 'BEST DEAL • ₹201 OFF',
+    popular: true,
     image: '/PNG/PACKOF30.png',
   },
 ] as const;
@@ -55,7 +75,7 @@ const formatPrice = (price: number) =>
 
 export default function ShopExperience() {
   const router = useRouter();
-  const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[1]);
+  const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[3]);
   const [quantity, setQuantity] = useState(1);
 
   const handleBuyNow = () => {
@@ -105,15 +125,15 @@ export default function ShopExperience() {
           <div className={styles.statsGrid} aria-label="Nutrition highlights">
             <div>
               <Zap size={28} fill="currentColor" />
-              <strong>300 <small>kcal</small></strong>
+              <strong><span>300</span><small>kcal</small></strong>
             </div>
             <div>
               <BicepsFlexed size={30} fill="currentColor" />
-              <strong>9.3g <small>Protein</small></strong>
+              <strong><span>9.3g</span><small>Protein</small></strong>
             </div>
             <div>
               <Leaf size={30} fill="currentColor" />
-              <strong>6.5g <small>Fibre</small></strong>
+              <strong><span>6.5g</span><small>Fibre</small></strong>
             </div>
           </div>
         </div>
@@ -122,7 +142,7 @@ export default function ShopExperience() {
           <div className={styles.panelHeading}>
             <div>
               <span>Choose your pack</span>
-              <strong>{formatPrice(40)} <small>/ bar</small></strong>
+              <strong>{formatPrice(45)} <small>/ bar</small></strong>
             </div>
             <div className={styles.inStock}><i /> In stock</div>
           </div>
@@ -136,16 +156,31 @@ export default function ShopExperience() {
                   type="button"
                   role="radio"
                   aria-checked={selected}
-                  className={selected ? styles.selectedPack : ''}
+                  className={`${selected ? styles.selectedPack : ''} ${pack.discount === 0 ? styles.compactPack : ''}`}
                   onClick={() => setSelectedPack(pack)}
                 >
-                  {pack.popular && <em>POPULAR</em>}
+                  {pack.badge && (
+                    <em className={pack.popular ? styles.bestDeal : undefined}>
+                      {pack.badge}
+                    </em>
+                  )}
                   <span className={styles.radio}>{selected && <i />}</span>
                   <span className={styles.packCopy}>
                     <strong>{pack.label}</strong>
                     <small>Pack of {pack.count} - {pack.note}</small>
+                    {pack.discount > 0 ? (
+                      <span className={styles.offerLine}>
+                        <s>{formatPrice(pack.mrp)}</s>
+                        <mark>{formatPrice(pack.discount)} off</mark>
+                      </span>
+                    ) : (
+                      <span className={styles.noOfferLine}>No offer on this mini pack</span>
+                    )}
                   </span>
-                  <b>{formatPrice(pack.price)}</b>
+                  <span className={styles.packPrice}>
+                    <b>{formatPrice(pack.price)}</b>
+                    <small>{pack.discount > 0 ? 'launch price' : 'regular price'}</small>
+                  </span>
                 </button>
               );
             })}
@@ -186,32 +221,34 @@ export default function ShopExperience() {
 
           <div className={styles.reassurance}>
             <span><Truck size={17} /> Free delivery on your campus</span>
-            <span><ShieldCheck size={17} /> Secure checkout</span>
+            <span><ShieldCheck size={17} /> UPI QR payment</span>
           </div>
         </aside>
 
         <div className={styles.productVisual}>
-          <span className={`${styles.ingredient} ${styles.oat}`} aria-label="Oats">
-            <Image src="/PNG/OAT.png" alt="Oats" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.date}`} aria-label="Dates">
-            <Image src="/PNG/DATES.png" alt="Dates" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.peanuts}`} aria-label="Peanuts">
-            <Image src="/PNG/PEANUTS.png" alt="Peanuts" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.chocolate}`} aria-label="Chocolate">
-            <Image src="/PNG/CHOCOLATE.png" alt="Chocolate" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.poha}`} aria-label="Poha">
-            <Image src="/PNG/POHA.png" alt="Poha" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.jaggery}`} aria-label="Jaggery">
-            <Image src="/PNG/JAGGERY.png" alt="Jaggery" width={180} height={180} unoptimized />
-          </span>
-          <span className={`${styles.ingredient} ${styles.elaichi}`} aria-label="Elaichi">
-            <Image src="/PNG/ELAICHI.png" alt="Elaichi" width={180} height={180} unoptimized />
-          </span>
+          <div className={styles.ingredientOrbit} aria-label="Ingredients">
+            <span className={`${styles.ingredient} ${styles.oat}`} aria-label="Oats">
+              <Image src="/PNG/OAT.png" alt="Oats" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.date}`} aria-label="Dates">
+              <Image src="/PNG/DATES.png" alt="Dates" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.peanuts}`} aria-label="Peanuts">
+              <Image src="/PNG/PEANUTS.png" alt="Peanuts" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.chocolate}`} aria-label="Chocolate">
+              <Image src="/PNG/CHOCOLATE.png" alt="Chocolate" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.poha}`} aria-label="Poha">
+              <Image src="/PNG/POHA.png" alt="Poha" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.jaggery}`} aria-label="Jaggery">
+              <Image src="/PNG/JAGGERY.png" alt="Jaggery" width={180} height={180} unoptimized />
+            </span>
+            <span className={`${styles.ingredient} ${styles.elaichi}`} aria-label="Elaichi">
+              <Image src="/PNG/ELAICHI.png" alt="Elaichi" width={180} height={180} unoptimized />
+            </span>
+          </div>
           <div className={styles.sunburst} aria-hidden="true" />
           <div className={styles.packCount}>
             <strong>{selectedPack.count}</strong>
@@ -219,7 +256,7 @@ export default function ShopExperience() {
           </div>
           <Image
             key={selectedPack.count}
-            className={styles.productImage}
+            className={`${styles.productImage} ${selectedPack.count === 5 ? styles.miniPackImage : ''}`}
             src={selectedPack.image}
             alt={`ActivBite Breakfast Bar pack of ${selectedPack.count}`}
             width={1440}
