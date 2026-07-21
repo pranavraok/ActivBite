@@ -1,0 +1,15 @@
+
+> my-project@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.29.83:3000
+- Environments: .env.local
+✓ Ready in 819ms
+
+ GET /?nav=7 200 in 583ms (next.js: 123ms, proxy.ts: 205ms, application-code: 255ms)
+ GET /shop?nav=7 200 in 712ms (next.js: 310ms, proxy.ts: 5ms, application-code: 397ms)
+ GET /faq?nav=7 200 in 780ms (next.js: 578ms, proxy.ts: 22ms, application-code: 180ms)
+ GET / 200 in 295ms (next.js: 61ms, proxy.ts: 44ms, application-code: 191ms)
+[?25h

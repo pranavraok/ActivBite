@@ -10,6 +10,7 @@
     radial-gradient(circle at 7% 11%, rgba(255, 156, 47, .62), transparent 25rem),
     linear-gradient(120deg, #f86f05 0%, #f45a00 42%, #f46300 72%, #d83f00 100%);
   isolation: isolate;
+  padding-top:7.1rem;
 }
 
 .faqPage::before {
@@ -47,13 +48,24 @@
 }
 
 .header {
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  z-index: 100;
+  top:.7rem;
+  left:.75rem;
+  right:.75rem;
+  width:auto;
+  max-width:94rem;
+  margin:0 auto;
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   height: 7.1rem;
   padding: 0 3.05vw;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  backdrop-filter:none;
 }
 
 .logo {

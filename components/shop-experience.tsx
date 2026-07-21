@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   BicepsFlexed,
@@ -78,6 +78,12 @@ export default function ShopExperience() {
   const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[3]);
   const [quantity, setQuantity] = useState(1);
 
+  useEffect(() => {
+    const requestedCount = Number(new URLSearchParams(window.location.search).get('pack'));
+    const requestedPack = PACKS.find((pack) => pack.count === requestedCount);
+    if (requestedPack) setSelectedPack(requestedPack);
+  }, []);
+
   const handleBuyNow = () => {
     const params = new URLSearchParams({
       pack: String(selectedPack.count),
@@ -119,7 +125,7 @@ export default function ShopExperience() {
           </div>
 
           <p className={styles.intro}>
-            Made for busy mornings, long days, and quick checkouts.
+            Made for busy mornings, long days, and quick checkouts. Choose a small trial pack or stock up for your weekly routine—every option contains the same 300 kcal breakfast bar with 9.3g protein and 6.5g fibre.
           </p>
 
           <div className={styles.statsGrid} aria-label="Nutrition highlights">

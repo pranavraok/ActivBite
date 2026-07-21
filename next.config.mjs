@@ -10,21 +10,6 @@ const nextConfig = {
     minimumCacheTTL: 31536000,
   },
   async headers() {
-    const developmentChunkHeaders =
-      process.env.NODE_ENV === 'development'
-        ? [
-            {
-              source: '/_next/:path*',
-              headers: [
-                {
-                  key: 'Cache-Control',
-                  value: 'no-store, no-cache, must-revalidate',
-                },
-              ],
-            },
-          ]
-        : []
-
     return [
       {
         source: '/sw.js',
@@ -35,7 +20,6 @@ const nextConfig = {
           },
         ],
       },
-      ...developmentChunkHeaders,
       {
         source: '/:path*\\.(jpg|jpeg|png|webp|avif|gif|svg|glb|woff|woff2)',
         headers: [

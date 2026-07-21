@@ -1,0 +1,21 @@
+
+> my-project@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.29.83:3000
+- Environments: .env.local
+✓ Ready in 714ms
+
+ GET /?sequence=8 200 in 575ms (next.js: 97ms, proxy.ts: 184ms, application-code: 294ms)
+ GET /shop?sequence=8 200 in 123ms (next.js: 25ms, proxy.ts: 6ms, application-code: 92ms)
+ GET / 200 in 128ms (next.js: 6ms, proxy.ts: 11ms, application-code: 110ms)
+ GET /wholesale 200 in 1391ms (next.js: 1096ms, proxy.ts: 8ms, application-code: 287ms)
+ GET /wholesale 200 in 342ms (next.js: 54ms, proxy.ts: 127ms, application-code: 161ms)
+ GET /wholesale 200 in 387ms (next.js: 11ms, proxy.ts: 15ms, application-code: 361ms)
+ GET /wholesale 200 in 303ms (next.js: 27ms, proxy.ts: 24ms, application-code: 252ms)
+ GET /wholesale 200 in 303ms (next.js: 74ms, proxy.ts: 26ms, application-code: 203ms)
+ GET /wholesale 200 in 303ms (next.js: 119ms, proxy.ts: 28ms, application-code: 156ms)
+ GET /wholesale 200 in 303ms (next.js: 159ms, proxy.ts: 30ms, application-code: 113ms)
+ GET /wholesale 200 in 291ms (next.js: 204ms, proxy.ts: 28ms, application-code: 59ms)

@@ -53,6 +53,20 @@ const faqs: Faq[] = [
       'You can choose pack of 5, pack of 10, pack of 20, or pack of 30 breakfast bars.',
   },
   {
+    id: 'choosing-a-pack',
+    category: 'Product',
+    question: 'Which pack should I choose?',
+    answer:
+      'The pack of 5 is useful for trying ActivBite first. Packs of 10 and 20 suit shorter routines, while the pack of 30 offers the best listed value for regular breakfasts.',
+  },
+  {
+    id: 'who-is-it-for',
+    category: 'Product',
+    question: 'Who is ActivBite made for?',
+    answer:
+      'ActivBite is designed for students and anyone managing a busy morning who wants a portable breakfast made with familiar ingredients. Always review the ingredient and allergen information for your own dietary needs.',
+  },
+  {
     id: 'pricing',
     category: 'Product',
     question: 'What is the price?',
