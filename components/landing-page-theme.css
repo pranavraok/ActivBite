@@ -1,0 +1,902 @@
+/* Shared ActivBite skin for every customer-facing flow. */
+[data-brand-page] {
+  --ab-orange: #ef5b00;
+  --ab-orange-dark: #d72206;
+  --ab-yellow: #ffd51d;
+  --ab-cocoa: #2d1b10;
+  --ab-brown: #6b4e3a;
+  --ab-cream: #fff8ea;
+  --ab-paper: #fffaf0;
+  --ab-shadow: rgba(84, 42, 15, .18);
+  color: #fff;
+  background: radial-gradient(ellipse 105% 47% at 50% 31%, #ffad16 0, #ff6a08 32%, #ef3508 72%, #d72206 100%) !important;
+  font-family: var(--activbite-body-font) !important;
+}
+
+[data-brand-page]::before {
+  background:
+    linear-gradient(112deg, transparent 30%, rgba(255, 111, 25, .38) 50%, transparent 70%),
+    radial-gradient(rgba(255, 207, 88, .52) 1px, transparent 1.5px) !important;
+  background-size: 100% 100%, 83px 71px !important;
+  opacity: .48;
+  mix-blend-mode: screen;
+}
+
+[data-brand-page] [class*="noise"] {
+  opacity: .16 !important;
+  background-image:
+    radial-gradient(circle at 15% 25%, rgba(255, 245, 187, .58) 0 1px, transparent 1.4px),
+    radial-gradient(circle at 78% 45%, rgba(92, 28, 0, .16) 0 1px, transparent 1.4px) !important;
+}
+
+[data-brand-page] [class*="glow"] {
+  background: radial-gradient(circle, rgba(255, 216, 44, .7), rgba(255, 153, 0, .25) 42%, transparent 72%) !important;
+  filter: blur(24px) !important;
+}
+
+/* Open, typographic landing-page navigation. */
+[data-brand-page] > [class*="header"] {
+  top: .15rem !important;
+  height: 5rem !important;
+  padding-inline: 3.4vw !important;
+}
+
+[data-brand-page] [class*="logo"] { height: 4.8rem !important; }
+[data-brand-page] [class*="logo"] img {
+  filter: brightness(1.18) drop-shadow(0 3px 3px rgba(117, 24, 0, .24)) !important;
+}
+
+[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a,
+[data-brand-page] [class*="backLink"] {
+  position: relative;
+  min-width: 0 !important;
+  min-height: 2.7rem !important;
+  padding: .7rem .35rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #fff !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-transform: uppercase;
+  letter-spacing: .018em;
+  font-size: .82rem !important;
+  font-weight: 900 !important;
+  text-shadow: 0 3px 4px rgba(119, 25, 2, .55);
+}
+
+[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a::after,
+[data-brand-page] [class*="backLink"]::after {
+  position: absolute;
+  right: 8%;
+  bottom: .25rem;
+  left: 8%;
+  height: .28rem;
+  border-radius: 50% 35% 55% 40%;
+  content: "";
+  background: var(--ab-yellow);
+  box-shadow: 0 2px 0 rgba(137, 47, 0, .3);
+  transform: scaleX(0) rotate(-2deg);
+  transform-origin: left;
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+
+[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a:hover,
+[data-brand-page] [class*="backLink"]:hover {
+  color: #fff8be !important;
+  transform: translateY(-4px) rotate(-1deg) !important;
+}
+
+[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a:hover::after,
+[data-brand-page] [class*="backLink"]:hover::after { transform: scaleX(1) rotate(-2deg); }
+
+[data-brand-page] [class*="shopLink"] {
+  padding-inline: 1rem !important;
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 999px !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  box-shadow: .25rem .28rem 0 var(--ab-orange) !important;
+  text-shadow: none !important;
+}
+
+/* Condensed, oversized editorial typography from the landing page. */
+[data-brand-page] :is(h1, h2, h3, [class*="cheerHeadline"]) {
+  font-family: var(--activbite-display-font) !important;
+}
+
+[data-brand-page] h1 {
+  letter-spacing: .01em !important;
+  text-shadow: 0 .34rem 0 rgba(148, 37, 0, .16), 0 .75rem 1.1rem rgba(93, 18, 0, .22) !important;
+}
+
+[data-brand-page] h2,
+[data-brand-page] h3 {
+  color: var(--ab-cocoa);
+  text-transform: uppercase;
+  letter-spacing: .02em !important;
+}
+
+[data-brand-page] :is([class*="microText"], [class*="microLabel"], [class*="kicker"], [class*="eyebrow"], [class*="formEyebrow"]) {
+  width: max-content;
+  max-width: 100%;
+  padding: .52rem .72rem !important;
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: .7rem .2rem .7rem .2rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  box-shadow: .25rem .28rem 0 var(--ab-orange) !important;
+  rotate: -1.5deg;
+}
+
+[data-brand-page] [class*="decorativeRule"] { color: var(--ab-yellow) !important; }
+
+/* Tactile paper cards with the landing page's offset shadows. */
+[data-brand-page] :is(
+  [class*="buyPanel"], [class*="formCard"], [class*="summaryCard"],
+  [class*="heroCard"], [class*="storyCard"], [class*="locationCard"],
+  [class*="contactConsole"], [class*="contactDock"], [class*="faqShell"],
+  [class*="sidePanel"], [class*="ticketCard"], [class*="paymentCard"],
+  [class*="paymentDock"], [class*="statusDock"], [class*="needHelpCard"],
+  [class*="amountCard"], [class*="orderMiniCard"], [class*="contentWrap"],
+  [class*="article"], [class*="successCard"], [class*="successPanel"],
+  [class*="successModal"]
+) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1.4rem .38rem 1.4rem .38rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-paper) !important;
+  box-shadow: .55rem .58rem 0 var(--ab-yellow), 0 1.35rem 2.6rem var(--ab-shadow) !important;
+  backdrop-filter: none !important;
+}
+
+[data-brand-page] :is(
+  [class*="statsGrid"], [class*="promiseGrid"], [class*="quickSignalGrid"],
+  [class*="heroHighlights"], [class*="benefits"], [class*="valuesGrid"],
+  [class*="nutritionGrid"], [class*="directGrid"], [class*="promiseStack"],
+  [class*="quickCards"], [class*="slangGrid"], [class*="paymentStepPills"]
+) > :is(div, span, article, a) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1rem .28rem 1rem .28rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-cream) !important;
+  box-shadow: .32rem .35rem 0 var(--ab-yellow) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page] :is(
+  [class*="statsGrid"], [class*="promiseGrid"], [class*="quickSignalGrid"],
+  [class*="heroHighlights"], [class*="benefits"], [class*="valuesGrid"],
+  [class*="nutritionGrid"], [class*="directGrid"], [class*="promiseStack"],
+  [class*="quickCards"], [class*="slangGrid"]
+) svg { color: var(--ab-orange) !important; }
+
+[data-brand-page] :is([class*="storyGrid"], [class*="faqList"], [class*="quickLinks"]) > :is(article, div, a),
+[data-brand-page] [class*="faqItem"],
+[data-brand-page] [class*="sections"] > section {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1.2rem .32rem 1.2rem .32rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-paper) !important;
+  box-shadow: .4rem .42rem 0 var(--ab-yellow) !important;
+}
+
+[data-brand-page] :is([class*="cardTop"], [class*="summaryHeader"], [class*="ticketHeader"], [class*="paymentCardHeader"], [class*="heroCardTop"]) {
+  border-bottom: 2px solid var(--ab-cocoa) !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+}
+
+[data-brand-page] :is([class*="cardTop"], [class*="summaryHeader"], [class*="ticketHeader"], [class*="paymentCardHeader"], [class*="heroCardTop"]) * {
+  color: var(--ab-cocoa) !important;
+}
+
+/* Product cutouts keep the landing's orange/yellow halo treatment. */
+[data-brand-page] :is([class*="productStage"], [class*="productVisual"], [class*="foodVisual"], [class*="packBubble"], [class*="qrHeroBox"])::before {
+  border: 2px solid var(--ab-cocoa) !important;
+  background: radial-gradient(circle, var(--ab-yellow) 0 43%, #ff9d18 44% 62%, transparent 63%) !important;
+  box-shadow: .65rem .7rem 0 var(--ab-orange) !important;
+}
+
+[data-brand-page] :is([class*="productStage"], [class*="productVisual"], [class*="foodVisual"]) img {
+  filter: drop-shadow(0 1.5rem 1.2rem rgba(47, 35, 15, .28)) !important;
+}
+
+/* Pack selectors, FAQ tabs and payment choices become funky flashcards. */
+[data-brand-page] :is([class*="packOptions"], [class*="topicGrid"], [class*="categoryTabs"], [class*="paymentButtons"]) button,
+[data-brand-page] :is([class*="upiCard"], [class*="qrPanel"], [class*="directCard"]) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1rem .28rem 1rem .28rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-paper) !important;
+  box-shadow: .3rem .32rem 0 var(--ab-yellow) !important;
+}
+
+[data-brand-page] :is([class*="selectedPack"], [class*="activeTopic"], [class*="activeTab"]) {
+  border-color: var(--ab-cocoa) !important;
+  background: #fff1cc !important;
+  box-shadow: .42rem .45rem 0 var(--ab-orange) !important;
+  transform: translateY(-.16rem) rotate(-.4deg);
+}
+
+/* Forms use warm paper, hard outlines and an unmistakable focus state. */
+[data-brand-page] :is(input, textarea, select) {
+  border: 2px solid #d9bda6 !important;
+  border-radius: .85rem .24rem .85rem .24rem !important;
+  color: var(--ab-cocoa) !important;
+  background: #fffdf8 !important;
+  font-family: var(--activbite-body-font) !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page] :is(input, textarea, select):focus {
+  border-color: var(--ab-cocoa) !important;
+  outline: 3px solid var(--ab-yellow) !important;
+  outline-offset: 2px;
+}
+
+[data-brand-page] input:is([type="checkbox"], [type="radio"]) { accent-color: var(--ab-orange) !important; }
+
+/* Primary actions mirror the landing CTA. */
+[data-brand-page] :is(
+  [class*="buyNow"], [class*="payButton"], [class*="sendButton"],
+  [class*="submitButton"], [class*="primaryAction"], [class*="homeButton"],
+  [class*="upiButton"], [class*="copyUpiButton"], [class*="primaryButton"]
+) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1rem .28rem 1rem .28rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  box-shadow: .38rem .42rem 0 var(--ab-orange), 0 1rem 1.8rem rgba(83, 37, 10, .16) !important;
+  font-family: var(--activbite-body-font) !important;
+  font-weight: 950 !important;
+  text-shadow: none !important;
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1.2), box-shadow .22s ease, background .22s ease !important;
+}
+
+[data-brand-page] :is(
+  [class*="buyNow"], [class*="payButton"], [class*="sendButton"],
+  [class*="submitButton"], [class*="primaryAction"], [class*="homeButton"],
+  [class*="upiButton"], [class*="copyUpiButton"], [class*="primaryButton"]
+):hover:not(:disabled) {
+  background: #ffe260 !important;
+  box-shadow: .58rem .62rem 0 var(--ab-cocoa), 0 1.25rem 2rem rgba(83, 37, 10, .22) !important;
+  transform: translateY(-.28rem) rotate(-.35deg) !important;
+}
+
+[data-brand-page] :is([class*="secondaryAction"], [class*="secondaryButton"], [class*="ctaActions"] a) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1rem .28rem 1rem .28rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-cream) !important;
+  box-shadow: .3rem .32rem 0 var(--ab-yellow) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page] :is(button, a):focus-visible {
+  outline: 3px solid var(--ab-yellow) !important;
+  outline-offset: 4px;
+}
+
+/* Branded information bands and footer ticker. */
+[data-brand-page] :is([class*="missionBand"], [class*="ctaBand"], [class*="partnerStrip"], [class*="highlightSection"], [class*="foodNotice"], [class*="softNotice"], [class*="dummyWarning"]) {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1.25rem .35rem 1.25rem .35rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  box-shadow: .48rem .5rem 0 var(--ab-orange) !important;
+}
+
+[data-brand-page] :is([class*="bottomStrip"], [class*="pageFooter"]) {
+  border-top: 2px solid var(--ab-cocoa) !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  font-family: var(--activbite-display-font) !important;
+  letter-spacing: .035em !important;
+  text-transform: uppercase;
+}
+
+[data-brand-page] :is([class*="bottomStrip"], [class*="pageFooter"]) * { color: var(--ab-cocoa) !important; }
+
+[data-brand-page] :is([class*="note"], [class*="reassurance"], [class*="legalLinks"], [class*="referenceHint"], [class*="heroText"], [class*="intro"], [class*="lead"], [class*="subLead"]) {
+  text-wrap: pretty;
+}
+
+@media (max-width: 700px) {
+  [data-brand-page] { padding-top: 4.6rem !important; }
+  [data-brand-page] > [class*="header"] {
+    top: .05rem !important;
+    height: 4.45rem !important;
+    padding-inline: 4vw !important;
+  }
+  [data-brand-page] [class*="logo"] {
+    width: 9rem !important;
+    height: 4.2rem !important;
+  }
+  [data-brand-page] :is(
+    [class*="buyPanel"], [class*="formCard"], [class*="summaryCard"],
+    [class*="heroCard"], [class*="contactConsole"], [class*="faqShell"],
+    [class*="sidePanel"], [class*="ticketCard"], [class*="paymentCard"],
+    [class*="contentWrap"], [class*="article"]
+  ) {
+    border-radius: 1rem .28rem 1rem .28rem !important;
+    box-shadow: .36rem .38rem 0 var(--ab-yellow), 0 1rem 1.8rem var(--ab-shadow) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brand-page] *,
+  [data-brand-page] *::before,
+  [data-brand-page] *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* Readability pass: paper and yellow surfaces always use dark ink. */
+[data-brand-page] :is(
+  [class*="buyPanel"], [class*="formCard"], [class*="summaryCard"],
+  [class*="heroCard"], [class*="storyCard"], [class*="locationCard"],
+  [class*="contactConsole"], [class*="contactDock"], [class*="faqShell"],
+  [class*="sidePanel"], [class*="ticketCard"], [class*="paymentCard"],
+  [class*="paymentDock"], [class*="statusDock"], [class*="needHelpCard"],
+  [class*="amountCard"], [class*="orderMiniCard"], [class*="contentWrap"],
+  [class*="article"], [class*="successCard"], [class*="successPanel"],
+  [class*="successModal"]
+) :is(h1, h2, h3, h4, p, label, li, span, small, strong, b) {
+  color: var(--ab-cocoa) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page] :is(
+  [class*="missionBand"], [class*="ctaBand"], [class*="partnerStrip"],
+  [class*="highlightSection"], [class*="foodNotice"], [class*="softNotice"],
+  [class*="dummyWarning"], [class*="bottomStrip"], [class*="pageFooter"]
+) :is(h1, h2, h3, h4, p, label, li, span, small, strong, b, a, svg) {
+  color: var(--ab-cocoa) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page] p {
+  font-weight: 500;
+  line-height: 1.58;
+}
+
+[data-brand-page] :is(
+  [class*="statsGrid"], [class*="promiseGrid"], [class*="quickSignalGrid"],
+  [class*="heroHighlights"], [class*="benefits"], [class*="valuesGrid"],
+  [class*="nutritionGrid"], [class*="directGrid"], [class*="promiseStack"],
+  [class*="quickCards"], [class*="slangGrid"], [class*="paymentStepPills"]
+) > :is(div, span, article, a) :is(strong, span, small, b, p) {
+  color: var(--ab-cocoa) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page] [id] { scroll-margin-top: 6.5rem; }
+
+[data-brand-page] :is(label, input, textarea, select, button) {
+  font-weight: 700;
+}
+
+/* The common inner-page header uses the landing page's open navigation language. */
+[data-brand-page] [data-common-header] {
+  display: flex !important;
+  width: min(1320px, 86vw) !important;
+  height: 5rem !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+[data-brand-page] [data-common-header] nav a {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: .75rem .25rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  color: #fff7e7 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  letter-spacing: .018em !important;
+  text-shadow: 0 3px 4px rgba(119, 25, 2, .55) !important;
+}
+
+[data-brand-page] [data-common-header] nav a:last-child {
+  min-height: 2.65rem !important;
+  padding: 0 1rem !important;
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 999px !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow) !important;
+  box-shadow: .25rem .28rem 0 var(--ab-orange) !important;
+}
+
+@media (max-width: 1100px) and (min-width: 701px) {
+  [data-brand-page] [data-common-header] nav a {
+    padding-inline: 3px !important;
+    font-size: 12px !important;
+  }
+}
+
+/* About: clean food panel, legible nutrition values and a single-line punch. */
+[data-brand-page="about"] [class*="foodCopy"] {
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: 1.4rem .38rem 1.4rem .38rem !important;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-paper) !important;
+  box-shadow: .5rem .55rem 0 var(--ab-yellow) !important;
+}
+
+[data-brand-page="about"] [class*="foodCopy"] :is(h2, p, span, strong) {
+  color: var(--ab-cocoa) !important;
+  text-shadow: none !important;
+}
+
+[data-brand-page="about"] [class*="foodCopy"] > h2,
+[data-brand-page="about"] [class*="ctaBand"] h2 {
+  font-size: clamp(2.7rem, 4.2vw, 4.9rem) !important;
+  line-height: .9 !important;
+  text-wrap: nowrap;
+}
+
+[data-brand-page="about"] [class*="nutritionGrid"] {
+  overflow: visible;
+  border: 0 !important;
+  background: transparent !important;
+  gap: .65rem;
+}
+
+[data-brand-page="about"] [class*="nutritionGrid"] > div {
+  min-height: 6.2rem;
+  border: 2px solid var(--ab-cocoa) !important;
+  border-radius: .9rem .25rem .9rem .25rem !important;
+  color: var(--ab-cocoa) !important;
+  background: #fffdf8 !important;
+  box-shadow: .28rem .3rem 0 var(--ab-yellow) !important;
+}
+
+[data-brand-page="about"] [class*="nutritionGrid"] > div + div { border-left: 2px solid var(--ab-cocoa) !important; }
+[data-brand-page="about"] [class*="nutritionGrid"] :is(svg, strong, span) { color: var(--ab-cocoa) !important; }
+
+/* Checkout: keep delivery details and the order summary together in one compact view. */
+[data-brand-page="checkout"] [class*="shell"] {
+  grid-template-columns: minmax(0, 1.05fr) minmax(23rem, .72fr) !important;
+  width: min(92vw, 86rem) !important;
+  margin: .6rem auto 1.5rem !important;
+  gap: clamp(1.25rem, 2.4vw, 2.5rem) !important;
+}
+
+[data-brand-page="checkout"] [class*="formCard"] {
+  padding: 1.15rem 1.3rem .85rem !important;
+  gap: .72rem !important;
+}
+
+[data-brand-page="checkout"] [class*="summaryColumn"] {
+  position: sticky;
+  top: 6.5rem;
+  gap: 1rem !important;
+}
+
+[data-brand-page="checkout"] [class*="summaryBody"] { padding: .85rem .95rem 1rem !important; }
+
+[data-brand-page="order-status"] [class*="hero"] {
+  grid-template-columns: minmax(25rem, .88fr) minmax(29rem, 34rem) !important;
+  width: min(92vw, 84rem) !important;
+  margin: .75rem auto 1.5rem !important;
+  gap: clamp(1.5rem, 3vw, 3.25rem) !important;
+}
+
+[data-brand-page="order-status"] [class*="paymentCard"] { padding: 1rem !important; }
+[data-brand-page="order-status"] [class*="paymentCardHeader"] { padding: .75rem .85rem !important; }
+[data-brand-page="order-status"] :is(
+  [class*="slangGrid"], [class*="needHelpCard"],
+  [class*="paymentDock"], [class*="statusDock"]
+) {
+  display: none !important;
+}
+
+@media (max-width: 700px) {
+  [data-brand-page] [data-common-header] { width: calc(100% - 1.5rem) !important; height: 4.7rem !important; padding-inline: .15rem !important; }
+  [data-brand-page] [data-common-header] nav { background: linear-gradient(145deg, rgba(151, 34, 2, .97), rgba(235, 62, 5, .97)) !important; }
+  [data-brand-page] [data-common-header] nav a {
+    padding: .72rem .8rem !important;
+    color: #fff !important;
+    font-size: 12px !important;
+    text-shadow: 0 2px 3px rgba(83, 19, 0, .4) !important;
+  }
+}
+
+@media (max-width: 980px) {
+  [data-brand-page="checkout"] [class*="summaryColumn"] { position: static; }
+}
+
+@media (max-width: 700px) {
+  [data-brand-page] [data-common-header] {
+    top: .05rem !important;
+    width: 92vw !important;
+    height: 4.45rem !important;
+    padding: 0 !important;
+  }
+  [data-brand-page] [data-common-header] [class*="logo"] { width: 10.3125rem !important; height: 4.5rem !important; }
+  [data-brand-page] [data-common-header] [class*="logo"] img { width: 11.875rem !important; height: 11.875rem !important; }
+  [data-brand-page="about"] [class*="foodCopy"] > h2,
+  [data-brand-page="about"] [class*="ctaBand"] h2 {
+    font-size: clamp(2.35rem, 11vw, 3.5rem) !important;
+    text-wrap: balance;
+  }
+  [data-brand-page="checkout"] [class*="shell"],
+  [data-brand-page="order-status"] [class*="hero"] {
+    grid-template-columns: 1fr !important;
+    width: min(91vw, 42rem) !important;
+    margin-top: 1.6rem !important;
+    gap: 2rem !important;
+  }
+  [data-brand-page="checkout"] [class*="formCard"] { padding: 1.2rem !important; }
+  [data-brand-page="checkout"] [class*="promiseGrid"] { display: none !important; }
+}
+
+/* Page-specific composition pass: supporting information is lighter than the primary action. */
+[data-brand-page] :is(
+  [class*="formCard"], [class*="summaryCard"], [class*="paymentCard"],
+  [class*="paymentDock"], [class*="statusDock"], [class*="contactConsole"],
+  [class*="faqShell"], [class*="contentWrap"]
+) {
+  box-shadow: 0 1.15rem 2.7rem rgba(75, 29, 8, .11) !important;
+}
+
+/* Shop: one clear buying action, with quieter supporting stats and artwork. */
+[data-brand-page="shop"] [class*="hero"] {
+  grid-template-columns: minmax(20rem, .8fr) minmax(20rem, 28rem) minmax(23rem, .92fr) !important;
+  width: min(91vw, 86rem) !important;
+  gap: clamp(2rem, 3.3vw, 3.8rem) !important;
+}
+
+[data-brand-page="shop"] [class*="statsGrid"] {
+  gap: 0 !important;
+  border: 1px solid rgba(255, 224, 113, .82) !important;
+  border-radius: 1.1rem !important;
+  background: linear-gradient(135deg, #fff4d6, #ffe8a8) !important;
+}
+
+[data-brand-page="shop"] [class*="statsGrid"] > div {
+  min-height: 3.6rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="shop"] [class*="statsGrid"] > div + div {
+  border-left: 1px solid rgba(83, 47, 24, .14) !important;
+}
+
+[data-brand-page="shop"] [class*="buyPanel"] {
+  border: 1px solid rgba(77, 36, 14, .13) !important;
+  box-shadow: 0 1.3rem 3rem rgba(74, 24, 4, .16) !important;
+}
+
+[data-brand-page="shop"] [class*="packOptions"] { gap: .55rem !important; }
+[data-brand-page="shop"] [class*="productVisual"] { min-height: 28rem !important; }
+[data-brand-page="shop"] [class*="packCount"] { width: 6.8rem !important; }
+[data-brand-page="shop"] [class*="packCount"] strong { font-size: 3rem !important; }
+
+/* About and Contact: reduce the long-page rhythm and group forms without another visual wall. */
+[data-brand-page="about"] :is([class*="storySection"], [class*="foodSection"], [class*="groundSection"]) {
+  padding-block: clamp(4.5rem, 8vw, 7rem) !important;
+}
+
+[data-brand-page="contact"] [class*="contactConsole"] {
+  width: 100% !important;
+  margin: 0 !important;
+  border: 1px solid rgba(78, 39, 18, .14) !important;
+}
+
+[data-brand-page="contact"] [class*="directGrid"] > :is(a, div),
+[data-brand-page="contact"] [class*="quickSignalGrid"] > :is(a, div) {
+  box-shadow: none !important;
+}
+
+/* FAQ: remove the repeated card-within-card treatment. */
+[data-brand-page="faq"] [class*="faqShell"] {
+  border: 1px solid rgba(78, 39, 18, .12) !important;
+}
+
+[data-brand-page="faq"] [class*="faqItem"] {
+  border-inline: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="faq"] [class*="quickLinks"] > a {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(78, 39, 18, .16) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Wholesale: concise pitch on the left, complete enquiry form on the right. */
+[data-brand-page="wholesale"] [class*="hero"] {
+  grid-template-columns: minmax(0, .82fr) minmax(34rem, 39rem) !important;
+  align-items: start !important;
+  width: min(92vw, 88rem) !important;
+  min-height: auto !important;
+  margin: 1rem auto 2rem !important;
+  gap: clamp(2rem, 4vw, 4.5rem) !important;
+}
+
+[data-brand-page="wholesale"] [class*="copy"] {
+  position: sticky;
+  top: 6rem;
+  max-width: 42rem !important;
+}
+
+[data-brand-page="wholesale"] [class*="benefits"] {
+  grid-template-columns: 1fr !important;
+  max-width: 40rem !important;
+}
+
+[data-brand-page="wholesale"] [class*="benefits"] > div {
+  border: 0 !important;
+  border-top: 2px solid var(--ab-yellow) !important;
+  border-radius: 0 !important;
+  background: rgba(255, 249, 238, .94) !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="wholesale"] [class*="formCard"] {
+  justify-self: end;
+  width: min(100%, 39rem) !important;
+  margin: 0 !important;
+  padding: 1.2rem !important;
+  border: 1px solid rgba(78, 39, 18, .14) !important;
+}
+
+[data-brand-page="wholesale"] [class*="partnerStrip"] {
+  display: none !important;
+}
+
+/* Checkout: promises become a quiet reassurance row; form and summary carry the hierarchy. */
+[data-brand-page="checkout"] [class*="promiseGrid"] {
+  gap: 0 !important;
+  border-block: 1px solid rgba(255, 244, 217, .32);
+}
+
+[data-brand-page="checkout"] [class*="promiseGrid"] > span {
+  min-height: 2.7rem !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="checkout"] [class*="promiseGrid"] > span + span {
+  border-left: 1px solid rgba(255, 244, 217, .3) !important;
+}
+
+[data-brand-page="checkout"] [class*="formCard"],
+[data-brand-page="checkout"] [class*="summaryCard"] {
+  border: 1px solid rgba(78, 39, 18, .13) !important;
+}
+
+[data-brand-page="checkout"] [class*="summaryImage"] { min-height: 7.5rem !important; }
+
+/* Payment: flatten nested containers and keep one dominant submit action. */
+[data-brand-page="order-status"] [class*="paymentDock"] {
+  width: min(90vw, 76rem) !important;
+  padding: clamp(1.4rem, 3vw, 2.5rem) !important;
+}
+
+[data-brand-page="order-status"] [class*="paymentGrid"] {
+  grid-template-columns: minmax(18rem, .72fr) minmax(25rem, 1.28fr) !important;
+  gap: clamp(2rem, 4vw, 4rem) !important;
+}
+
+[data-brand-page="order-status"] :is([class*="qrPanel"], [class*="paymentDetails"]) {
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="order-status"] :is([class*="amountCard"], [class*="upiCard"]) {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(78, 39, 18, .16) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="order-status"] [class*="softNotice"] {
+  border: 0 !important;
+  border-left: 3px solid var(--ab-orange) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Campus tracker: a connected process, not four oversized text cards. */
+[data-brand-page="order-status"] [class*="statusDock"] {
+  width: min(90vw, 76rem) !important;
+  padding: clamp(2rem, 4vw, 3.5rem) !important;
+  border: 1px solid rgba(78, 39, 18, .12) !important;
+}
+
+[data-brand-page="order-status"] [class*="statusIntro"] {
+  margin-bottom: 2.8rem !important;
+  text-align: center !important;
+}
+
+[data-brand-page="order-status"] [class*="timeline"] {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(1.2rem, 2.5vw, 2.5rem) !important;
+}
+
+[data-brand-page="order-status"] [class*="timeline"]::before {
+  position: absolute;
+  z-index: 0;
+  top: 1.45rem;
+  right: 10%;
+  left: 10%;
+  height: 2px;
+  content: '';
+  background: linear-gradient(90deg, var(--ab-orange), var(--ab-yellow), var(--ab-orange));
+}
+
+[data-brand-page="order-status"] [class*="timeline"] > article {
+  position: relative;
+  z-index: 1;
+  display: grid !important;
+  justify-items: center !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+
+[data-brand-page="order-status"] [class*="timeline"] > article > svg {
+  width: 2.9rem !important;
+  height: 2.9rem !important;
+  padding: .72rem;
+  border: 2px solid var(--ab-orange);
+  border-radius: 50%;
+  color: var(--ab-cocoa) !important;
+  background: var(--ab-yellow);
+}
+
+[data-brand-page="order-status"] [class*="timeline"] > article > span {
+  margin-top: .75rem !important;
+  color: var(--ab-orange) !important;
+}
+
+[data-brand-page="order-status"] [class*="timeline"] h3 { margin-top: .35rem !important; }
+[data-brand-page="order-status"] [class*="timeline"] p { max-width: 14rem; margin-inline: auto !important; }
+
+/* Legal pages: one readable document flow instead of a stack of equal cards. */
+[data-brand-page="legal"] [class*="hero"] {
+  grid-template-columns: 1fr !important;
+  width: min(90vw, 64rem) !important;
+  margin: .75rem auto 1.25rem !important;
+}
+
+[data-brand-page="legal"] :is([class*="heroCard"], [class*="sidePanel"], [class*="quickCards"]) {
+  display: none !important;
+}
+
+[data-brand-page="legal"] [class*="contentWrap"] {
+  display: block !important;
+  width: min(90vw, 64rem) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+[data-brand-page="legal"] [class*="article"] {
+  border-radius: 1.2rem !important;
+}
+
+[data-brand-page="legal"] [class*="pageFooter"] {
+  width: min(90vw, 64rem) !important;
+  margin-bottom: 1.25rem !important;
+}
+
+[data-brand-page="legal"] [class*="quickCards"] {
+  gap: 0 !important;
+  border-block: 1px solid rgba(78, 39, 18, .16);
+}
+
+[data-brand-page="legal"] [class*="quickCards"] > div {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="legal"] [class*="quickCards"] > div + div {
+  border-left: 1px solid rgba(78, 39, 18, .16) !important;
+}
+
+[data-brand-page="legal"] [class*="sections"] > section {
+  padding: 1.8rem 0 1.8rem 1.4rem !important;
+  border: 0 !important;
+  border-left: 3px solid rgba(239, 91, 0, .28) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+[data-brand-page="legal"] [class*="sections"] > section + section {
+  border-top: 1px solid rgba(78, 39, 18, .12) !important;
+}
+
+@media (max-width: 980px) {
+  [data-brand-page="shop"] [class*="hero"],
+  [data-brand-page="order-status"] [class*="paymentGrid"] {
+    grid-template-columns: 1fr !important;
+  }
+
+  [data-brand-page="shop"] [class*="productVisual"] { display: none !important; }
+}
+
+@media (max-width: 700px) {
+  [data-brand-page="wholesale"] [class*="hero"] {
+    width: min(91vw, 42rem) !important;
+    margin-top: 1.5rem !important;
+    gap: 2.4rem !important;
+  }
+
+  [data-brand-page="wholesale"] [class*="benefits"] { grid-template-columns: 1fr !important; }
+  [data-brand-page="checkout"] [class*="promiseGrid"] { grid-template-columns: 1fr !important; }
+  [data-brand-page="checkout"] [class*="promiseGrid"] > span + span {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(255, 244, 217, .24) !important;
+  }
+
+  [data-brand-page="order-status"] [class*="paymentDock"],
+  [data-brand-page="order-status"] [class*="statusDock"] {
+    width: min(91vw, 42rem) !important;
+  }
+
+  [data-brand-page="order-status"] [class*="timeline"] {
+    grid-template-columns: 1fr !important;
+    gap: 1.8rem !important;
+  }
+
+  [data-brand-page="order-status"] [class*="timeline"]::before {
+    top: 1.45rem;
+    bottom: 1.45rem;
+    left: 1.45rem;
+    width: 2px;
+    height: auto;
+  }
+
+  [data-brand-page="order-status"] [class*="timeline"] > article {
+    grid-template-columns: 2.9rem 2.5rem 1fr !important;
+    justify-items: start !important;
+    text-align: left !important;
+    column-gap: .8rem !important;
+  }
+
+  [data-brand-page="order-status"] [class*="timeline"] > article > svg { grid-row: 1 / span 3; }
+  [data-brand-page="order-status"] [class*="timeline"] > article > span { margin-top: .25rem !important; }
+  [data-brand-page="order-status"] [class*="timeline"] h3 { margin: .15rem 0 .2rem !important; }
+  [data-brand-page="order-status"] [class*="timeline"] p {
+    grid-column: 2 / -1;
+    max-width: none;
+    margin: 0 !important;
+  }
+
+  [data-brand-page="legal"] [class*="quickCards"] { grid-template-columns: 1fr !important; }
+  [data-brand-page="legal"] [class*="quickCards"] > div + div {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(78, 39, 18, .16) !important;
+  }
+}

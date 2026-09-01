@@ -122,7 +122,7 @@
   align-items: center;
   width: min(91vw, 86rem);
   margin: -1rem auto 0;
-  gap: clamp(2rem, 5vw, 6rem);
+  gap: clamp(1.5rem, 4vw, 4rem);
 }
 
 .copy {
@@ -223,7 +223,9 @@
 
 .heroCard {
   position: relative;
-  padding: 1.55rem;
+  justify-self: end;
+  width: min(100%, 31rem);
+  padding: 1rem;
   border: 1px solid rgba(255,255,255,.68);
   border-radius: 1.8rem;
   color: #3d250f;
@@ -260,7 +262,7 @@
 .productStage {
   position: relative;
   display: grid;
-  min-height: clamp(17rem, 31vw, 26rem);
+  min-height: clamp(15rem, 25vw, 20rem);
   border-radius: 1.35rem;
   overflow: hidden;
   place-items: center;
@@ -280,7 +282,7 @@
 .productStage img {
   position: relative;
   z-index: 2;
-  width: min(88%, 32rem);
+  width: min(84%, 27rem);
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 1.9rem 2rem rgba(83,23,0,.34));
@@ -322,7 +324,7 @@
 .ingredientRail {
   display: flex;
   flex-wrap: wrap;
-  margin-top: .9rem;
+  margin-top: .65rem;
   gap: .48rem;
 }
 
@@ -341,8 +343,8 @@
   position: relative;
   z-index: 3;
   width: min(91vw, 86rem);
-  margin: clamp(2.3rem, 5vw, 4.6rem) auto;
-  padding: clamp(1.1rem, 2.1vw, 1.7rem);
+  margin: clamp(1.4rem, 3vw, 2.5rem) auto;
+  padding: clamp(.9rem, 1.8vw, 1.35rem);
   border: 1px solid rgba(255,255,255,.6);
   border-radius: 2rem;
   background: rgba(255,249,238,.96);
@@ -354,7 +356,7 @@
   display: grid;
   grid-template-columns: minmax(15rem, .7fr) minmax(20rem, 1fr);
   align-items: end;
-  margin-bottom: 1.3rem;
+  margin-bottom: .9rem;
   gap: 1rem;
 }
 
@@ -411,15 +413,16 @@
 }
 
 .faqGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(17rem, 23rem);
+  display: block;
   align-items: start;
   gap: 1rem;
 }
 
 .faqList {
   display: grid;
-  gap: .72rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: .62rem;
 }
 
 .faqItem {
@@ -431,11 +434,11 @@
 
 .questionButton {
   display: grid;
-  grid-template-columns: 7.2rem 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
   width: 100%;
-  min-height: 4.6rem;
-  padding: .88rem 1rem;
+  min-height: 4.25rem;
+  padding: .75rem .85rem;
   border: 0;
   color: #352213;
   background: transparent;
@@ -445,6 +448,7 @@
 }
 
 .questionButton span {
+  grid-column: 1 / -1;
   justify-self: start;
   padding: .32rem .58rem;
   border-radius: 999px;
@@ -474,8 +478,8 @@
 }
 
 .answer {
-  margin: 0 1rem 1rem 8.95rem;
-  padding: .9rem 1rem;
+  margin: 0 .85rem .85rem;
+  padding: .75rem .85rem;
   border-left: 3px solid #ffd51d;
   border-radius: .8rem;
   color: #725c4d;
@@ -495,6 +499,7 @@
 }
 
 .sidePanel {
+  display: none;
   position: sticky;
   top: 1rem;
   padding: 1.15rem;
@@ -676,6 +681,10 @@
     overflow-y: auto;
   }
 
+  .heroCard {
+    display: none;
+  }
+
   .header {
     height: 5.6rem;
     padding: 0 1.25rem;
@@ -752,6 +761,10 @@
     align-items: start;
   }
 
+  .faqList {
+    grid-template-columns: 1fr;
+  }
+
   .categoryTabs {
     justify-content: flex-start;
     overflow-x: auto;
@@ -783,7 +796,7 @@
   }
 
   .productStage {
-    min-height: 17rem;
+    min-height: 14rem;
   }
 
   .packBubble {

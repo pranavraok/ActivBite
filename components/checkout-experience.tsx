@@ -17,6 +17,7 @@ import {
   Truck,
 } from 'lucide-react';
 import styles from './checkout-experience.module.css';
+import PublicHeader from './public-header';
 
 type CheckoutForm = {
   fullName: string;
@@ -213,27 +214,13 @@ export default function CheckoutExperience() {
   };
 
   return (
-    <main className={styles.checkoutPage}>
+    <main className={styles.checkoutPage} data-brand-page="checkout">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
-        <Link href="/shop" className={styles.backLink}>
-          <ArrowLeft size={18} />
-          Edit pack
-        </Link>
-      </header>
+      <PublicHeader />
 
-      <section className={styles.shell}>
+      <section className={styles.shell} data-nav-theme="light">
         <div className={styles.leftColumn}>
           <div className={styles.copy}>
             <h1>Almost there.</h1>
@@ -440,7 +427,7 @@ export default function CheckoutExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

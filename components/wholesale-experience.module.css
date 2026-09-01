@@ -253,13 +253,13 @@
 
 .formCard form {
   display: grid;
-  gap: .82rem;
+  gap: .65rem;
 }
 
 .gridTwo {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .82rem;
+  gap: .68rem;
 }
 
 .formCard label {
@@ -267,14 +267,14 @@
   color: #2b2019;
   font-size: .78rem;
   font-weight: 800;
-  gap: .42rem;
+  gap: .3rem;
 }
 
 .formCard input,
 .formCard select,
 .formCard textarea {
   width: 100%;
-  min-height: 2.85rem;
+  min-height: 2.65rem;
   padding: 0 .9rem;
   border: 1.4px solid #eadcd2;
   border-radius: .68rem;
@@ -289,8 +289,8 @@
 }
 
 .formCard textarea {
-  min-height: 5.3rem;
-  padding-top: .75rem;
+  min-height: 4.1rem;
+  padding-top: .65rem;
   resize: vertical;
 }
 

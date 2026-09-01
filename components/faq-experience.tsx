@@ -18,6 +18,7 @@ import {
   Truck,
 } from 'lucide-react';
 import styles from './faq-experience.module.css';
+import PublicHeader from './public-header';
 
 const categories = ['All', 'Product', 'Delivery', 'Payment', 'Wholesale', 'Support'] as const;
 
@@ -50,7 +51,7 @@ const faqs: Faq[] = [
     category: 'Product',
     question: 'What pack sizes can I buy?',
     answer:
-      'You can choose pack of 5, pack of 10, pack of 20, or pack of 30 breakfast bars.',
+      'Choose 5, 10, 20, or 30 bars. The 5-pack is ideal for trying ActivBite; the 30-pack offers the best listed value.',
   },
   {
     id: 'choosing-a-pack',
@@ -78,7 +79,7 @@ const faqs: Faq[] = [
     category: 'Product',
     question: 'What are the nutrition highlights?',
     answer:
-      'Each bar highlights 300 kcal, 9.3g protein, and 6.5g fibre.',
+      'Each bar highlights 300 kcal, 9.3g protein, and 6.5g fibre. It contains peanuts, so always check the pack label for allergens.',
   },
   {
     id: 'ingredients',
@@ -99,7 +100,7 @@ const faqs: Faq[] = [
     category: 'Delivery',
     question: 'Where do you deliver right now?',
     answer:
-      'ActivBite will first deliver only within National Institute of Technology Karnataka, Surathkal campus.',
+      'ActivBite currently delivers within NITK Surathkal campus, with free campus delivery during launch.',
   },
   {
     id: 'delivery-fee',
@@ -146,6 +147,21 @@ const faqs: Faq[] = [
   },
 ];
 
+const compactFaqIds = [
+  'what-is-activbite',
+  'pack-sizes',
+  'nutrition',
+  'delivery-area',
+  'damaged-pack',
+  'payment-flow',
+  'bulk-orders',
+  'contact',
+] as const;
+
+const compactFaqs = faqs.filter((faq) =>
+  compactFaqIds.includes(faq.id as (typeof compactFaqIds)[number]),
+);
+
 const highlights = [
   { icon: ShoppingBag, label: '₹45 / bar' },
   { icon: PackageCheck, label: '5 · 10 · 20 · 30 packs' },
@@ -166,41 +182,20 @@ export default function FaqExperience() {
 
   const filteredFaqs = useMemo(() => {
     if (activeCategory === 'All') {
-      return faqs;
+      return compactFaqs;
     }
 
-    return faqs.filter((faq) => faq.category === activeCategory);
+    return compactFaqs.filter((faq) => faq.category === activeCategory);
   }, [activeCategory]);
 
   return (
-    <main className={styles.faqPage}>
+    <main className={styles.faqPage} data-brand-page="faq">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={500}
-            height={500}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-        <nav className={styles.navLinks} aria-label="FAQ page navigation">
-          <Link href="/shop">
-            <ShoppingBag size={19} />
-            Shop
-          </Link>
-          <Link href="/wholesale">
-            <Store size={18} />
-            Wholesale
-          </Link>
-        </nav>
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <h1>
             Questions,
@@ -231,7 +226,7 @@ export default function FaqExperience() {
         <aside className={styles.heroCard} aria-label="ActivBite FAQ summary">
           <div className={styles.cardTopline}>
             <span>FAQ snack box</span>
-            <strong>13 answers</strong>
+            <strong>8 answers</strong>
           </div>
 
           <div className={styles.productStage}>
@@ -257,7 +252,7 @@ export default function FaqExperience() {
         </aside>
       </section>
 
-      <section className={styles.faqShell} aria-labelledby="faq-heading">
+      <section className={styles.faqShell} data-nav-theme="light" aria-labelledby="faq-heading">
         <div className={styles.faqIntro}>
           <div>
             <span>Pick a lane</span>
@@ -274,8 +269,8 @@ export default function FaqExperience() {
                   setActiveCategory(category);
                   const nextFaq =
                     category === 'All'
-                      ? faqs[0]
-                      : faqs.find((faq) => faq.category === category);
+                      ? compactFaqs[0]
+                      : compactFaqs.find((faq) => faq.category === category);
                   if (nextFaq) {
                     setOpenId(nextFaq.id);
                   }
@@ -356,7 +351,7 @@ export default function FaqExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span>
           <Sunrise size={30} />
           ONE BAR.

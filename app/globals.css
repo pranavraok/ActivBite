@@ -1,6 +1,7 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
+@import '../components/landing-page-theme.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -185,8 +186,24 @@
   * {
     @apply border-border outline-ring/50;
   }
+  html {
+    scrollbar-gutter: stable;
+  }
   body {
     @apply bg-background text-foreground;
     font-family: var(--activbite-body-font);
   }
+}
+
+.public-route-transition {
+  animation: public-route-enter .18s ease-out both;
+}
+
+@keyframes public-route-enter {
+  from { opacity: .94; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-route-transition { animation: none; }
 }

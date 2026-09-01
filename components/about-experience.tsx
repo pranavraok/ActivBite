@@ -23,6 +23,7 @@ import {
   Zap,
 } from 'lucide-react';
 import styles from './about-experience.module.css';
+import PublicHeader from './public-header';
 
 const nutritionHighlights = [
   { icon: Flame, value: '300', label: 'kcal' },
@@ -90,34 +91,13 @@ const values = [
 
 export default function AboutExperience() {
   return (
-    <main className={styles.aboutPage}>
+    <main className={styles.aboutPage} data-brand-page="about">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-        <nav className={styles.navLinks} aria-label="About page navigation">
-          <Link href="/shop">
-            <PackageCheck size={18} />
-            Shop
-          </Link>
-          <Link href="/contact">
-            <MessageCircleHeart size={18} />
-            Contact
-          </Link>
-        </nav>
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <p className={styles.microText}>NITK born · Padukone built · Student mornings first</p>
 
@@ -126,15 +106,9 @@ export default function AboutExperience() {
             <span>breakfast.</span>
           </h1>
 
-          <div className={styles.tagline}>
-            <Sparkles size={20} />
-            Pocket it.
-          </div>
-
           <p className={styles.lead}>
-            ActivBite started from a very personal problem: skipped breakfasts,
-            tired classes, weakness, and the uncomfortable feeling that this was
-            happening to way too many students around us.
+            ActivBite began with one familiar student problem: rushed mornings,
+            skipped breakfasts, and tired classes.
           </p>
 
           <div className={styles.heroActions}>
@@ -188,9 +162,7 @@ export default function AboutExperience() {
           <span>Initial start</span>
           <h2 id="story-heading">The story was never only about a bar.</h2>
           <p>
-            It was about the morning gap students keep normalising: waking up
-            late, rushing to class, missing food, and then expecting the body to
-            perform like nothing happened.
+            A student problem became a tested recipe, then a breakfast brand.
           </p>
         </div>
 
@@ -243,7 +215,7 @@ export default function AboutExperience() {
 
         <div className={styles.foodCopy}>
           <span>Food direction</span>
-          <h2 id="food-heading">A little modern. A little traditional. Very student.</h2>
+          <h2 id="food-heading">Familiar flavours. Made for student mornings.</h2>
           <p>
             The bar is made with familiar ingredients and a taste direction that
             feels close to an Indian sweet memory — not some cold, gym-only food
@@ -295,10 +267,10 @@ export default function AboutExperience() {
         </div>
       </section>
 
-      <section className={styles.ctaBand}>
+      <section className={styles.ctaBand} data-nav-theme="light">
         <div>
           <span>Breakfast line</span>
-          <h2>Don&apos;t Skip Breakfast — Pocket it.</h2>
+          <h2>Breakfast that keeps up with you.</h2>
           <p>#NoMoreHungryMornings</p>
         </div>
         <div className={styles.ctaActions}>
@@ -313,7 +285,7 @@ export default function AboutExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

@@ -21,6 +21,7 @@ import {
   Zap,
 } from 'lucide-react';
 import styles from './contact-experience.module.css';
+import PublicHeader from './public-header';
 
 type ContactForm = {
   fullName: string;
@@ -191,34 +192,13 @@ export default function ContactExperience() {
   };
 
   return (
-    <main className={styles.contactPage}>
+    <main className={styles.contactPage} data-brand-page="contact">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-        <nav className={styles.navLinks} aria-label="Contact page navigation">
-          <Link href="/shop">
-            <ShoppingBag size={18} />
-            Shop
-          </Link>
-          <Link href="/faq">
-            <MessageCircle size={18} />
-            FAQ
-          </Link>
-        </nav>
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <p className={styles.microText}>Campus desk · Human replies · No robot vibes</p>
 
@@ -284,7 +264,7 @@ export default function ContactExperience() {
         </aside>
       </section>
 
-      <section className={styles.contactDock}>
+      <section className={styles.contactDock} data-nav-theme="light">
         <div className={styles.formIntro}>
           <div>
             <span>Signal console</span>
@@ -452,7 +432,7 @@ export default function ContactExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

@@ -18,6 +18,7 @@ import {
   Zap,
 } from 'lucide-react';
 import styles from './shop-experience.module.css';
+import PublicHeader from './public-header';
 
 const PACKS = [
   {
@@ -26,7 +27,7 @@ const PACKS = [
     mrp: 225,
     discount: 0,
     label: 'Mini Pack',
-    note: 'Try 5 easy breakfasts',
+    note: 'A simple 5-day trial',
     badge: '',
     popular: false,
     image: '/PNG/PACKOF5.png',
@@ -37,8 +38,8 @@ const PACKS = [
     mrp: 450,
     discount: 30,
     label: 'Starter Pack',
-    note: '10 easy breakfasts',
-    badge: '₹30 OFF',
+    note: 'Breakfast for 10 busy mornings',
+    badge: '',
     popular: false,
     image: '/PNG/PACKOF10.png',
   },
@@ -49,7 +50,7 @@ const PACKS = [
     discount: 75,
     label: 'Routine Pack',
     note: 'Campus favourite',
-    badge: '₹75 OFF',
+    badge: '',
     popular: false,
     image: '/PNG/PACKOF20.png',
   },
@@ -59,8 +60,8 @@ const PACKS = [
     mrp: 1350,
     discount: 201,
     label: 'Power Pack',
-    note: 'Best value - stock up',
-    badge: 'BEST DEAL • ₹201 OFF',
+    note: 'Best value for the month',
+    badge: 'Best value',
     popular: true,
     image: '/PNG/PACKOF30.png',
   },
@@ -94,24 +95,13 @@ export default function ShopExperience() {
   };
 
   return (
-    <main className={styles.shopPage}>
+    <main className={styles.shopPage} data-brand-page="shop">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <h1>
             BREAKFAST,
@@ -148,7 +138,8 @@ export default function ShopExperience() {
           <div className={styles.panelHeading}>
             <div>
               <span>Choose your pack</span>
-              <strong>{formatPrice(45)} <small>/ bar</small></strong>
+              <strong>Pick your routine</strong>
+              <small>Same breakfast bar. More value as you stock up.</small>
             </div>
             <div className={styles.inStock}><i /> In stock</div>
           </div>
@@ -173,19 +164,17 @@ export default function ShopExperience() {
                   <span className={styles.radio}>{selected && <i />}</span>
                   <span className={styles.packCopy}>
                     <strong>{pack.label}</strong>
-                    <small>Pack of {pack.count} - {pack.note}</small>
+                    <small>{pack.count} bars · {pack.note}</small>
                     {pack.discount > 0 ? (
                       <span className={styles.offerLine}>
                         <s>{formatPrice(pack.mrp)}</s>
-                        <mark>{formatPrice(pack.discount)} off</mark>
+                        <mark>Save {formatPrice(pack.discount)}</mark>
                       </span>
-                    ) : (
-                      <span className={styles.noOfferLine}>No offer on this mini pack</span>
-                    )}
+                    ) : null}
                   </span>
                   <span className={styles.packPrice}>
                     <b>{formatPrice(pack.price)}</b>
-                    <small>{pack.discount > 0 ? 'launch price' : 'regular price'}</small>
+                    <small>{formatPrice(Math.round(pack.price / pack.count))} / bar</small>
                   </span>
                 </button>
               );
@@ -274,7 +263,7 @@ export default function ShopExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip}>
+      <section className={styles.bottomStrip} data-nav-theme="light">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

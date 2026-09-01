@@ -27,6 +27,7 @@ import {
   isDummyPaymentConfig,
 } from '@/lib/payment-config';
 import styles from './order-status-experience.module.css';
+import PublicHeader from './public-header';
 
 type StoredOrder = {
   orderId: string;
@@ -234,30 +235,13 @@ export default function OrderStatusExperience() {
   };
 
   return (
-    <main className={styles.statusPage}>
+    <main className={styles.statusPage} data-brand-page="order-status">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-        <div className={styles.headerActions}>
-          <Link href="/shop" className={styles.shopLink}>
-            <ShoppingBag size={18} />
-            Shop
-          </Link>
-        </div>
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <h1>
             Order
@@ -463,7 +447,7 @@ export default function OrderStatusExperience() {
         </aside>
       </section>
 
-      <section className={styles.paymentDock} aria-label="UPI payment instructions">
+      <section className={styles.paymentDock} data-nav-theme="light" aria-label="UPI payment instructions">
         <div className={styles.paymentIntro}>
           <div>
             <span>Payment step</span>
@@ -564,7 +548,7 @@ export default function OrderStatusExperience() {
         </div>
       </section>
 
-      <section className={styles.statusDock} aria-label="Order progress">
+      <section className={styles.statusDock} data-nav-theme="light" aria-label="Order progress">
         <div className={styles.statusIntro}>
           <span>Campus tracker</span>
           <h2>What happens next?</h2>
@@ -575,25 +559,25 @@ export default function OrderStatusExperience() {
             <CheckCircle2 size={23} />
             <span>01</span>
             <h3>Details saved</h3>
-            <p>Your delivery details are safely captured for the campus drop.</p>
+            <p>We save your delivery details for the campus drop.</p>
           </article>
           <article>
             <QrCode size={23} />
             <span>02</span>
             <h3>Pay by UPI</h3>
-            <p>Scan the QR or open UPI and pay the exact amount shown.</p>
+            <p>Scan the QR or open UPI, then pay the exact total.</p>
           </article>
           <article>
             <PackageCheck size={23} />
             <span>03</span>
             <h3>Ref ID checked</h3>
-            <p>Once submitted, ActivBite verifies it manually and calmly.</p>
+            <p>Our team checks the payment reference you submit.</p>
           </article>
           <article>
             <Truck size={23} />
             <span>04</span>
             <h3>Campus delivery</h3>
-            <p>Free delivery on campus. If anything is off, report it during delivery.</p>
+            <p>We deliver on campus. Report any issue when it arrives.</p>
           </article>
         </div>
 
@@ -641,7 +625,7 @@ export default function OrderStatusExperience() {
         </div>
       )}
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

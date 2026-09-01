@@ -2,8 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Backpack, Check, CircleHelp, CreditCard, Crown, MapPin, Menu, PackageCheck, ShoppingCart, Sparkles, Store, Utensils, X, Zap } from 'lucide-react';
+import { ArrowRight, Backpack, Check, CircleHelp, CreditCard, Crown, MapPin, Menu, PackageCheck, ShoppingBag, ShoppingCart, Sparkles, Store, Utensils, X, Zap } from 'lucide-react';
 import { CSSProperties, PointerEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { PUBLIC_NAV_LINKS } from '@/lib/public-navigation';
 import styles from './landing-hero.module.css';
 
 const heroTitle = 'BREAKFAST BAR'.split('');
@@ -433,12 +434,17 @@ export default function LandingHero() {
         <Image className={styles.logoOrange} src="/PNG/LOGO_ORANGE.png" alt="" width={640} height={640} priority />
       </Link>
       <nav className={mobileOpen ? styles.mobileOpen : ''} aria-label="Main navigation">
-        <Link href="/">Home</Link>
-        <Link href="/about">About us</Link>
-        <a href="#how-it-works">How it works</a>
-        <a href="#ingredients">Ingredients</a>
-        <Link href="/wholesale">Wholesale</Link>
-        <Link href="/faq">FAQ</Link>
+        {PUBLIC_NAV_LINKS.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={'highlighted' in link ? styles.shopAction : undefined}
+            onClick={() => setMobileOpen(false)}
+          >
+            {'highlighted' in link && <ShoppingBag size={17} aria-hidden="true" />}
+            {link.label}
+          </Link>
+        ))}
       </nav>
       <button className={styles.menuButton} type="button" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} onClick={() => setMobileOpen((open) => !open)}>
         {mobileOpen ? <X /> : <Menu />}
@@ -549,7 +555,7 @@ export default function LandingHero() {
           <path className={styles.pathTrackProgress} pathLength="1" d="M72 20 C59 26 40 38 31 55 C27 70 28 85 35 100 C39 115 36 130 29 145 C25 160 27 175 34 190 C38 205 36 220 30 235 C26 250 28 265 35 280 C38 295 36 310 31 325" />
         </svg>
 
-        <div ref={ingredientRef} data-nav-theme="dark" className={styles.ingredientStory} aria-live="polite">
+        <div id="ingredient-story" ref={ingredientRef} data-nav-theme="dark" className={styles.ingredientStory} aria-live="polite">
           <div className={styles.ingredientChapterChrome} aria-hidden="true">
             <div>
               <span>Inside every ActivBite</span>
@@ -824,12 +830,17 @@ export default function LandingHero() {
             <Link href="/shop" onClick={hideJourneyBeforeRouteChange}>Choose your pack <ArrowRight size={20} /></Link>
           </div>
           <nav className={styles.footerNav} aria-label="Footer navigation">
-            <div><b>Explore</b><Link href="/shop" onClick={hideJourneyBeforeRouteChange}>Shop</Link><Link href="/about">Our story</Link><Link href="/wholesale">Wholesale</Link></div>
-            <div><b>Help</b><Link href="/faq">FAQs</Link><Link href="/contact">Contact</Link><Link href="/order-status">Order status</Link></div>
-            <div><b>Legal</b><Link href="/terms">Terms</Link><Link href="/privacy-policy">Privacy</Link><a href="mailto:support@activbite.com">Email us</a></div>
+            <Link href="/shop" onClick={hideJourneyBeforeRouteChange}>Shop</Link>
+            <Link href="/about">About</Link>
+            <Link href="/faq">FAQ</Link>
+            <Link href="/contact">Contact</Link>
+            <Link href="/order-status">Track order</Link>
+            <a href="https://www.instagram.com/activbite/" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="https://in.linkedin.com/in/shaunwin-royce" target="_blank" rel="noreferrer">LinkedIn</a>
           </nav>
           <div className={styles.footerBottom}>
             <a href="mailto:support@activbite.com">support@activbite.com</a>
+            <div><Link href="/terms">Terms</Link><Link href="/privacy-policy">Privacy</Link></div>
             <small>© 2026 ActivBite · Made for mornings that move.</small>
           </div>
         </footer>

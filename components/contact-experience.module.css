@@ -221,6 +221,7 @@
 
 .radarCard {
   position: relative;
+  display: none;
   justify-self: end;
   width: min(100%, 29rem);
   padding: 1.35rem;
@@ -385,22 +386,22 @@
 
 .contactConsole {
   display: grid;
-  padding: 1rem;
+  padding: .9rem;
   border: 1.5px solid #ead7c7;
   border-radius: 1.2rem;
   background: #fff;
-  gap: .95rem;
+  gap: .7rem;
 }
 
 .topicGrid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: .48rem;
+  gap: .38rem;
 }
 
 .topicGrid button {
-  min-height: 2.65rem;
-  padding: .45rem .5rem;
+  min-height: 2.35rem;
+  padding: .35rem .4rem;
   border: 1px solid #ead7c7;
   border-radius: .75rem;
   color: #725946;
@@ -437,7 +438,7 @@
 .formGrid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .86rem;
+  gap: .65rem;
 }
 
 .formGrid label {
@@ -445,7 +446,7 @@
   color: #2b2019;
   font-size: .82rem;
   font-weight: 800;
-  gap: .42rem;
+  gap: .3rem;
 }
 
 .fullWidth {
@@ -455,7 +456,7 @@
 .formGrid input,
 .formGrid textarea {
   width: 100%;
-  min-height: 3.05rem;
+  min-height: 2.65rem;
   padding: 0 .95rem;
   border: 1.4px solid #eadcd2;
   border-radius: .65rem;
@@ -470,8 +471,8 @@
 }
 
 .formGrid textarea {
-  min-height: 7.5rem;
-  padding-top: .85rem;
+  min-height: 4.8rem;
+  padding-top: .65rem;
   resize: vertical;
 }
 
@@ -531,7 +532,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 3.55rem;
+  min-height: 3.15rem;
   border: 0;
   border-radius: .55rem;
   color: #251500;
@@ -567,8 +568,63 @@
 }
 
 .directGrid {
-  display: grid;
+  display: none;
   gap: .72rem;
+}
+
+@media (min-width: 1081px) {
+  .contactPage {
+    display: grid;
+    grid-template-columns: minmax(27rem, .78fr) minmax(36rem, 42rem);
+    grid-template-rows: auto auto;
+    align-items: start;
+    padding-inline: max(4vw, calc((100vw - 88rem) / 2));
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+  }
+
+  .hero {
+    grid-column: 1;
+    grid-row: 1;
+    display: block;
+    width: auto;
+    margin: 2rem 0 0;
+  }
+
+  .radarCard {
+    display: none;
+  }
+
+  .contactDock {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    margin: 1rem 0 2rem;
+    padding: 1.15rem;
+  }
+
+  .formIntro {
+    grid-template-columns: 1fr;
+    margin-bottom: .85rem;
+  }
+
+  .formIntro h2 {
+    font-size: clamp(2.35rem, 3.3vw, 3.45rem);
+  }
+
+  .formIntro p {
+    display: none;
+  }
+
+  .dockGrid {
+    display: block;
+  }
+
+  .bottomStrip {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100vw;
+    margin-inline: calc(-1 * max(4vw, calc((100vw - 88rem) / 2)));
+  }
 }
 
 .directCard,
@@ -871,10 +927,6 @@
     gap: 0;
   }
 
-
-  .topicGrid {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {

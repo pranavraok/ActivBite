@@ -19,6 +19,7 @@ import {
   Truck,
 } from 'lucide-react';
 import styles from './wholesale-experience.module.css';
+import PublicHeader from './public-header';
 
 type WholesaleForm = {
   shopName: string;
@@ -174,33 +175,13 @@ export default function WholesaleExperience() {
   };
 
   return (
-    <main className={styles.wholesalePage}>
+    <main className={styles.wholesalePage} data-brand-page="wholesale">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
-        <nav className={styles.nav} aria-label="Wholesale navigation">
-          <Link href="/shop" className={styles.navLink}>
-            <ShoppingBag size={18} />
-            Shop
-          </Link>
-          <Link href="mailto:support@activbite.com" className={styles.navLink}>
-            <Mail size={18} />
-            Contact
-          </Link>
-        </nav>
-      </header>
+      <PublicHeader />
 
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
           <h1>
             Stock breakfast. <span>Move mornings.</span>
@@ -414,7 +395,7 @@ export default function WholesaleExperience() {
 
       </section>
 
-      <section className={styles.partnerStrip}>
+      <section className={styles.partnerStrip} data-nav-theme="dark">
         <div>
           <ShieldCheck size={20} />
           <span>Retail-friendly breakfast bar</span>
@@ -429,7 +410,7 @@ export default function WholesaleExperience() {
         </div>
       </section>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

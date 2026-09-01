@@ -13,6 +13,7 @@ import {
   Sunrise,
 } from 'lucide-react';
 import styles from './legal-page.module.css';
+import PublicHeader from './public-header';
 
 export type LegalQuickCard = {
   label: string;
@@ -47,34 +48,13 @@ export default function LegalPage({
   alternateLabel,
 }: LegalPageProps) {
   return (
-    <main className={styles.legalPage}>
+    <main className={styles.legalPage} data-brand-page="legal">
       <div className={styles.noise} aria-hidden="true" />
       <div className={styles.glow} aria-hidden="true" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.logo} aria-label="ActivBite home">
-          <Image
-            src="/optimized/ab-logo.webp"
-            alt="ActivBite"
-            width={640}
-            height={640}
-            priority
-          />
-        </Link>
+      <PublicHeader />
 
-        <nav className={styles.nav} aria-label="Legal navigation">
-          <Link href="/shop" className={styles.navLink}>
-            <ArrowLeft size={17} />
-            Shop
-          </Link>
-          <Link href={alternateHref} className={styles.navLink}>
-            <FileText size={17} />
-            {alternateLabel}
-          </Link>
-        </nav>
-      </header>
-
-      <section className={styles.hero}>
+      <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.heroCopy}>
           <p className={styles.eyebrow}>ActivBite legal</p>
           <h1>{title}</h1>
@@ -108,7 +88,7 @@ export default function LegalPage({
         </aside>
       </section>
 
-      <section className={styles.contentWrap}>
+      <section className={styles.contentWrap} data-nav-theme="light">
         <aside className={styles.sidePanel} aria-label="Helpful legal summary">
           <p className={styles.sideTitle}>At a glance</p>
           <ul className={styles.sideList}>
@@ -155,7 +135,7 @@ export default function LegalPage({
         </article>
       </section>
 
-      <footer className={styles.pageFooter}>
+      <footer className={styles.pageFooter} data-nav-theme="light">
         <p>
           Questions about {activeLabel.toLowerCase()}? Write to{' '}
           <a href="mailto:support@activbite.com">
@@ -169,7 +149,7 @@ export default function LegalPage({
         </div>
       </footer>
 
-      <section className={styles.bottomStrip} aria-label="ActivBite promise">
+      <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
         <span><Sunrise size={34} /> ONE BAR.</span>
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>

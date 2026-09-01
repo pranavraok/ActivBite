@@ -19,3 +19,13 @@
  GET /wholesale 200 in 303ms (next.js: 119ms, proxy.ts: 28ms, application-code: 156ms)
  GET /wholesale 200 in 303ms (next.js: 159ms, proxy.ts: 30ms, application-code: 113ms)
  GET /wholesale 200 in 291ms (next.js: 204ms, proxy.ts: 28ms, application-code: 59ms)
+
+> my-project@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3001
+- Network:       http://192.168.1.24:3001
+- Environments: .env.local
+✓ Ready in 3.2s
+[?25h
