@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FormEvent, useMemo, useState } from 'react';
 import {
-  ArrowLeft,
   ArrowRight,
   CheckCircle2,
   Loader2,
@@ -30,6 +29,23 @@ type CheckoutForm = {
 };
 
 type FormErrors = Partial<Record<keyof CheckoutForm | 'payment', string>>;
+
+type CreatedOrder = {
+  orderId: string;
+  paymentToken: string;
+  packCount: number;
+  packLabel: string;
+  packNote: string;
+  quantity: number;
+  total: number;
+  customerName: string;
+  phone: string;
+  email: string;
+  deliveryPoint: string;
+  hostelBlock: string;
+  roomOrLandmark: string;
+  createdAt: string;
+};
 
 const PACKS = [
   {
@@ -180,37 +196,64 @@ export default function CheckoutExperience() {
     setIsSubmitting(true);
 
     const cleanedPhone = form.phone.replace(/\D/g, '');
-    const orderId = `AB-NITK-${Date.now().toString(36).toUpperCase().slice(-6)}`;
-    const order = {
-      orderId,
-      packCount: selectedPack.count,
-      packLabel: selectedPack.label,
-      packNote: selectedPack.note,
-      quantity,
-      total,
-      customerName: form.fullName.trim(),
-      phone: cleanedPhone,
-      email: form.email.trim(),
-      deliveryPoint: form.deliveryPoint,
-      hostelBlock: form.hostelBlock.trim(),
-      roomOrLandmark: form.roomOrLandmark.trim(),
-      createdAt: new Date().toISOString(),
-    };
 
-    if (typeof window !== 'undefined') {
+    try {
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: form.fullName.trim(),
+          phone: cleanedPhone,
+          email: form.email.trim(),
+          deliveryPoint: form.deliveryPoint,
+          hostelBlock: form.hostelBlock.trim(),
+          roomOrLandmark: form.roomOrLandmark.trim(),
+          packCount: selectedPack.count,
+          quantity,
+        }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Could not save your order right now.');
+      }
+
+      if (
+        typeof data.paymentToken !== 'string' ||
+        !data.order ||
+        data.order.trackingId !== data.trackingId
+      ) {
+        throw new Error('Your order was saved, but payment could not be prepared. Please try again.');
+      }
+
+      const order: CreatedOrder = {
+        orderId: data.order.trackingId,
+        paymentToken: data.paymentToken,
+        packCount: Number(data.order.packCount),
+        packLabel: String(data.order.packLabel),
+        packNote: selectedPack.note,
+        quantity: Number(data.order.quantity),
+        total: Number(data.order.total),
+        customerName: form.fullName.trim(),
+        phone: cleanedPhone,
+        email: form.email.trim(),
+        deliveryPoint: form.deliveryPoint,
+        hostelBlock: form.hostelBlock.trim(),
+        roomOrLandmark: form.roomOrLandmark.trim(),
+        createdAt: new Date().toISOString(),
+      };
+
       window.sessionStorage.setItem('activbite:lastOrder', JSON.stringify(order));
+      router.replace(`/order-status?order=${encodeURIComponent(order.orderId)}`);
+    } catch (error) {
+      setErrors({
+        payment:
+          error instanceof Error
+            ? error.message
+            : 'Could not save your order right now. Please try again.',
+      });
+      setIsSubmitting(false);
     }
-
-    const params = new URLSearchParams({
-      order: orderId,
-      pack: String(selectedPack.count),
-      qty: String(quantity),
-      total: String(total),
-      name: form.fullName.trim(),
-      point: form.deliveryPoint,
-    });
-
-    router.push(`/order-status?${params.toString()}`);
   };
 
   return (
@@ -432,6 +475,7 @@ export default function CheckoutExperience() {
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>
       </section>
+
     </main>
   );
 }

@@ -1,22 +1,13 @@
 'use client';
 
-import Image from 'next/image';
-import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 import {
   ArrowRight,
   CheckCircle2,
   Loader2,
-  Mail,
-  MapPin,
-  PackageCheck,
   Rocket,
-  ShieldCheck,
-  ShoppingBag,
   Soup,
-  Store,
   Sunrise,
-  Truck,
 } from 'lucide-react';
 import styles from './wholesale-experience.module.css';
 import PublicHeader from './public-header';
@@ -52,28 +43,17 @@ const INITIAL_FORM: WholesaleForm = {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9]{10}$/;
 
-const benefits = [
-  {
-    icon: Store,
-    title: 'Made for fast counters',
-    text: 'Single breakfast bar format that is easy to display, explain, and move quickly.',
-  },
-  {
-    icon: PackageCheck,
-    title: 'Pack options ready',
-    text: 'Starter, routine, and power packs are already structured for predictable stocking.',
-  },
-  {
-    icon: Truck,
-    title: 'Campus-first supply',
-    text: 'Built around student demand, NITK delivery, and high-frequency breakfast needs.',
-  },
+const partnerSteps = [
+  'Tell us about your counter',
+  'Shape the right starting supply',
+  'Start, learn, and restock',
 ];
 
 export default function WholesaleExperience() {
   const [form, setForm] = useState<WholesaleForm>(INITIAL_FORM);
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isTakingLonger, setIsTakingLonger] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const updateField = <Field extends keyof WholesaleForm>(
@@ -131,13 +111,21 @@ export default function WholesaleExperience() {
     event.preventDefault();
 
     const nextErrors = validate();
-    setErrors(nextErrors);
 
     if (Object.keys(nextErrors).length > 0) {
+      setErrors({
+        ...nextErrors,
+        submit: 'Please complete the highlighted fields before sending.',
+      });
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
+    setIsTakingLonger(false);
+    const slowRequestTimer = window.setTimeout(() => {
+      setIsTakingLonger(true);
+    }, 5000);
 
     try {
       const response = await fetch('/api/wholesale', {
@@ -170,6 +158,8 @@ export default function WholesaleExperience() {
             : 'Could not send the enquiry right now.',
       });
     } finally {
+      window.clearTimeout(slowRequestTimer);
+      setIsTakingLonger(false);
       setIsSubmitting(false);
     }
   };
@@ -183,27 +173,31 @@ export default function WholesaleExperience() {
 
       <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
+          <p className={styles.microText}>Wholesale ActivBite</p>
           <h1>
             Stock breakfast. <span>Move mornings.</span>
           </h1>
           <p className={styles.intro}>
-            For shops, cafes, canteens, gyms, and campus counters that want to stock
-            ActivBite Breakfast Bars. Share your details and we’ll get back with
-            availability, supply options, and wholesale next steps.
+            Built for shops, cafes, canteens, gyms, and campus counters serving
+            rushed mornings. Tell us about your space and we’ll shape the next
+            step around real demand.
           </p>
 
-          <div className={styles.benefits}>
-            {benefits.map((benefit) => {
-              const Icon = benefit.icon;
-              return (
-                <div key={benefit.title}>
-                  <Icon size={22} />
-                  <h3>{benefit.title}</h3>
-                  <p>{benefit.text}</p>
-                </div>
-              );
-            })}
-          </div>
+          <section className={styles.stockingJourney} aria-labelledby="stocking-heading">
+            <div className={styles.journeyHeading}>
+              <span>How partnership moves</span>
+              <h2 id="stocking-heading">One enquiry. Three steps.</h2>
+            </div>
+
+            <ol className={styles.journeySteps}>
+              {partnerSteps.map((label, index) => (
+                <li key={label}>
+                  <span>{String(index + 1).padStart(2, '0')}</span>
+                  <strong>{label}</strong>
+                </li>
+              ))}
+            </ol>
+          </section>
         </div>
 
         <section className={styles.formCard} aria-label="Wholesale enquiry form">
@@ -234,7 +228,7 @@ export default function WholesaleExperience() {
                 <span>2 min</span>
               </div>
 
-              <form onSubmit={handleSubmit} noValidate>
+              <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting}>
                 <div className={styles.gridTwo}>
                   <label>
                     Shop / business name
@@ -357,7 +351,7 @@ export default function WholesaleExperience() {
                     value={form.message}
                     onChange={(event) => updateField('message', event.target.value)}
                     placeholder="Tell us expected launch date, delivery needs, or counter type."
-                    rows={4}
+                    rows={3}
                   />
                 </label>
 
@@ -372,8 +366,16 @@ export default function WholesaleExperience() {
                     about wholesale supply.
                   </span>
                 </label>
-                {errors.consent && <p className={styles.formError}>{errors.consent}</p>}
-                {errors.submit && <p className={styles.formError}>{errors.submit}</p>}
+                {errors.consent && (
+                  <p className={styles.formError} role="alert">
+                    {errors.consent}
+                  </p>
+                )}
+                {errors.submit && (
+                  <p className={styles.formError} role="alert">
+                    {errors.submit}
+                  </p>
+                )}
 
                 <button type="submit" className={styles.submitButton} disabled={isSubmitting}>
                   {isSubmitting ? (
@@ -388,26 +390,23 @@ export default function WholesaleExperience() {
                     </>
                   )}
                 </button>
+                {isSubmitting && (
+                  <p
+                    className={`${styles.submitStatus} ${
+                      isTakingLonger ? styles.submitStatusSlow : ''
+                    }`}
+                    role="status"
+                    aria-live="polite"
+                  >
+                    {isTakingLonger
+                      ? 'Still saving securely. Please keep this page open — we’re almost done.'
+                      : 'Saving your enquiry securely to Google Sheets…'}
+                  </p>
+                )}
               </form>
             </>
           )}
         </section>
-
-      </section>
-
-      <section className={styles.partnerStrip} data-nav-theme="dark">
-        <div>
-          <ShieldCheck size={20} />
-          <span>Retail-friendly breakfast bar</span>
-        </div>
-        <div>
-          <MapPin size={20} />
-          <span>Campus-first operations</span>
-        </div>
-        <div>
-          <Store size={20} />
-          <span>Pack of 5, 10, 20, and 30</span>
-        </div>
       </section>
 
       <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
@@ -415,6 +414,33 @@ export default function WholesaleExperience() {
         <span><Soup size={34} /> REAL BREAKFAST.</span>
         <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>
       </section>
+
+      {isSubmitted && (
+        <div className={styles.successModalBackdrop}>
+          <section
+            className={styles.successModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="wholesale-confirmation-title"
+          >
+            <CheckCircle2 size={58} aria-hidden="true" />
+            <p className={styles.formEyebrow}>Enquiry sent successfully</p>
+            <h2 id="wholesale-confirmation-title">Wholesale enquiry confirmed.</h2>
+            <p>
+              We received your details and will get back to you soon with the
+              right stocking options.
+            </p>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={() => setIsSubmitted(false)}
+              autoFocus
+            >
+              Done
+            </button>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

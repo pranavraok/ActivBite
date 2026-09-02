@@ -84,6 +84,10 @@
   color: #e95700 !important;
 }
 
+.header[data-nav-contrast='light'] .nav a.activeLink:not(.shopAction) {
+  color: #ef5b00 !important;
+}
+
 .nav a:not(.shopAction)::before {
   position: absolute;
   bottom: .33rem;
@@ -132,6 +136,21 @@
   transform: translateX(-50%) translateY(0) scale(1);
 }
 
+.nav a.activeLink:not(.shopAction) {
+  color: #ffd51d;
+  text-shadow: 0 4px 5px rgba(102, 20, 0, .42);
+  transform: translateY(-2px);
+}
+
+.nav a.activeLink:not(.shopAction)::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0) scale(.9);
+}
+
+.nav a.activeLink:not(.shopAction)::after {
+  transform: scaleX(1) rotate(-2deg);
+}
+
 @keyframes navDotBounce {
   to { transform: translateX(-50%) translateY(-3px) scale(.85); }
 }
@@ -157,6 +176,14 @@
 }
 
 .shopAction:hover { transform: translateY(-2px) rotate(-.4deg); }
+
+.nav .shopAction.activeLink {
+  border-color: #2d1b10;
+  color: #fff;
+  background: #ef5b00;
+  box-shadow: .25rem .28rem 0 #ffd51d;
+  transform: translateY(-2px) rotate(-.4deg);
+}
 
 .menuButton {
   display: none;
@@ -214,5 +241,14 @@
   }
   .nav a:hover { color: #ffd51d; background: rgba(102, 20, 0, .24); }
   .nav a:not(.shopAction)::after { display: none; }
+  .nav a:not(.shopAction)::before { display: none; }
+  .nav a.activeLink:not(.shopAction),
+  .header[data-nav-contrast='light'] .nav a.activeLink:not(.shopAction) {
+    color: #2d1b10 !important;
+    background: #ffd51d;
+    box-shadow: inset .28rem 0 0 #ef5b00;
+    text-shadow: none;
+    transform: none;
+  }
   .nav .shopAction { margin-top: .2rem; }
 }

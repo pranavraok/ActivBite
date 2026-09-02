@@ -218,6 +218,13 @@
   transform: translateY(-.16rem) rotate(-.4deg);
 }
 
+/* Contact topics need a stronger selected state than the pale card selectors. */
+[data-brand-page="contact"] [class*="topicGrid"] [class*="activeTopic"] {
+  color: #fff !important;
+  background: var(--ab-orange) !important;
+  box-shadow: .42rem .45rem 0 var(--ab-yellow) !important;
+}
+
 /* Forms use warm paper, hard outlines and an unmistakable focus state. */
 [data-brand-page] :is(input, textarea, select) {
   border: 2px solid #d9bda6 !important;
@@ -442,7 +449,7 @@
 [data-brand-page="about"] [class*="ctaBand"] h2 {
   font-size: clamp(2.7rem, 4.2vw, 4.9rem) !important;
   line-height: .9 !important;
-  text-wrap: nowrap;
+  text-wrap: balance;
 }
 
 [data-brand-page="about"] [class*="nutritionGrid"] {
@@ -588,7 +595,7 @@
 
 /* About and Contact: reduce the long-page rhythm and group forms without another visual wall. */
 [data-brand-page="about"] :is([class*="storySection"], [class*="foodSection"], [class*="groundSection"]) {
-  padding-block: clamp(4.5rem, 8vw, 7rem) !important;
+  padding-block: clamp(1rem, 2vw, 1.5rem) !important;
 }
 
 [data-brand-page="contact"] [class*="contactConsole"] {

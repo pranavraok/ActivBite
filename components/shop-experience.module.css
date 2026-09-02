@@ -236,6 +236,10 @@
 .panelHeading small { max-width: 16rem; margin-top: .22rem; color: #725946; font-size: .62rem; font-weight: 600; line-height: 1.35; }
 .inStock { display: flex; align-items: center; margin-top: .18rem; color: #236f45; font-size: .7rem; font-weight: 800; gap: .35rem; }
 .inStock i { width: .55rem; height: .55rem; border-radius: 50%; background: #28a75e; box-shadow: 0 0 0 .24rem rgba(40,167,94,.13); }
+.lowStock { display: flex; align-items: center; margin-top: .18rem; color: #9a5200; font-size: .7rem; font-weight: 900; gap: .35rem; }
+.lowStock i { width: .55rem; height: .55rem; border-radius: 50%; background: #f0a000; box-shadow: 0 0 0 .24rem rgba(240,160,0,.13); }
+.outOfStock { max-width: 8.5rem; margin-top: .18rem; color: #a12818; font-size: .68rem; font-weight: 900; line-height: 1.2; text-align: right; }
+.stockChecking { margin-top: .18rem; color: #735846; font-size: .68rem; font-weight: 800; }
 
 .packOptions {
   display: grid;
@@ -262,6 +266,8 @@
 }
 
 .packOptions button:hover { border-color: #f0985c; transform: translateY(-1px); }
+.packOptions button.soldOutPack { cursor: not-allowed; opacity: .58; filter: grayscale(.25); }
+.packOptions button.soldOutPack:hover { border-color: #e5d3c3; transform: none; }
 .packOptions button.selectedPack { border-color: #ef5b00; background: #fff5dc; box-shadow: inset .28rem 0 0 #ffd51d, 0 .65rem 1.35rem rgba(143,55,0,.1); }
 .packOptions button.compactPack { min-height: 3.85rem; padding-block: .62rem; }
 .packOptions em { position: absolute; top: -.5rem; right: .75rem; padding: .2rem .52rem; border-radius: 999px; color: #3f260f; background: #ffd51d; font-size: .5rem; font-style: normal; font-weight: 900; letter-spacing: .08em; white-space: nowrap; box-shadow: 0 .35rem .8rem rgba(116,54,0,.13); }
@@ -272,6 +278,7 @@
 .packCopy { display: flex; flex-direction: column; }
 .packCopy strong { color: #352213; font-size: .88rem; letter-spacing: 0; }
 .packCopy small { margin-top: .12rem; color: #725c4d; font-size: .64rem; }
+.soldOutLabel { width: fit-content; margin-top: .2rem; padding: .08rem .32rem; border-radius: 999px; color: #982a1c; background: #ffe0d8; font-size: .52rem; font-weight: 950; text-transform: uppercase; }
 .offerLine { display: flex; flex-wrap: wrap; align-items: center; margin-top: .2rem; gap: .26rem; }
 .offerLine s { color: #9b806d; font-size: .58rem; font-weight: 900; }
 .offerLine mark { padding: .08rem .32rem; border-radius: 999px; color: #17653a; background: rgba(39,167,95,.14); font-size: .54rem; font-weight: 900; text-transform: uppercase; }
@@ -328,10 +335,12 @@
 .buyNow:hover { transform: translateY(-2px); }
 .buyNow:hover { box-shadow: 0 1rem 1.6rem rgba(166,66,0,.24); }
 .buyNow:disabled {
-  cursor: wait;
+  cursor: not-allowed;
   opacity: .76;
   transform: none;
 }
+
+.inventoryError { margin: .65rem 0 0; color: #982a1c; font-size: .68rem; font-weight: 750; line-height: 1.4; text-align: center; }
 
 .paymentError {
   margin: .72rem 0 0;

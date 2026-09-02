@@ -352,7 +352,6 @@
   margin: clamp(1.4rem, 3vw, 2.4rem) auto 0;
 }
 
-.missionBand,
 .valuesSection {
   display: none !important;
 }
@@ -735,6 +734,242 @@
   stroke-width: 2.3;
 }
 
+/* About page rhythm: compact sections, readable story flow, and one cohesive product card. */
+.aboutPage .hero {
+  align-items: start;
+  margin-top: 0;
+  padding-block: .75rem 1.5rem;
+}
+
+.aboutPage .copy {
+  min-width: 0;
+}
+
+.aboutPage .heroCard {
+  width: min(100%, 31rem);
+}
+
+.aboutPage .heroCard .productStage {
+  min-height: 18rem;
+}
+
+.aboutPage .storySection {
+  margin-top: .75rem;
+  padding-block: 1.35rem 0 !important;
+}
+
+@media (min-width: 1081px) {
+  .aboutPage .storySection {
+    margin-top: -.75rem;
+    padding-top: .6rem !important;
+  }
+}
+
+.aboutPage .sectionIntro {
+  display: block;
+  max-width: none;
+  margin-bottom: 1.4rem;
+}
+
+.aboutPage .sectionIntro > span {
+  display: block;
+  margin-bottom: .45rem;
+}
+
+.aboutPage .sectionIntro h2 {
+  max-width: none;
+  margin: 0;
+  font-size: clamp(2.15rem, 3.25vw, 3.55rem);
+  white-space: nowrap;
+  text-wrap: nowrap;
+}
+
+.aboutPage .sectionIntro p {
+  max-width: 42rem;
+  margin-top: .65rem;
+}
+
+.aboutPage .storyGrid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 74rem;
+  margin-inline: auto;
+  padding-block: .75rem;
+  align-items: stretch;
+  gap: 1.35rem;
+}
+
+.aboutPage .storyGrid::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: .28rem;
+  border-radius: 999px;
+  background: linear-gradient(#ffd51d, #fff7df, #ffd51d);
+  box-shadow: 0 0 0 .35rem rgba(130, 31, 0, .18);
+  content: '';
+  translate: -50% 0;
+}
+
+.aboutPage .storyCard {
+  width: calc(50% - 3rem);
+  min-height: 0;
+  padding: 1.35rem 1.45rem;
+  border: 2px solid #3a2214;
+  border-radius: 1.35rem .35rem 1.35rem .35rem;
+  box-shadow: .45rem .5rem 0 #ffd51d;
+}
+
+.aboutPage .storyCard:nth-child(odd) {
+  justify-self: start;
+  rotate: -1deg;
+}
+
+.aboutPage .storyCard:nth-child(even) {
+  justify-self: end;
+  rotate: 1deg;
+}
+
+.aboutPage .storyCard::before {
+  position: absolute;
+  top: 50%;
+  width: 1rem;
+  height: 1rem;
+  border: .24rem solid #fff7df;
+  border-radius: 50%;
+  background: #ffd51d;
+  box-shadow: 0 0 0 .18rem #3a2214;
+  content: '';
+  translate: 0 -50%;
+}
+
+.aboutPage .storyCard:nth-child(odd)::before {
+  right: -3.55rem;
+}
+
+.aboutPage .storyCard:nth-child(even)::before {
+  left: -3.55rem;
+}
+
+.aboutPage .storyCard h3 {
+  padding-right: 2.3rem;
+}
+
+.aboutPage .storyCard p {
+  display: block;
+  overflow: visible;
+  -webkit-line-clamp: unset;
+}
+
+.aboutPage .missionBand {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(19rem, .8fr);
+  margin-top: 2.6rem;
+  padding: clamp(1.4rem, 3vw, 2.4rem);
+  border: 2px solid #3a2214 !important;
+  background: #fff8e9 !important;
+  box-shadow: .58rem .62rem 0 #ffd51d !important;
+  gap: clamp(1rem, 2.5vw, 2rem);
+}
+
+.aboutPage .missionCopy > span {
+  color: #ef5b00 !important;
+}
+
+.aboutPage .missionCopy h2 {
+  max-width: 15ch;
+  color: #2b1a10 !important;
+  font-size: clamp(2.4rem, 4vw, 4.5rem);
+  text-shadow: none;
+  text-wrap: balance;
+}
+
+.aboutPage .missionCopy p {
+  color: #5f493a !important;
+}
+
+.aboutPage .productSection {
+  grid-template-columns: minmax(22rem, .88fr) minmax(0, 1.12fr);
+  align-items: stretch;
+  margin-top: 2rem;
+  padding: 1.15rem;
+  border: 2px solid #3a2214;
+  border-radius: 1.5rem .4rem 1.5rem .4rem;
+  background: #fffaf1;
+  box-shadow: .58rem .62rem 0 #ffd51d;
+  gap: clamp(1.25rem, 2.5vw, 2.4rem);
+}
+
+.aboutPage .foodVisual {
+  min-height: 25rem;
+  border: 2px solid #3a2214;
+  border-radius: 1.2rem;
+  box-shadow: none;
+}
+
+.aboutPage .foodCopy {
+  min-width: 0;
+  padding: clamp(.75rem, 1.5vw, 1.25rem);
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.aboutPage .foodCopy > h2 {
+  max-width: 15ch;
+  font-size: clamp(2.65rem, 3.55vw, 4.25rem) !important;
+  line-height: .9 !important;
+  text-wrap: balance !important;
+}
+
+.aboutPage .foodCopy p {
+  max-width: 52rem;
+}
+
+.aboutPage .note {
+  margin-bottom: 0;
+}
+
+.aboutPage .ctaBand {
+  justify-content: center;
+  margin-top: 1.75rem;
+  padding: clamp(1.8rem, 3.4vw, 3.2rem) 1.5rem;
+  border-color: #21140c !important;
+  color: #fff7e7 !important;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(255, 103, 28, .28), transparent 22rem),
+    radial-gradient(circle at 16% 82%, rgba(255, 213, 29, .1), transparent 18rem),
+    #21140c !important;
+  box-shadow: .58rem .62rem 0 #ef5b00 !important;
+  text-align: center;
+}
+
+.aboutPage .ctaBand h2 {
+  max-width: none;
+  margin-inline: auto;
+  color: #fff7e7 !important;
+  font-size: clamp(2.4rem, 4vw, 4.5rem) !important;
+  line-height: .92 !important;
+  white-space: nowrap;
+  text-wrap: nowrap !important;
+  text-shadow: none !important;
+}
+
+.aboutPage .ctaBand span {
+  color: #ffd51d !important;
+}
+
+.aboutPage .ctaBand p {
+  color: #ff8a3d !important;
+}
+
+.aboutPage .bottomStrip {
+  margin-top: 1.5rem;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -801,6 +1036,14 @@
 
   .foodVisual {
     min-height: 23rem;
+  }
+
+  .aboutPage .productSection {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .aboutPage .missionBand {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
@@ -893,6 +1136,38 @@
     scroll-snap-align: start;
   }
 
+  .aboutPage .sectionIntro h2 {
+    font-size: clamp(1.22rem, 5.2vw, 1.65rem);
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .aboutPage .storyGrid {
+    display: grid;
+    margin-inline: 0;
+    padding: .5rem 0 .5rem 2.8rem;
+    overflow: visible;
+    gap: 1rem;
+  }
+
+  .aboutPage .storyGrid::before {
+    left: 1.1rem;
+  }
+
+  .aboutPage .storyCard,
+  .aboutPage .storyCard:nth-child(odd),
+  .aboutPage .storyCard:nth-child(even) {
+    width: 100%;
+    justify-self: stretch;
+    rotate: 0deg;
+  }
+
+  .aboutPage .storyCard:nth-child(odd)::before,
+  .aboutPage .storyCard:nth-child(even)::before {
+    right: auto;
+    left: -2.45rem;
+  }
+
   .valuesGrid {
     grid-template-columns: 1fr;
   }
@@ -916,6 +1191,11 @@
     border-radius: 1.35rem;
   }
 
+  .aboutPage .productSection {
+    padding: .65rem;
+    gap: .75rem;
+  }
+
   .foodCopy {
     padding: 1rem;
   }
@@ -931,6 +1211,16 @@
   .ctaBand {
     display: grid;
     text-align: center;
+  }
+
+  .aboutPage .ctaBand {
+    padding: 1.8rem .7rem;
+  }
+
+  .aboutPage .ctaBand h2 {
+    font-size: clamp(1.28rem, 5.75vw, 1.6rem) !important;
+    letter-spacing: 0 !important;
+    white-space: nowrap;
   }
 
   .bottomStrip {

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { ADMIN_SESSION_COOKIE, verifyAdminSessionToken } from '@/lib/admin-auth';
 
 const PUBLIC_FILE = /\.(.*)$/;
 const LIVE_COMMERCE_PATHS = ['/shop', '/checkout', '/order-status'];
@@ -8,6 +9,17 @@ const OLD_COMMERCE_PATHS = ['/cart', '/product'];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
+    const session = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+
+    if (!verifyAdminSessionToken(session)) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/admin/login';
+      url.searchParams.set('next', pathname);
+      return NextResponse.redirect(url);
+    }
+  }
 
   if (
     OLD_COMMERCE_PATHS.some(

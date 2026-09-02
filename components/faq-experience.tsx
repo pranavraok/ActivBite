@@ -1,21 +1,13 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { useMemo, useState, type ReactNode } from 'react';
 import {
-  ArrowRight,
   ChevronDown,
   Mail,
-  MapPin,
-  PackageCheck,
   Rocket,
-  ShieldCheck,
-  ShoppingBag,
   Soup,
-  Store,
   Sunrise,
-  Truck,
 } from 'lucide-react';
 import styles from './faq-experience.module.css';
 import PublicHeader from './public-header';
@@ -162,22 +154,8 @@ const compactFaqs = faqs.filter((faq) =>
   compactFaqIds.includes(faq.id as (typeof compactFaqIds)[number]),
 );
 
-const highlights = [
-  { icon: ShoppingBag, label: '₹45 / bar' },
-  { icon: PackageCheck, label: '5 · 10 · 20 · 30 packs' },
-  { icon: MapPin, label: 'NITK first' },
-];
-
-const quickLinks = [
-  { href: '/shop', label: 'Shop packs', icon: ShoppingBag },
-  { href: '/wholesale', label: 'Wholesale enquiry', icon: Store },
-  { href: 'mailto:support@activbite.com', label: 'Email support', icon: Mail },
-];
-
-const ingredientBadges = ['Oats', 'Peanuts', 'Dates', 'Poha', 'Jaggery', 'Elaichi', 'Chocolate'];
-
 export default function FaqExperience() {
-  const [activeCategory, setActiveCategory] = useState<Category>('All');
+  const [activeCategory, setActiveCategory] = useState<Category>('Product');
   const [openId, setOpenId] = useState('what-is-activbite');
 
   const filteredFaqs = useMemo(() => {
@@ -197,62 +175,19 @@ export default function FaqExperience() {
 
       <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
+          <p className={styles.microText}>FAQ ActivBite</p>
           <h1>
             Questions,
             <span>Answered.</span>
           </h1>
 
-          <div className={styles.decorativeRule} aria-hidden="true">
-            <span />
-            <i />
-            <span />
-          </div>
-
           <p>
-            Bars, packs, campus delivery, payments, ingredients, and all the tiny
-            “wait, what?” moments — cleaned up in one crunchy place.
+            Everything about bars, packs, campus delivery, payments, and support —
+            explained simply in one place.
           </p>
-
-          <div className={styles.heroHighlights}>
-            {highlights.map(({ icon: Icon, label }) => (
-              <span key={label}>
-                <Icon size={18} />
-                {label}
-              </span>
-            ))}
-          </div>
         </div>
 
-        <aside className={styles.heroCard} aria-label="ActivBite FAQ summary">
-          <div className={styles.cardTopline}>
-            <span>FAQ snack box</span>
-            <strong>8 answers</strong>
-          </div>
-
-          <div className={styles.productStage}>
-            <Image
-              src="/optimized/product-packaging.webp"
-              alt="ActivBite Breakfast Bar"
-              width={1600}
-              height={887}
-              sizes="(max-width: 900px) 78vw, 34vw"
-              priority
-            />
-            <div className={styles.packBubble}>
-              <strong>20</strong>
-              <span>BARS</span>
-            </div>
-          </div>
-
-          <div className={styles.ingredientRail} aria-label="Ingredients">
-            {ingredientBadges.map((ingredient) => (
-              <span key={ingredient}>{ingredient}</span>
-            ))}
-          </div>
-        </aside>
-      </section>
-
-      <section className={styles.faqShell} data-nav-theme="light" aria-labelledby="faq-heading">
+        <section className={styles.faqShell} aria-labelledby="faq-heading">
         <div className={styles.faqIntro}>
           <div>
             <span>Pick a lane</span>
@@ -283,12 +218,15 @@ export default function FaqExperience() {
         </div>
 
         <div className={styles.faqGrid}>
-          <div className={styles.faqList}>
+          <div className={styles.faqList} aria-live="polite">
             {filteredFaqs.map((faq) => {
               const isOpen = openId === faq.id;
 
               return (
-                <article key={faq.id} className={styles.faqItem}>
+                <article
+                  key={faq.id}
+                  className={`${styles.faqItem} ${isOpen ? styles.faqItemOpen : ''}`}
+                >
                   <button
                     type="button"
                     className={styles.questionButton}
@@ -314,41 +252,16 @@ export default function FaqExperience() {
               );
             })}
           </div>
-
-          <aside className={styles.sidePanel}>
-            <span className={styles.sideTag}>Still hungry?</span>
-            <h3>Jump to the next useful thing.</h3>
-            <p>
-              If the FAQ did its job, you probably know where to go now. If it
-              didn&apos;t, support is one tap away.
-            </p>
-
-            <div className={styles.quickLinks}>
-              {quickLinks.map(({ href, label, icon: Icon }) => (
-                <Link key={label} href={href}>
-                  <Icon size={18} />
-                  {label}
-                  <ArrowRight size={17} />
-                </Link>
-              ))}
-            </div>
-
-            <div className={styles.promiseStack}>
-              <span>
-                <Truck size={18} />
-                Free delivery on your campus
-              </span>
-              <span>
-                <ShieldCheck size={18} />
-                UPI QR payment
-              </span>
-              <span>
-                <Soup size={18} />
-                Real breakfast energy
-              </span>
-            </div>
-          </aside>
         </div>
+
+        <div className={styles.helpNote}>
+          <Mail size={20} aria-hidden="true" />
+          <span>
+            <strong>Still have a question?</strong>
+            Write to <a href="mailto:support@activbite.com">support@activbite.com</a>
+          </span>
+        </div>
+        </section>
       </section>
 
       <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">

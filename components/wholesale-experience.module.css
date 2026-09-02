@@ -134,6 +134,15 @@
   animation: fadeUp .68s ease .04s both;
 }
 
+.microText {
+  margin: 0 0 .95rem;
+  color: #ffd51d;
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+
 .copy h1 {
   max-width: 45rem;
   margin: 0;
@@ -372,6 +381,23 @@
   transform: none;
 }
 
+.submitStatus {
+  margin: -.15rem 0 0;
+  color: #5d463b;
+  font-size: .72rem;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.submitStatusSlow {
+  padding: .6rem .75rem;
+  border: 1px solid #f4c547;
+  border-radius: .55rem;
+  color: #6a3c00;
+  background: #fff7d6;
+}
+
 .secondaryButton {
   width: auto;
   margin-top: 1rem;
@@ -403,6 +429,58 @@
   font-size: .95rem;
   font-weight: 500;
   line-height: 1.55;
+}
+
+.successModalBackdrop {
+  position: fixed;
+  z-index: 300;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.25rem;
+  background: rgba(35, 15, 6, .76);
+  backdrop-filter: blur(5px);
+  animation: modalFadeIn .2s ease both;
+}
+
+.successModal {
+  display: grid;
+  justify-items: center;
+  width: min(100%, 31rem);
+  padding: 2.1rem 1.8rem 1.8rem;
+  border: 2px solid #2b2019;
+  border-radius: 1.35rem;
+  color: #2b2019;
+  background: #fffaf1;
+  box-shadow: .65rem .65rem 0 #ffd21c, 0 2rem 5rem rgba(0, 0, 0, .28);
+  text-align: center;
+  animation: modalPopIn .28s ease both;
+}
+
+.successModal > svg {
+  margin-bottom: .8rem;
+  color: #168a43;
+}
+
+.successModal h2 {
+  margin: 0;
+  font-family: var(--activbite-display-font);
+  font-size: clamp(2rem, 6vw, 3.15rem);
+  line-height: .96;
+  text-transform: uppercase;
+}
+
+.successModal > p:not(.formEyebrow) {
+  max-width: 25rem;
+  margin: 1rem 0 0;
+  color: #5d463b;
+  font-size: .95rem;
+  font-weight: 650;
+  line-height: 1.55;
+}
+
+.successModal .secondaryButton {
+  min-width: 9rem;
 }
 
 .partnerStrip {
@@ -474,6 +552,461 @@
   stroke-width: 2.3;
 }
 
+/* Wholesale page: one commercial story, one clear enquiry action. */
+.wholesalePage .hero {
+  grid-template-columns: minmax(24rem, .82fr) minmax(34rem, 39rem) !important;
+  align-items: start !important;
+  width: min(92vw, 88rem) !important;
+  min-height: auto !important;
+  margin: .65rem auto 2.2rem !important;
+  gap: clamp(2rem, 4vw, 4.5rem) !important;
+}
+
+.wholesalePage .copy {
+  position: static;
+  min-width: 0;
+  padding-top: .75rem;
+}
+
+.wholesalePage .copy h1 {
+  max-width: 42rem;
+  font-size: clamp(3.6rem, 5vw, 5.8rem);
+  line-height: .82;
+  text-wrap: balance;
+}
+
+.wholesalePage .intro {
+  max-width: 39rem;
+  margin-top: 1rem;
+}
+
+.partnerVisual {
+  position: relative;
+  display: grid;
+  min-height: 30rem;
+  margin-top: 0;
+  overflow: hidden;
+  border: 2px solid #3a2214;
+  border-radius: 1.45rem .38rem 1.45rem .38rem;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255, 213, 29, .58), transparent 11rem),
+    linear-gradient(145deg, #ff8216, #ed4d00);
+  box-shadow: .55rem .6rem 0 #ffd51d;
+  place-items: center;
+}
+
+.partnerVisual::before {
+  position: absolute;
+  inset: 8% 12% 16%;
+  border: 2px solid rgba(58, 34, 20, .72);
+  border-radius: 50%;
+  content: '';
+}
+
+.partnerVisual > img {
+  position: relative;
+  z-index: 1;
+  width: min(78%, 29rem);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 1.4rem 1.3rem rgba(77, 20, 0, .3));
+}
+
+.visualNotes {
+  position: absolute;
+  z-index: 2;
+  right: .85rem;
+  bottom: .85rem;
+  left: .85rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  border: 1.5px solid #3a2214;
+  border-radius: .85rem .25rem .85rem .25rem;
+  background: rgba(255, 250, 241, .96);
+}
+
+.visualNotes span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.65rem;
+  padding: .45rem;
+  color: #3a2214;
+  font-size: .68rem;
+  font-weight: 900;
+  gap: .35rem;
+  text-align: center;
+}
+
+.visualNotes span + span {
+  border-left: 1px solid rgba(58, 34, 20, .2);
+}
+
+.visualNotes svg {
+  flex: 0 0 auto;
+  color: #ef5b00;
+}
+
+.wholesalePage .hero .formCard {
+  justify-self: end;
+  width: min(100%, 39rem) !important;
+  margin: 0 !important;
+  padding: 1.05rem !important;
+  border: 2px solid #3a2214 !important;
+  border-radius: 1.45rem .38rem 1.45rem .38rem !important;
+  background: #fffaf1 !important;
+  box-shadow: .58rem .62rem 0 #ffd51d !important;
+}
+
+.wholesalePage .hero .formHeading {
+  margin-bottom: .7rem;
+}
+
+.wholesalePage .hero .formCard form {
+  gap: .48rem;
+}
+
+.wholesalePage .hero .gridTwo {
+  gap: .55rem;
+}
+
+.wholesalePage .hero .formCard label {
+  font-size: .73rem;
+  gap: .2rem;
+}
+
+.wholesalePage .hero .formCard input,
+.wholesalePage .hero .formCard select {
+  min-height: 2.35rem;
+}
+
+.wholesalePage .hero .formCard textarea {
+  min-height: 3.35rem;
+}
+
+.wholesalePage .hero .submitButton {
+  min-height: 3rem;
+}
+
+.formSection {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  width: min(92vw, 88rem);
+  margin: 1rem auto 2.25rem;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border: 2px solid #3a2214;
+  border-radius: 1.5rem .4rem 1.5rem .4rem;
+  background: #fff8e9;
+  box-shadow: .58rem .62rem 0 #ffd51d;
+  place-items: center;
+}
+
+.wholesalePage .formHeading h2,
+.wholesalePage .successCard h2 {
+  font-family: var(--display-font);
+  font-size: clamp(2rem, 2.65vw, 2.75rem);
+  line-height: .9;
+  text-transform: uppercase;
+}
+
+.wholesalePage .formCard input,
+.wholesalePage .formCard select,
+.wholesalePage .formCard textarea {
+  border: 1.5px solid rgba(58, 34, 20, .28);
+  border-radius: .65rem .18rem .65rem .18rem;
+  background: #fffdf8;
+}
+
+.wholesalePage .submitButton,
+.wholesalePage .secondaryButton {
+  border: 2px solid #3a2214;
+  border-radius: .85rem .22rem .85rem .22rem;
+  box-shadow: .3rem .34rem 0 #ef5b00;
+}
+
+.stockingJourney {
+  position: relative;
+  z-index: 2;
+  width: min(92vw, 88rem);
+  margin: 1rem auto 2rem;
+  padding: clamp(1.8rem, 3.2vw, 3rem);
+  overflow: hidden;
+  border: 2px solid #21140c;
+  border-radius: 1.5rem .4rem 1.5rem .4rem;
+  color: #fff7e7;
+  background:
+    radial-gradient(circle at 85% 16%, rgba(255, 103, 28, .25), transparent 22rem),
+    radial-gradient(circle at 8% 90%, rgba(255, 213, 29, .1), transparent 18rem),
+    #21140c;
+  box-shadow: .58rem .62rem 0 #ef5b00;
+}
+
+.journeyHeading {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.journeyHeading > span {
+  color: #ffd51d;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+
+.journeyHeading h2 {
+  margin: .55rem 0 0;
+  color: #fff7e7;
+  font-family: var(--display-font);
+  font-size: clamp(2.7rem, 4.2vw, 4.8rem);
+  line-height: .86;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.journeyHeading p {
+  margin: .65rem auto 0;
+  color: #d8c4b3;
+  font-size: .9rem;
+  font-weight: 650;
+}
+
+.journeySteps {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.journeySteps::before {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  left: 8%;
+  height: .28rem;
+  border-radius: 999px;
+  background: #ffd51d;
+  content: '';
+  translate: 0 -50%;
+}
+
+.journeySteps article {
+  position: relative;
+  min-height: 13rem;
+  padding: 1.3rem;
+  border: 2px solid #3a2214;
+  border-radius: 1.25rem .32rem 1.25rem .32rem;
+  color: #3a2214;
+  background: #fffaf1;
+  box-shadow: .38rem .42rem 0 #ffd51d;
+}
+
+.journeySteps article:nth-child(2) {
+  translate: 0 .75rem;
+}
+
+.journeySteps article > span {
+  position: absolute;
+  top: .9rem;
+  right: 1rem;
+  color: rgba(239, 91, 0, .28);
+  font-family: var(--display-font);
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.journeySteps svg {
+  color: #ef5b00;
+}
+
+.journeySteps h3 {
+  max-width: 16rem;
+  margin: 1.6rem 0 .45rem;
+  color: #2b1a10;
+  font-size: 1rem;
+  font-weight: 950;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.journeySteps p {
+  margin: 0;
+  color: #685142;
+  font-size: .82rem;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+/* Compact journey card placed directly under the wholesale introduction. */
+.wholesalePage .copy .stockingJourney {
+  width: 100%;
+  margin: 1.15rem 0 0;
+  padding: 1rem;
+  border-radius: 1.15rem .32rem 1.15rem .32rem;
+  box-shadow: .38rem .42rem 0 #ef5b00;
+}
+
+.wholesalePage .copy .journeyHeading {
+  margin-bottom: .75rem;
+  text-align: left;
+}
+
+.wholesalePage .copy .journeyHeading h2 {
+  margin-top: .3rem;
+  font-size: clamp(1.7rem, 2.35vw, 2.45rem);
+  white-space: nowrap;
+}
+
+.wholesalePage .copy .journeySteps {
+  grid-template-columns: minmax(0, 1fr);
+  padding: 0;
+  gap: .5rem;
+}
+
+.wholesalePage .copy .journeySteps::before {
+  display: none;
+}
+
+.wholesalePage .copy .journeySteps article,
+.wholesalePage .copy .journeySteps article:nth-child(2) {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
+  align-items: center;
+  min-height: 0;
+  padding: .55rem .7rem;
+  border-radius: .8rem .22rem .8rem .22rem;
+  box-shadow: .22rem .25rem 0 #ffd51d;
+  gap: .65rem;
+  translate: 0;
+}
+
+.wholesalePage .copy .journeySteps article > span {
+  position: static;
+  color: rgba(239, 91, 0, .45);
+  font-size: 1.55rem;
+}
+
+.wholesalePage .copy .journeySteps article > div {
+  min-width: 0;
+}
+
+.wholesalePage .copy .journeySteps h3 {
+  max-width: none;
+  margin: 0 0 .18rem;
+  font-size: .76rem;
+}
+
+.wholesalePage .copy .journeySteps p {
+  font-size: .67rem;
+  line-height: 1.35;
+}
+
+/* Quiet hierarchy: keep the story, remove the box-within-box treatment. */
+.wholesalePage .copy h1 {
+  max-width: 39rem;
+  font-size: clamp(3.35rem, 4.45vw, 5.15rem);
+  line-height: .84;
+  text-shadow: 0 .32rem 0 rgba(148, 37, 0, .08);
+}
+
+.wholesalePage .intro {
+  max-width: 37rem;
+  font-size: clamp(.95rem, 1vw, 1.08rem);
+  line-height: 1.55;
+}
+
+.wholesalePage .copy .stockingJourney {
+  margin-top: 1rem;
+  padding: .9rem 1rem .75rem;
+  border: 1px solid rgba(255, 213, 29, .3);
+  border-radius: .95rem;
+  background: rgba(33, 20, 12, .88);
+  box-shadow: none;
+}
+
+.wholesalePage .copy .journeyHeading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: .45rem;
+  gap: 1rem;
+}
+
+.wholesalePage .copy .journeyHeading > span {
+  flex: 0 0 auto;
+  font-size: .61rem;
+  letter-spacing: .12em;
+}
+
+.wholesalePage .copy .journeyHeading h2 {
+  margin: 0;
+  font-size: clamp(1.3rem, 1.7vw, 1.7rem);
+  white-space: nowrap;
+}
+
+.wholesalePage .copy .journeySteps {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  gap: 0;
+}
+
+.wholesalePage .copy .journeySteps li {
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr);
+  align-items: center;
+  min-height: 2.45rem;
+  padding: .35rem 0;
+  border-top: 1px solid rgba(255, 247, 231, .15);
+  color: #fff7e7;
+  gap: .6rem;
+}
+
+.wholesalePage .copy .journeySteps li > span {
+  color: #ffd51d;
+  font-family: var(--display-font);
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.wholesalePage .copy .journeySteps strong {
+  font-size: .73rem;
+  font-weight: 850;
+  letter-spacing: .035em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.wholesalePage .hero .formCard {
+  border: 1px solid rgba(58, 34, 20, .42) !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 1.25rem 2.8rem rgba(83, 25, 0, .2) !important;
+}
+
+.wholesalePage .formHeading h2,
+.wholesalePage .successCard h2 {
+  font-size: clamp(1.7rem, 2.1vw, 2.2rem);
+  line-height: .94;
+}
+
+.wholesalePage .formCard input,
+.wholesalePage .formCard select,
+.wholesalePage .formCard textarea {
+  border-width: 1px;
+  border-color: rgba(58, 34, 20, .22);
+  border-radius: .55rem;
+}
+
+.wholesalePage .submitButton,
+.wholesalePage .secondaryButton {
+  border-width: 1px;
+  border-radius: .65rem;
+  box-shadow: 0 .28rem 0 #ef5b00;
+}
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
@@ -486,6 +1019,22 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -545,6 +1094,15 @@
     text-align: center;
   }
 
+  .wholesalePage .copy {
+    position: static;
+    display: block;
+    order: 1;
+    width: 100%;
+    padding-top: 0;
+    text-align: center;
+  }
+
   .copy h1 {
     order: 1;
     width: 100%;
@@ -570,6 +1128,49 @@
     width: 100%;
     padding: 1rem;
     border-radius: 1.2rem;
+  }
+
+  .partnerVisual {
+    order: 2;
+    width: 100%;
+    min-height: 18rem;
+    margin-top: 1.2rem;
+  }
+
+  .formSection {
+    width: min(100% - 1rem, 38rem);
+    margin-top: .4rem;
+    padding: .65rem;
+  }
+
+  .stockingJourney {
+    width: min(100% - 1rem, 38rem);
+    padding: 1.5rem 1rem;
+  }
+
+  .journeyHeading h2 {
+    font-size: clamp(1.9rem, 8vw, 3rem);
+  }
+
+  .journeySteps {
+    grid-template-columns: minmax(0, 1fr);
+    padding-left: 2.5rem;
+  }
+
+  .journeySteps::before {
+    top: .5rem;
+    right: auto;
+    bottom: .5rem;
+    left: 1rem;
+    width: .25rem;
+    height: auto;
+    translate: 0;
+  }
+
+  .journeySteps article,
+  .journeySteps article:nth-child(2) {
+    min-height: 0;
+    translate: 0;
   }
 
   .gridTwo {
@@ -618,6 +1219,52 @@
   .formHeading {
     flex-direction: column;
     gap: .55rem;
+  }
+
+  .wholesalePage .copy h1 {
+    font-size: clamp(3rem, 14vw, 4rem);
+  }
+
+  .visualNotes {
+    grid-template-columns: 1fr;
+  }
+
+  .visualNotes span {
+    min-height: 2rem;
+  }
+
+  .visualNotes span + span {
+    border-top: 1px solid rgba(58, 34, 20, .2);
+    border-left: 0;
+  }
+
+  .journeyHeading h2 {
+    font-size: clamp(1.35rem, 6.2vw, 1.7rem);
+    letter-spacing: 0;
+  }
+
+  .wholesalePage .copy .stockingJourney {
+    padding: .85rem;
+    text-align: left;
+  }
+
+  .wholesalePage .copy .journeyHeading h2 {
+    margin-top: .28rem;
+    font-size: clamp(1.25rem, 5.8vw, 1.55rem);
+    white-space: normal;
+  }
+
+  .wholesalePage .copy .journeyHeading {
+    display: block;
+  }
+
+  .wholesalePage .hero .formHeading > span {
+    display: none;
+  }
+
+  .successModal {
+    padding: 1.7rem 1.1rem 1.35rem;
+    box-shadow: .42rem .42rem 0 #ffd21c, 0 2rem 5rem rgba(0, 0, 0, .28);
   }
 }
 

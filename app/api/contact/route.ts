@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { saveContactEnquiry } from '@/lib/server/contact-enquiries';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9]{10}$/;
@@ -7,6 +8,7 @@ const cleanText = (value: unknown, limit = 1000) =>
   typeof value === 'string' ? value.trim().slice(0, limit) : '';
 
 export async function POST(request: NextRequest) {
+  const startedAt = Date.now();
   const payload = await request.json().catch(() => null);
 
   const fullName = cleanText(payload?.fullName, 120);
@@ -46,9 +48,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ message: 'Please choose what this is about.' }, { status: 400 });
   }
 
-  if (message.length < 10) {
+  if (!message) {
     return NextResponse.json(
-      { message: 'Please add a little more detail to your message.' },
+      { message: 'Please enter your message.' },
       { status: 400 }
     );
   }
@@ -61,7 +63,6 @@ export async function POST(request: NextRequest) {
   }
 
   const enquiry = {
-    type: 'contact_enquiry',
     fullName,
     phone,
     email,
@@ -72,29 +73,27 @@ export async function POST(request: NextRequest) {
     createdAt: new Date().toISOString(),
   };
 
-  const webhookUrl =
-    process.env.CONTACT_ENQUIRY_WEBHOOK_URL || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  try {
+    const saved = await saveContactEnquiry(enquiry);
 
-  if (webhookUrl) {
-    const webhookResponse = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(enquiry),
+    console.info('[Contact message saved]', {
+      id: saved.id,
+      durationMs: Date.now() - startedAt,
     });
 
-    if (!webhookResponse.ok) {
-      return NextResponse.json(
-        { message: 'Could not send the signal right now. Please try again.' },
-        { status: 502 }
-      );
-    }
-  } else {
-    console.log('[Contact enquiry]', enquiry);
+    return NextResponse.json({
+      message: 'Message received. The ActivBite team will contact you soon.',
+      id: saved.id,
+      storage: saved.storage,
+    });
+  } catch (error) {
+    console.error('[Contact message Google Sheet]', {
+      durationMs: Date.now() - startedAt,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json(
+      { message: 'Could not save your message right now. Please try again.' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    message: 'Signal received. The ActivBite team will contact you soon.',
-  });
 }

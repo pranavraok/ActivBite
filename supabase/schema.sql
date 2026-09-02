@@ -64,8 +64,12 @@ CREATE TABLE wholesale_enquiries (
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(20),
   company_name VARCHAR(255),
+  shop_type VARCHAR(100),
+  location VARCHAR(255),
   message TEXT,
   quantity_range VARCHAR(100),
+  preferred_pack VARCHAR(100),
+  source VARCHAR(255),
   notes TEXT,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW()

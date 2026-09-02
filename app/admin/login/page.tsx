@@ -1,127 +1,178 @@
 'use client';
 
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import Image from 'next/image';
 import Link from 'next/link';
-import { Loader2 } from 'lucide-react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Eye,
+  EyeOff,
+  Loader2,
+  LockKeyhole,
+  Mail,
+  ShieldCheck,
+} from 'lucide-react';
+import styles from './admin-login.module.css';
 
 const loginSchema = z.object({
-  email: z.string().email('Valid email is required'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email('Enter a valid email address.'),
+  password: z.string().min(6, 'Password must be at least 6 characters.'),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
 
 export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
-  });
+  } = useForm<LoginForm>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
+    setSubmitError('');
+
     try {
-      // TODO: Implement Supabase Auth login
-      console.log('[v0] Admin login:', data);
-      setIsLoggedIn(true);
-      // TODO: Redirect to admin dashboard
-      window.location.href = '/admin';
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok) throw new Error(result.message || 'Could not sign in.');
+
+      const nextPath = new URLSearchParams(window.location.search).get('next');
+      window.location.href = nextPath?.startsWith('/admin') ? nextPath : '/admin';
     } catch (error) {
-      console.error('[v0] Login error:', error);
+      setSubmitError(error instanceof Error ? error.message : 'Could not sign in.');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center px-4">
-      {/* Logo */}
-      <Link href="/" className="mb-8">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-white font-bold">A</span>
+    <main className={styles.page}>
+      <section className={styles.brandPanel} aria-label="ActivBite admin introduction">
+        <div className={styles.brandContent}>
+          <div className={styles.logo}>
+            <Image
+              src="/optimized/ab-logo.webp"
+              alt="ActivBite"
+              fill
+              sizes="(max-width: 920px) 192px, 352px"
+              priority
+            />
           </div>
-          <span className="text-xl font-bold text-foreground">ActivBite Admin</span>
-        </div>
-      </Link>
-
-      {/* Login Card */}
-      <div className="w-full max-w-md">
-        <div className="bg-white border border-border rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Admin Login</h1>
-          <p className="text-muted-foreground mb-8">
-            Sign in to access the admin dashboard
+          <p className={styles.brandEyebrow}>Admin command centre</p>
+          <h2>
+            Keep mornings <span>moving.</span>
+          </h2>
+          <p className={styles.brandDescription}>
+            One secure place to manage partner enquiries, orders, products, and
+            everything behind the breakfast rush.
           </p>
+          <div className={styles.brandChips} aria-label="Admin areas">
+            <span>Wholesale enquiries</span>
+            <span>Orders</span>
+            <span>Stock</span>
+          </div>
+        </div>
+      </section>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Email Address
-              </label>
-              <input
-                {...register('email')}
-                type="email"
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="admin@activbite.com"
-              />
-              {errors.email && (
-                <p className="text-destructive text-sm mt-1">
-                  {errors.email.message}
+      <section className={styles.formPanel}>
+        <div className={styles.cardWrap}>
+          <Link href="/" className={styles.homeLink}>
+            <ArrowLeft size={16} /> Back to website
+          </Link>
+
+          <div className={styles.card}>
+            <span className={styles.securityBadge}>
+              <ShieldCheck size={15} /> Secure access
+            </span>
+            <p className={styles.formEyebrow}>Welcome back</p>
+            <h1>Admin login</h1>
+            <p className={styles.intro}>
+              Sign in with your ActivBite admin credentials to continue.
+            </p>
+
+            <form onSubmit={handleSubmit(onSubmit)} className={styles.form} noValidate>
+              <div className={styles.field}>
+                <label htmlFor="admin-email">Email address</label>
+                <div className={styles.inputWrap}>
+                  <Mail size={18} className={styles.inputIcon} />
+                  <input
+                    {...register('email')}
+                    id="admin-email"
+                    type="email"
+                    placeholder="admin@activbite.com"
+                    autoComplete="username"
+                    spellCheck={false}
+                  />
+                </div>
+                {errors.email ? (
+                  <p className={styles.fieldError}>{errors.email.message}</p>
+                ) : null}
+              </div>
+
+              <div className={styles.field}>
+                <label htmlFor="admin-password">Password</label>
+                <div className={styles.inputWrap}>
+                  <LockKeyhole size={18} className={styles.inputIcon} />
+                  <input
+                    {...register('password')}
+                    id="admin-password"
+                    type={showPassword ? 'text' : 'password'}
+                    placeholder="Enter your password"
+                    autoComplete="current-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((current) => !current)}
+                    className={styles.visibilityButton}
+                    aria-label={showPassword ? 'Hide password' : 'Show password'}
+                    aria-pressed={showPassword}
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+                {errors.password ? (
+                  <p className={styles.fieldError}>{errors.password.message}</p>
+                ) : null}
+              </div>
+
+              {submitError ? (
+                <p className={styles.submitError} role="alert">
+                  {submitError}
                 </p>
-              )}
-            </div>
+              ) : null}
 
-            <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
-                Password
-              </label>
-              <input
-                {...register('password')}
-                type="password"
-                className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-                placeholder="••••••••"
-              />
-              {errors.password && (
-                <p className="text-destructive text-sm mt-1">
-                  {errors.password.message}
-                </p>
-              )}
-            </div>
+              <button type="submit" disabled={isLoading} className={styles.submitButton}>
+                {isLoading ? (
+                  <>
+                    <Loader2 size={18} className="animate-spin" /> Signing in…
+                  </>
+                ) : (
+                  <>
+                    Enter command centre <ArrowRight size={19} />
+                  </>
+                )}
+              </button>
+            </form>
 
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {isLoading && <Loader2 size={20} className="animate-spin" />}
-              {isLoading ? 'Signing in...' : 'Sign In'}
-            </button>
-          </form>
-
-          {/* Demo note */}
-          <div className="mt-6 p-4 bg-secondary rounded-lg border border-border">
-            <p className="text-xs text-muted-foreground">
-              <strong>Demo Mode:</strong> This is a skeleton implementation. Authentication
-              is not yet connected to Supabase. After signing in, you'll be redirected to
-              the admin dashboard.
+            <p className={styles.privacyNote}>
+              <ShieldCheck size={13} /> Protected ActivBite team access only
             </p>
           </div>
         </div>
-
-        {/* Back to home */}
-        <div className="text-center mt-6">
-          <Link href="/" className="text-muted-foreground hover:text-primary transition-colors">
-            Back to ActivBite
-          </Link>
-        </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }

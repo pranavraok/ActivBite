@@ -1,0 +1,331 @@
+.shell {
+  --background: #fff7e8;
+  --foreground: #29170c;
+  --card: #fffdf8;
+  --card-foreground: #29170c;
+  --primary: #ef5b00;
+  --primary-foreground: #ffffff;
+  --secondary: #f6e7d1;
+  --secondary-foreground: #29170c;
+  --muted: #f1e4d3;
+  --muted-foreground: #715848;
+  --destructive: #b42318;
+  --border: #dfc8b4;
+  --input: #fffdf8;
+  --ring: #ef5b00;
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr);
+  min-height: 100dvh;
+  color: var(--foreground);
+  background:
+    radial-gradient(circle at 80% 8%, rgba(255, 213, 29, .19), transparent 20rem),
+    #fff7e8;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  color: #fff8ea;
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 213, 29, .12), transparent 11rem),
+    #24140b;
+  border-right: 1px solid rgba(255, 213, 29, .18);
+}
+
+.sidebar::before {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .18;
+  content: '';
+  background-image: radial-gradient(circle, rgba(255,255,255,.42) 1px, transparent 1.2px);
+  background-size: 3.1rem 3.1rem;
+}
+
+.brand,
+.navigation,
+.sidebarFooter {
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: grid;
+  justify-items: start;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+  text-decoration: none;
+}
+
+.brandLogo {
+  position: relative;
+  width: 11rem;
+  height: 4.4rem;
+}
+
+.brandLogo img {
+  top: 50% !important;
+  left: 50% !important;
+  width: 12rem !important;
+  height: 12rem !important;
+  max-width: none !important;
+  object-fit: contain;
+  transform: translate(-50%, -50%);
+}
+
+.brandTag {
+  display: inline-flex;
+  min-height: 1.6rem;
+  align-items: center;
+  margin-top: -.15rem;
+  padding: 0 .65rem;
+  border: 1px solid rgba(255,255,255,.25);
+  border-radius: 999px;
+  color: #321b0d;
+  background: #ffd51d;
+  font-size: .61rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.navigation {
+  display: grid;
+  align-content: start;
+  flex: 1;
+  padding: 1rem .85rem;
+  gap: .35rem;
+  overflow-y: auto;
+}
+
+.navigationLabel {
+  margin: .3rem .65rem .45rem;
+  color: #a98e7c;
+  font-size: .61rem;
+  font-weight: 800;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  min-height: 2.85rem;
+  padding: 0 .8rem;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  color: #d9c7bb;
+  font-size: .78rem;
+  font-weight: 700;
+  gap: .75rem;
+  text-decoration: none;
+  transition: color .18s ease, background .18s ease, transform .18s ease;
+}
+
+.navLink:hover {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+  transform: translateX(.12rem);
+}
+
+.navLinkActive {
+  border-color: rgba(255, 213, 29, .4);
+  color: #2b170b;
+  background: linear-gradient(135deg, #ffd92d, #ffbc16);
+  box-shadow: 0 .3rem 0 #c94a00;
+}
+
+.navLinkActive:hover {
+  color: #2b170b;
+  background: linear-gradient(135deg, #ffdf42, #ffc52b);
+  transform: none;
+}
+
+.sidebarFooter {
+  display: grid;
+  padding: .9rem;
+  border-top: 1px solid rgba(255,255,255,.12);
+  gap: .75rem;
+}
+
+.workspaceStatus {
+  display: flex;
+  align-items: center;
+  padding: .7rem .75rem;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: .75rem;
+  color: #c9b5a7;
+  background: rgba(255,255,255,.045);
+  font-size: .68rem;
+  font-weight: 650;
+  gap: .55rem;
+}
+
+.statusDot {
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  background: #7ce37c;
+  box-shadow: 0 0 0 .22rem rgba(124, 227, 124, .12);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.6rem;
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: .7rem;
+  color: #fff8ea;
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 750;
+  gap: .6rem;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+.logoutButton:hover {
+  border-color: rgba(255, 213, 29, .5);
+  background: rgba(255,255,255,.07);
+}
+
+.main {
+  min-width: 0;
+  overflow: auto;
+}
+
+.topbar {
+  position: sticky;
+  z-index: 20;
+  top: 0;
+  display: flex;
+  min-height: 5.25rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: .8rem clamp(1rem, 3vw, 2.5rem);
+  border-bottom: 1px solid #e0cbb8;
+  background: rgba(255, 250, 240, .93);
+  backdrop-filter: blur(14px);
+}
+
+.topbarEyebrow {
+  margin: 0 0 .2rem;
+  color: #ef5b00;
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+
+.topbar h1 {
+  margin: 0;
+  color: #29170c;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+  font-weight: 900;
+  line-height: 1.1;
+}
+
+.siteLink {
+  display: inline-flex;
+  min-height: 2.55rem;
+  align-items: center;
+  padding: 0 .95rem;
+  border: 1.5px solid #29170c;
+  border-radius: .7rem;
+  color: #29170c;
+  background: #fffdf8;
+  box-shadow: .2rem .22rem 0 #ffd51d;
+  font-size: .72rem;
+  font-weight: 850;
+  gap: .5rem;
+  text-decoration: none;
+}
+
+.content {
+  width: min(100%, 100rem);
+  margin: 0 auto;
+  padding: clamp(1.1rem, 3vw, 2.4rem);
+}
+
+@media (max-width: 900px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: .6rem 1rem;
+  }
+
+  .brandLogo {
+    width: 8rem;
+    height: 3rem;
+  }
+
+  .brandLogo img {
+    width: 9rem !important;
+    height: 9rem !important;
+  }
+
+  .navigation {
+    display: flex;
+    padding: .55rem .75rem .8rem;
+    overflow-x: auto;
+  }
+
+  .navigationLabel,
+  .workspaceStatus {
+    display: none;
+  }
+
+  .navLink {
+    flex: 0 0 auto;
+    min-height: 2.5rem;
+    white-space: nowrap;
+  }
+
+  .sidebarFooter {
+    position: absolute;
+    top: .75rem;
+    right: .75rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .logoutButton {
+    width: 2.45rem;
+    min-height: 2.45rem;
+  }
+
+  .logoutButton span {
+    display: none;
+  }
+
+  .topbar {
+    min-height: 4.5rem;
+  }
+}
+
+@media (max-width: 540px) {
+  .brandTag,
+  .siteLink span {
+    display: none;
+  }
+
+  .brand {
+    padding-right: 4rem;
+  }
+}

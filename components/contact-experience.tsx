@@ -1,24 +1,17 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import {
-  ArrowRight,
   CheckCircle2,
+  Clock3,
   Mail,
-  MapPin,
   MessageCircle,
-  Phone,
   Rocket,
   Send,
   ShieldCheck,
-  ShoppingBag,
   Soup,
-  Store,
   Sunrise,
-  Truck,
-  Zap,
 } from 'lucide-react';
 import styles from './contact-experience.module.css';
 import PublicHeader from './public-header';
@@ -56,50 +49,22 @@ const STARTING_FORM: ContactForm = {
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9]{10}$/;
 
-const supportCards = [
-  {
-    icon: Mail,
-    label: 'Email',
-    title: 'support@activbite.com',
-    href: 'mailto:support@activbite.com',
-    note: 'Best for order support, product questions, and feedback.',
-  },
-  {
-    icon: MapPin,
-    label: 'Launch campus',
-    title: 'NITK first',
-    note: 'Current delivery starts with National Institute of Technology Karnataka.',
-  },
-  {
-    icon: Store,
-    label: 'Wholesale',
-    title: 'Shop/cafe enquiry',
-    href: '/wholesale',
-    note: 'For bulk supply, retail, canteen, or campus seller enquiries.',
-  },
-];
+const FIELD_LABELS: Record<keyof ContactForm, string> = {
+  fullName: 'Name',
+  phone: 'Phone',
+  email: 'Email',
+  location: 'Campus / area',
+  topic: 'Message topic',
+  message: 'Message',
+  consent: 'Confirmation checkbox',
+};
 
 export default function ContactExperience() {
   const [form, setForm] = useState<ContactForm>(STARTING_FORM);
   const [errors, setErrors] = useState<ContactErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-
-  const signalMood = useMemo(() => {
-    if (form.topic === 'Delivery issue') {
-      return 'Priority ping';
-    }
-
-    if (form.topic === 'Wholesale') {
-      return 'Bulk bite radar';
-    }
-
-    if (form.topic === 'Collab / idea') {
-      return 'Big brain mode';
-    }
-
-    return 'Campus signal';
-  }, [form.topic]);
+  const [isTakingLonger, setIsTakingLonger] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const updateField = <Field extends keyof ContactForm>(
     field: Field,
@@ -107,7 +72,6 @@ export default function ContactExperience() {
   ) => {
     setForm((current) => ({ ...current, [field]: value }));
     setErrors((current) => ({ ...current, [field]: undefined, submit: undefined }));
-    setSuccessMessage('');
   };
 
   const validate = () => {
@@ -119,27 +83,27 @@ export default function ContactExperience() {
     }
 
     if (!PHONE_PATTERN.test(cleanedPhone)) {
-      nextErrors.phone = 'Enter a valid 10 digit phone number.';
+      nextErrors.phone = 'Please enter a valid 10 digit phone number.';
     }
 
     if (!EMAIL_PATTERN.test(form.email.trim())) {
-      nextErrors.email = 'Enter a valid email address.';
+      nextErrors.email = 'Please enter a valid email address.';
     }
 
     if (form.location.trim().length < 2) {
-      nextErrors.location = 'Tell us your hostel, campus, shop, or area.';
+      nextErrors.location = 'Please enter your campus, hostel, shop, or area.';
     }
 
     if (!form.topic) {
-      nextErrors.topic = 'Pick the signal type.';
+      nextErrors.topic = 'Please choose what your message is about.';
     }
 
-    if (form.message.trim().length < 10) {
-      nextErrors.message = 'Add a little more detail.';
+    if (!form.message.trim()) {
+      nextErrors.message = 'Please enter your message.';
     }
 
     if (!form.consent) {
-      nextErrors.consent = 'Please allow the team to contact you.';
+      nextErrors.consent = 'Please allow the ActivBite team to contact you.';
     }
 
     return nextErrors;
@@ -149,13 +113,21 @@ export default function ContactExperience() {
     event.preventDefault();
 
     const nextErrors = validate();
-    setErrors(nextErrors);
-
     if (Object.keys(nextErrors).length > 0) {
+      const fieldsToCheck = (Object.keys(nextErrors) as Array<keyof ContactForm>)
+        .map((field) => FIELD_LABELS[field])
+        .join(', ');
+      setErrors({
+        ...nextErrors,
+        submit: `Please check: ${fieldsToCheck}.`,
+      });
       return;
     }
 
+    setErrors({});
     setIsSubmitting(true);
+    setIsTakingLonger(false);
+    const slowRequestTimer = window.setTimeout(() => setIsTakingLonger(true), 5000);
 
     try {
       const response = await fetch('/api/contact', {
@@ -174,19 +146,21 @@ export default function ContactExperience() {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || 'Could not send the signal right now.');
+        throw new Error(data.message || 'Could not send your message right now.');
       }
 
-      setSuccessMessage(data.message || 'Signal received. The ActivBite team will contact you soon.');
       setForm(STARTING_FORM);
+      setIsSubmitted(true);
     } catch (error) {
       setErrors({
         submit:
           error instanceof Error
             ? error.message
-            : 'Could not send the signal right now.',
+            : 'Could not send your message right now.',
       });
     } finally {
+      window.clearTimeout(slowRequestTimer);
+      setIsTakingLonger(false);
       setIsSubmitting(false);
     }
   };
@@ -200,97 +174,67 @@ export default function ContactExperience() {
 
       <section className={styles.hero} data-nav-theme="dark">
         <div className={styles.copy}>
-          <p className={styles.microText}>Campus desk · Human replies · No robot vibes</p>
-
+          <p className={styles.eyebrow}>Contact ActivBite</p>
           <h1>
-            Send a
-            <span>Signal.</span>
+            Talk to us. <span>We’re listening.</span>
           </h1>
-
-          <div className={styles.decorativeRule} aria-hidden="true">
-            <span />
-            <i />
-            <span />
-          </div>
-
           <p className={styles.lead}>
-            Order doubt? Delivery scene? Wholesale idea? Product feedback? Drop it
-            here — the ActivBite team will pick it up.
+            Order question, delivery issue, product feedback, or a fresh idea —
+            tell us what happened and we’ll help you take the next step.
           </p>
 
-          <div className={styles.quickSignalGrid}>
-            <span>
-              <Phone size={18} />
-              Real humans
-            </span>
-            <span>
-              <Truck size={18} />
-              Campus help
-            </span>
-            <span>
-              <Zap size={18} />
-              Fast pings
-            </span>
-          </div>
-        </div>
-
-        <aside className={styles.radarCard} aria-label="ActivBite contact radar">
-          <div className={styles.radarTop}>
-            <span>{signalMood}</span>
-            <strong>ONLINE</strong>
-          </div>
-
-          <div className={styles.radarDial} aria-hidden="true">
-            <span className={styles.ringOne} />
-            <span className={styles.ringTwo} />
-            <span className={styles.ringThree} />
-            <i className={styles.radarDot} />
-            <Image
-              src="/optimized/product-packaging.webp"
-              alt=""
-              width={1600}
-              height={887}
-              sizes="(max-width: 900px) 70vw, 28vw"
-              priority
-            />
-          </div>
-
-          <div className={styles.chipCloud}>
-            <span>Order support</span>
-            <span>Delivery help</span>
-            <span>Wholesale</span>
-            <span>Ideas</span>
-          </div>
-        </aside>
-      </section>
-
-      <section className={styles.contactDock} data-nav-theme="light">
-        <div className={styles.formIntro}>
-          <div>
-            <span>Signal console</span>
-            <h2>Tell us what’s cooking.</h2>
-          </div>
-          <p>
-            If it&apos;s urgent during delivery, report it then and there. For
-            everything else, this desk works beautifully.
-          </p>
-        </div>
-
-        <div className={styles.dockGrid}>
-          <form className={styles.contactConsole} onSubmit={handleSubmit} noValidate>
-            <div className={styles.topicGrid} aria-label="Choose message type">
-              {TOPICS.map((topic) => (
-                <button
-                  key={topic}
-                  type="button"
-                  className={form.topic === topic ? styles.activeTopic : undefined}
-                  onClick={() => updateField('topic', topic)}
-                >
-                  {topic}
-                </button>
-              ))}
+          <div className={styles.supportList} aria-label="ActivBite support details">
+            <Link href="mailto:support@activbite.com">
+              <Mail size={20} aria-hidden="true" />
+              <span>
+                <small>Email</small>
+                <strong>support@activbite.com</strong>
+              </span>
+            </Link>
+            <div>
+              <Clock3 size={20} aria-hidden="true" />
+              <span>
+                <small>Response time</small>
+                <strong>Usually within one working day</strong>
+              </span>
             </div>
-            {errors.topic && <small className={styles.topicError}>{errors.topic}</small>}
+            <div>
+              <ShieldCheck size={20} aria-hidden="true" />
+              <span>
+                <small>Delivery support</small>
+                <strong>Report pack issues during delivery</strong>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <section className={styles.formCard} aria-label="Contact ActivBite form">
+          <div className={styles.formHeading}>
+            <div>
+              <p>Message desk</p>
+              <h2>Tell us what’s up.</h2>
+            </div>
+            <span>2 min</span>
+          </div>
+
+          <form onSubmit={handleSubmit} noValidate aria-busy={isSubmitting}>
+            <fieldset className={styles.topicFieldset}>
+              <legend>What is this about?</legend>
+              <div className={styles.topicGrid}>
+                {TOPICS.map((topic) => (
+                  <button
+                    key={topic}
+                    type="button"
+                    className={form.topic === topic ? styles.activeTopic : undefined}
+                    onClick={() => updateField('topic', topic)}
+                    aria-pressed={form.topic === topic}
+                  >
+                    {topic}
+                  </button>
+                ))}
+              </div>
+              {errors.topic && <small>{errors.topic}</small>}
+            </fieldset>
 
             <div className={styles.formGrid}>
               <label>
@@ -300,6 +244,7 @@ export default function ContactExperience() {
                   onChange={(event) => updateField('fullName', event.target.value)}
                   placeholder="Your name"
                   autoComplete="name"
+                  aria-invalid={Boolean(errors.fullName)}
                 />
                 {errors.fullName && <small>{errors.fullName}</small>}
               </label>
@@ -312,6 +257,7 @@ export default function ContactExperience() {
                   placeholder="9876543210"
                   inputMode="numeric"
                   autoComplete="tel"
+                  aria-invalid={Boolean(errors.phone)}
                 />
                 {errors.phone && <small>{errors.phone}</small>}
               </label>
@@ -324,6 +270,7 @@ export default function ContactExperience() {
                   placeholder="you@email.com"
                   type="email"
                   autoComplete="email"
+                  aria-invalid={Boolean(errors.email)}
                 />
                 {errors.email && <small>{errors.email}</small>}
               </label>
@@ -333,7 +280,8 @@ export default function ContactExperience() {
                 <input
                   value={form.location}
                   onChange={(event) => updateField('location', event.target.value)}
-                  placeholder="Eg: NITK hostel, shop, city"
+                  placeholder="Hostel, campus, shop, or city"
+                  aria-invalid={Boolean(errors.location)}
                 />
                 {errors.location && <small>{errors.location}</small>}
               </label>
@@ -343,8 +291,9 @@ export default function ContactExperience() {
                 <textarea
                   value={form.message}
                   onChange={(event) => updateField('message', event.target.value)}
-                  placeholder="Tell us the scene..."
-                  rows={5}
+                  placeholder="Share the details so we can help quickly."
+                  rows={3}
+                  aria-invalid={Boolean(errors.message)}
                 />
                 {errors.message && <small>{errors.message}</small>}
               </label>
@@ -361,82 +310,81 @@ export default function ContactExperience() {
                 about this message.
               </span>
             </label>
-            {errors.consent && <p className={styles.checkboxError}>{errors.consent}</p>}
 
-            {errors.submit && (
-              <p className={styles.submitError} role="alert">
-                {errors.submit}
+            {errors.consent && (
+              <p className={styles.formError} role="alert">
+                {errors.consent}
               </p>
             )}
-
-            {successMessage && (
-              <p className={styles.successPanel} role="status">
-                <CheckCircle2 size={19} />
-                {successMessage}
+            {errors.submit && (
+              <p className={styles.formError} role="alert">
+                {errors.submit}
               </p>
             )}
 
             <button type="submit" className={styles.sendButton} disabled={isSubmitting}>
               {isSubmitting ? (
                 <>
-                  <span className={styles.spinner} />
-                  Sending signal...
+                  <span className={styles.spinner} aria-hidden="true" />
+                  Sending message...
                 </>
               ) : (
                 <>
-                  Send signal
-                  <Send size={20} />
+                  Send message
+                  <Send size={20} aria-hidden="true" />
                 </>
               )}
             </button>
+
+            {isSubmitting && (
+              <p
+                className={`${styles.submitStatus} ${
+                  isTakingLonger ? styles.submitStatusSlow : ''
+                }`}
+                role="status"
+                aria-live="polite"
+              >
+                {isTakingLonger
+                  ? 'Still saving securely. Please keep this page open — we’re almost done.'
+                  : 'Saving your message securely to Google Sheets…'}
+              </p>
+            )}
           </form>
-
-          <aside className={styles.directGrid} aria-label="Direct contact details">
-            {supportCards.map(({ icon: Icon, label, title, href, note }) => {
-              const content = (
-                <>
-                  <div className={styles.directIcon}>
-                    <Icon size={22} />
-                  </div>
-                  <div>
-                    <span>{label}</span>
-                    <strong>{title}</strong>
-                    <p>{note}</p>
-                  </div>
-                  {href && <ArrowRight size={18} />}
-                </>
-              );
-
-              return href ? (
-                <Link key={label} href={href} className={styles.directCard}>
-                  {content}
-                </Link>
-              ) : (
-                <div key={label} className={styles.directCard}>
-                  {content}
-                </div>
-              );
-            })}
-
-            <div className={styles.promiseCard}>
-              <ShieldCheck size={22} />
-              <div>
-                <strong>Food issue rule</strong>
-                <p>
-                  Wrong, missing, damaged, or broken-seal pack issues should be
-                  reported during delivery.
-                </p>
-              </div>
-            </div>
-          </aside>
-        </div>
+        </section>
       </section>
 
       <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">
-        <span><Sunrise size={34} /> ONE BAR.</span>
-        <span><Soup size={34} /> REAL BREAKFAST.</span>
-        <span><Rocket size={34} fill="currentColor" /> ZERO MORNING DRAMA.</span>
+        <span><Sunrise size={32} /> ONE BAR.</span>
+        <span><Soup size={32} /> REAL BREAKFAST.</span>
+        <span><Rocket size={32} fill="currentColor" /> ZERO MORNING DRAMA.</span>
       </section>
+
+      {isSubmitted && (
+        <div className={styles.successModalBackdrop}>
+          <section
+            className={styles.successModal}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="contact-confirmation-title"
+          >
+            <CheckCircle2 size={58} aria-hidden="true" />
+            <p>Message sent successfully</p>
+            <h2 id="contact-confirmation-title">Your message is confirmed.</h2>
+            <div className={styles.confirmationCopy}>
+              <MessageCircle size={19} aria-hidden="true" />
+              <span>We received your details and will get back to you soon.</span>
+            </div>
+            <button
+              type="button"
+              className={styles.doneButton}
+              onClick={() => setIsSubmitted(false)}
+              autoFocus
+            >
+              Done
+            </button>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

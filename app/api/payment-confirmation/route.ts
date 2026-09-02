@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { ACTIVBITE_PAYMENT_CONFIG, isDummyPaymentConfig } from '@/lib/payment-config';
+import { getPublicOrder } from '@/lib/server/orders';
+import { verifyPaymentOrderToken } from '@/lib/server/order-payment-token';
 
 const cleanText = (value: unknown, limit = 1000) =>
   typeof value === 'string' ? value.trim().slice(0, limit) : '';
@@ -7,7 +9,8 @@ const cleanText = (value: unknown, limit = 1000) =>
 export async function POST(request: NextRequest) {
   const payload = await request.json().catch(() => null);
 
-  const orderId = cleanText(payload?.orderId, 80);
+  const orderId = cleanText(payload?.orderId, 80).toUpperCase();
+  const paymentToken = cleanText(payload?.paymentToken, 4000);
   const paymentReference = cleanText(payload?.paymentReference, 120);
   const customerName = cleanText(payload?.customerName, 140);
   const phone = cleanText(payload?.phone, 40).replace(/\D/g, '');
@@ -15,11 +18,6 @@ export async function POST(request: NextRequest) {
   const deliveryPoint = cleanText(payload?.deliveryPoint, 120);
   const hostelBlock = cleanText(payload?.hostelBlock, 180);
   const roomOrLandmark = cleanText(payload?.roomOrLandmark, 220);
-  const packLabel = cleanText(payload?.packLabel, 80);
-  const packCount = Number(payload?.packCount) || 0;
-  const quantity = Number(payload?.quantity) || 1;
-  const total = Number(payload?.total) || 0;
-
   if (orderId.length < 4) {
     return NextResponse.json({ message: 'Order ID is missing.' }, { status: 400 });
   }
@@ -31,9 +29,23 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!total || total < 1) {
-    return NextResponse.json({ message: 'Order amount is missing.' }, { status: 400 });
+  const signedOrder = verifyPaymentOrderToken(paymentToken, orderId);
+  let savedOrder: Awaited<ReturnType<typeof getPublicOrder>> = null;
+  if (!signedOrder) {
+    try {
+      savedOrder = await getPublicOrder(orderId);
+    } catch (error) {
+      console.error('[Payment order lookup]', error instanceof Error ? error.message : String(error));
+    }
   }
+
+  const confirmedOrder = signedOrder || savedOrder;
+
+  if (!confirmedOrder || confirmedOrder.total < 1) {
+    return NextResponse.json({ message: 'The saved order could not be found.' }, { status: 404 });
+  }
+
+  const { packLabel, packCount, quantity, total } = confirmedOrder;
 
   const confirmation = {
     type: 'upi_payment_confirmation',
@@ -69,10 +81,22 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify(confirmation),
     });
+    const webhookText = await webhookResponse.text();
+    let webhookResult: { ok?: boolean; message?: string } | null = null;
 
-    if (!webhookResponse.ok) {
+    try {
+      webhookResult = JSON.parse(webhookText) as { ok?: boolean; message?: string };
+    } catch {
+      webhookResult = null;
+    }
+
+    if (!webhookResponse.ok || webhookResult?.ok !== true) {
       return NextResponse.json(
-        { message: 'Could not save the payment reference right now. Please try again.' },
+        {
+          message:
+            webhookResult?.message ||
+            'Could not save the payment reference right now. Please try again.',
+        },
         { status: 502 }
       );
     }

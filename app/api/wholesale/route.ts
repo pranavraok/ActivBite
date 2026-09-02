@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { saveWholesaleEnquiry } from '@/lib/server/wholesale-enquiries';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_PATTERN = /^[0-9]{10}$/;
@@ -7,6 +8,7 @@ const cleanText = (value: unknown) =>
   typeof value === 'string' ? value.trim().slice(0, 1000) : '';
 
 export async function POST(request: NextRequest) {
+  const startedAt = Date.now();
   const payload = await request.json().catch(() => null);
 
   const shopName = cleanText(payload?.shopName);
@@ -40,7 +42,6 @@ export async function POST(request: NextRequest) {
   }
 
   const enquiry = {
-    type: 'wholesale_enquiry',
     shopName,
     contactName,
     phone,
@@ -54,29 +55,27 @@ export async function POST(request: NextRequest) {
     createdAt: new Date().toISOString(),
   };
 
-  const webhookUrl =
-    process.env.WHOLESALE_ENQUIRY_WEBHOOK_URL || process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+  try {
+    const saved = await saveWholesaleEnquiry(enquiry);
 
-  if (webhookUrl) {
-    const sheetResponse = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(enquiry),
+    console.info('[Wholesale enquiry saved]', {
+      id: saved.id,
+      durationMs: Date.now() - startedAt,
     });
 
-    if (!sheetResponse.ok) {
-      return NextResponse.json(
-        { message: 'Could not send the enquiry right now. Please try again.' },
-        { status: 502 }
-      );
-    }
-  } else {
-    console.log('[Wholesale enquiry]', enquiry);
+    return NextResponse.json({
+      message: 'Wholesale enquiry received. The ActivBite team will contact you soon.',
+      id: saved.id,
+      storage: saved.storage,
+    });
+  } catch (error) {
+    console.error('[Wholesale enquiry Google Sheet]', {
+      durationMs: Date.now() - startedAt,
+      error: error instanceof Error ? error.message : String(error),
+    });
+    return NextResponse.json(
+      { message: 'Could not save the enquiry right now. Please try again.' },
+      { status: 500 }
+    );
   }
-
-  return NextResponse.json({
-    message: 'Wholesale enquiry received. The ActivBite team will contact you soon.',
-  });
 }

@@ -73,18 +73,33 @@ export default function PublicHeader() {
       </Link>
 
       <nav className={`${styles.nav} ${open ? styles.open : ''}`} aria-label="Main navigation">
-        {PUBLIC_NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={'highlighted' in link ? styles.shopAction : undefined}
-            aria-current={pathname === link.href ? 'page' : undefined}
-            onClick={() => setOpen(false)}
-          >
-            {'highlighted' in link && <ShoppingBag size={17} aria-hidden="true" />}
-            {link.label}
-          </Link>
-        ))}
+        {PUBLIC_NAV_LINKS.map((link) => {
+          const isCurrent =
+            link.href === '/'
+              ? pathname === '/'
+              : pathname === link.href ||
+                pathname.startsWith(`${link.href}/`) ||
+                (link.href === '/shop' && pathname === '/checkout');
+          const className = [
+            'highlighted' in link ? styles.shopAction : '',
+            isCurrent ? styles.activeLink : '',
+          ]
+            .filter(Boolean)
+            .join(' ');
+
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={className || undefined}
+              aria-current={isCurrent ? 'page' : undefined}
+              onClick={() => setOpen(false)}
+            >
+              {'highlighted' in link && <ShoppingBag size={17} aria-hidden="true" />}
+              {link.label}
+            </Link>
+          );
+        })}
       </nav>
 
       <button

@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import styles from './shop-experience.module.css';
 import PublicHeader from './public-header';
+import { isPackAvailable, type InventoryItem } from '@/lib/inventory-types';
 
 const PACKS = [
   {
@@ -78,6 +79,9 @@ export default function ShopExperience() {
   const router = useRouter();
   const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[3]);
   const [quantity, setQuantity] = useState(1);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [isLoadingInventory, setIsLoadingInventory] = useState(true);
+  const [inventoryError, setInventoryError] = useState('');
 
   useEffect(() => {
     const requestedCount = Number(new URLSearchParams(window.location.search).get('pack'));
@@ -85,7 +89,42 @@ export default function ShopExperience() {
     if (requestedPack) setSelectedPack(requestedPack);
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/inventory', { cache: 'no-store' })
+      .then(async (response) => {
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !Array.isArray(data.inventory)) {
+          throw new Error(data.message || 'Availability could not be confirmed.');
+        }
+        if (!cancelled) setInventory(data.inventory);
+      })
+      .catch((error) => {
+        if (!cancelled) setInventoryError(error instanceof Error ? error.message : 'Availability could not be confirmed.');
+      })
+      .finally(() => { if (!cancelled) setIsLoadingInventory(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  const stockFor = (packCount: number) => inventory.find((item) => item.packCount === packCount);
+  const selectedStock = stockFor(selectedPack.count);
+  const selectedAvailable = !inventoryError && isPackAvailable(selectedStock, quantity);
+  const selectedPackAvailable = !inventoryError && isPackAvailable(selectedStock, 1);
+  const maxQuantity = selectedStock?.unitsRemaining === null || selectedStock?.unitsRemaining === undefined
+    ? 10
+    : Math.max(1, Math.min(10, selectedStock.unitsRemaining));
+
+  useEffect(() => {
+    if (isLoadingInventory || inventoryError || selectedPackAvailable) return;
+    const firstAvailable = PACKS.find((pack) => isPackAvailable(stockFor(pack.count), 1));
+    if (firstAvailable) {
+      setSelectedPack(firstAvailable);
+      setQuantity(1);
+    }
+  }, [inventory, inventoryError, isLoadingInventory, selectedPackAvailable]);
+
   const handleBuyNow = () => {
+    if (!selectedAvailable || isLoadingInventory) return;
     const params = new URLSearchParams({
       pack: String(selectedPack.count),
       qty: String(quantity),
@@ -141,20 +180,34 @@ export default function ShopExperience() {
               <strong>Pick your routine</strong>
               <small>Same breakfast bar. More value as you stock up.</small>
             </div>
-            <div className={styles.inStock}><i /> In stock</div>
+            {isLoadingInventory ? (
+              <div className={styles.stockChecking}>Checking stock…</div>
+            ) : inventoryError ? (
+              <div className={styles.outOfStock}>Stock unavailable</div>
+            ) : selectedStock?.unitsRemaining === 0 ? (
+              <div className={styles.outOfStock}>Currently out of stock</div>
+            ) : selectedStock?.status === 'low_stock' ? (
+              <div className={styles.lowStock}><i /> Only {selectedStock.unitsRemaining} left</div>
+            ) : (
+              <div className={styles.inStock}><i /> In stock</div>
+            )}
           </div>
 
           <div className={styles.packOptions} role="radiogroup" aria-label="Select pack size">
             {PACKS.map((pack) => {
               const selected = pack.count === selectedPack.count;
+              const packStock = stockFor(pack.count);
+              const available = isPackAvailable(packStock, 1);
               return (
                 <button
                   key={pack.count}
                   type="button"
                   role="radio"
                   aria-checked={selected}
-                  className={`${selected ? styles.selectedPack : ''} ${pack.discount === 0 ? styles.compactPack : ''}`}
-                  onClick={() => setSelectedPack(pack)}
+                  disabled={!available}
+                  aria-disabled={!available}
+                  className={`${selected ? styles.selectedPack : ''} ${pack.discount === 0 ? styles.compactPack : ''} ${!available ? styles.soldOutPack : ''}`}
+                  onClick={() => { setSelectedPack(pack); setQuantity(1); }}
                 >
                   {pack.badge && (
                     <em className={pack.popular ? styles.bestDeal : undefined}>
@@ -165,6 +218,7 @@ export default function ShopExperience() {
                   <span className={styles.packCopy}>
                     <strong>{pack.label}</strong>
                     <small>{pack.count} bars · {pack.note}</small>
+                    {!available && <span className={styles.soldOutLabel}>Currently out of stock</span>}
                     {pack.discount > 0 ? (
                       <span className={styles.offerLine}>
                         <s>{formatPrice(pack.mrp)}</s>
@@ -194,7 +248,8 @@ export default function ShopExperience() {
               <span>{quantity}</span>
               <button
                 type="button"
-                onClick={() => setQuantity((value) => Math.min(10, value + 1))}
+                onClick={() => setQuantity((value) => Math.min(maxQuantity, value + 1))}
+                disabled={!selectedPackAvailable || quantity >= maxQuantity}
                 aria-label="Increase quantity"
               >
                 <Plus size={17} />
@@ -210,9 +265,13 @@ export default function ShopExperience() {
             type="button"
             className={styles.buyNow}
             onClick={handleBuyNow}
+            disabled={isLoadingInventory || !selectedAvailable}
           >
-            Purchase now <ArrowRight size={20} />
+            {!selectedPackAvailable ? 'Currently out of stock' : inventoryError ? 'Stock unavailable' : 'Purchase now'}
+            {selectedPackAvailable && !inventoryError && <ArrowRight size={20} />}
           </button>
+
+          {inventoryError && <p className={styles.inventoryError}>{inventoryError} Please refresh and try again.</p>}
 
           <div className={styles.reassurance}>
             <span><Truck size={17} /> Free delivery on your campus</span>

@@ -3,7 +3,7 @@ export const PUBLIC_NAV_LINKS = [
   { href: '/about', label: 'About Us' },
   { href: '/wholesale', label: 'Wholesale' },
   { href: '/contact', label: 'Contact' },
-  { href: '/order-status', label: 'Track Order' },
   { href: '/faq', label: 'FAQ' },
+  { href: '/order-status', label: 'Track Order' },
   { href: '/shop', label: 'Shop', highlighted: true },
 ] as const;
