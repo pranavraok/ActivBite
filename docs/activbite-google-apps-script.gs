@@ -6,6 +6,22 @@ const ORDERS_SHEET = 'Orders';
 const INVENTORY_SHEET = 'Inventory';
 const INVENTORY_MOVEMENTS_SHEET = 'Inventory Movements';
 const REPORTS_SHEET = 'Reports';
+const MANAGEMENT_SPREADSHEET_ID = '1LWCfQAnhINz48MmN9SgWv5HLK03RHA_hFltrQS-p6kw';
+
+const MANAGEMENT_DEFINITIONS = {
+  products: { title: 'Products', sheetName: 'Products', headerRow: 3, editable: true, idHeader: 'Product ID', idPrefix: 'SKU-' },
+  raw_material_inventory: { title: 'Raw Material Inventory', sheetName: 'Raw Material Inventory', headerRow: 1, editable: false },
+  purchases: { title: 'Purchases', sheetName: 'Purchases', headerRow: 1, editable: true, idHeader: 'Purchase ID', idPrefix: 'PUR' },
+  sales: { title: 'Sales', sheetName: 'Sales', headerRow: 1, editable: true, idHeader: 'Invoice Number', idPrefix: 'INV' },
+  customers: { title: 'Customers', sheetName: 'Customers', headerRow: 3, editable: true, idHeader: 'Customer ID', idPrefix: 'CUST' },
+  suppliers: { title: 'Suppliers', sheetName: 'Suppliers', headerRow: 1, editable: true, idHeader: 'Supplier ID', idPrefix: 'SUP' },
+  payments_received: { title: 'Payments Received', sheetName: 'Payments Received', headerRow: 1, editable: true, idHeader: 'Payment ID', idPrefix: 'PR' },
+  payments_made: { title: 'Payments Made', sheetName: 'Payments Made', headerRow: 1, editable: true, idHeader: 'Payment ID', idPrefix: 'PM' },
+  expenses: { title: 'Expenses', sheetName: 'Expenses', headerRow: 1, editable: true, idHeader: 'Expense ID', idPrefix: 'EX' },
+  finished_goods_inventory: { title: 'Finished Goods Inventory', sheetName: 'Finished Goods Inventory', headerRow: 1, editable: false },
+  production_batches: { title: 'Production Batches', sheetName: 'Production Batches', headerRow: 1, editable: true, idHeader: 'Batch Number', idPrefix: 'BATCH' },
+  batch_traceability: { title: 'Batch Traceability', sheetName: 'Batch Traceability', headerRow: 1, editable: true },
+};
 
 const WHOLESALE_HEADERS = [
   'Submission ID',
@@ -81,6 +97,8 @@ function doPost(e) {
     if (payload.type === 'admin_update_inventory') return updateInventory_(payload);
     if (payload.type === 'admin_upload_report') return saveReport_(payload);
     if (payload.type === 'admin_delete_report') return deleteReport_(payload);
+    if (payload.type === 'admin_add_management_record') return addManagementRecord_(payload);
+    if (payload.type === 'admin_update_management_record') return updateManagementRecord_(payload);
 
     return saveWaitlistEntry_(payload);
   } catch (error) {
@@ -99,7 +117,8 @@ function doGet(e) {
       action !== 'waitlist_entries' &&
       action !== 'contact_enquiries' &&
       action !== 'orders' &&
-      action !== 'reports'
+      action !== 'reports' &&
+      action !== 'management_data'
     ) {
       return json_({ ok: false, message: 'Unknown request.' });
     }
@@ -115,6 +134,7 @@ function doGet(e) {
     if (action === 'contact_enquiries') return readContactEnquiries_();
     if (action === 'orders') return readOrders_();
     if (action === 'reports') return readReports_();
+    if (action === 'management_data') return readManagementData_();
 
     return readWholesaleEnquiries_();
   } catch (error) {
@@ -373,6 +393,7 @@ function updateOrderStatus_(payload) {
 
   if (status === 'confirmed') {
     adjustInventoryForOrder_(trackingId, Number(orderRow[12]), Number(orderRow[13]), 'Order confirmed — stock deducted');
+    syncOrderToManagement_(trackingId, orderRow);
   } else if (status === 'cancelled') {
     adjustInventoryForOrder_(trackingId, Number(orderRow[12]), Number(orderRow[13]), 'Order cancelled — stock restored');
   }
@@ -653,6 +674,206 @@ function deleteReport_(payload) {
   }
   sheet.deleteRow(index + 2);
   return json_({ ok: true });
+}
+
+function managementSpreadsheet_() {
+  return SpreadsheetApp.openById(MANAGEMENT_SPREADSHEET_ID);
+}
+
+function managementSheet_(definition) {
+  const sheet = managementSpreadsheet_().getSheetByName(definition.sheetName);
+  if (!sheet) throw new Error('Management sheet not found: ' + definition.sheetName);
+  return sheet;
+}
+
+function managementHeaders_(sheet, definition) {
+  const lastColumn = sheet.getLastColumn();
+  if (!lastColumn) return [];
+  return sheet.getRange(definition.headerRow, 1, 1, lastColumn)
+    .getDisplayValues()[0]
+    .map(clean_)
+    .filter(Boolean);
+}
+
+function readManagementData_() {
+  const datasets = Object.keys(MANAGEMENT_DEFINITIONS).map(function (key) {
+    const definition = MANAGEMENT_DEFINITIONS[key];
+    const sheet = managementSheet_(definition);
+    const headers = managementHeaders_(sheet, definition);
+    const startRow = definition.headerRow + 1;
+    const lastRow = sheet.getLastRow();
+    let rows = [];
+    let rowNumbers = [];
+    if (headers.length && lastRow >= startRow) {
+      sheet.getRange(startRow, 1, Math.min(lastRow - startRow + 1, 1000), headers.length)
+        .getDisplayValues()
+        .forEach(function (row, index) {
+          if (row.some(function (cell) { return clean_(cell); })) {
+            rows.push(row);
+            rowNumbers.push(startRow + index);
+          }
+        });
+    }
+    return { key: key, title: definition.title, headers: headers, rows: rows, rowNumbers: rowNumbers, editable: definition.editable };
+  });
+  return json_({ ok: true, datasets: datasets });
+}
+
+function nextManagementId_(sheet, definition) {
+  const startRow = definition.headerRow + 1;
+  const rowCount = Math.max(0, sheet.getLastRow() - definition.headerRow);
+  const values = rowCount ? sheet.getRange(startRow, 1, rowCount, 1).getDisplayValues().flat() : [];
+  const prefix = definition.idPrefix || '';
+  const highest = values.reduce(function (max, value) {
+    const match = clean_(value).match(/(\d+)$/);
+    return match ? Math.max(max, Number(match[1]) || 0) : max;
+  }, 0);
+  return prefix + String(highest + 1).padStart(3, '0');
+}
+
+function firstEmptyManagementRow_(sheet, definition) {
+  const startRow = definition.headerRow + 1;
+  const available = Math.max(1, sheet.getMaxRows() - definition.headerRow);
+  const values = sheet.getRange(startRow, 1, available, 1).getDisplayValues();
+  for (let index = 0; index < values.length; index += 1) {
+    if (!clean_(values[index][0])) return startRow + index;
+  }
+  sheet.insertRowAfter(sheet.getMaxRows());
+  return sheet.getMaxRows();
+}
+
+function managementCellValue_(header, rawValue) {
+  const value = clean_(rawValue);
+  if (!value) return '';
+  if (/Date$/i.test(header) && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return new Date(value + 'T00:00:00');
+  }
+  if (/Quantity|Price|Cost|Amount|Stock|Level|Produced|Used \(g\)$/i.test(header) && isFinite(Number(value))) {
+    return Number(value);
+  }
+  return safeCell_(value);
+}
+
+function applyManagementFormulas_(datasetKey, sheet, rowNumber, headers, providedValues) {
+  const column = function (header) { return headers.indexOf(header) + 1; };
+  const formula = function (header, value) {
+    const columnNumber = column(header);
+    if (columnNumber > 0) sheet.getRange(rowNumber, columnNumber).setFormula(value);
+  };
+
+  if (datasetKey === 'purchases') {
+    if (!clean_(providedValues['Cost Price'])) formula('Cost Price', '=IF(D' + rowNumber + '="",,XLOOKUP(D' + rowNumber + ',Products!B:B,Products!E:E,0))');
+    formula('Total Cost', '=IF(E' + rowNumber + '="",,E' + rowNumber + '*F' + rowNumber + ')');
+  }
+  if (datasetKey === 'sales') {
+    if (!clean_(providedValues['Selling Price'])) formula('Selling Price', '=IF(D' + rowNumber + '="",,XLOOKUP(D' + rowNumber + ',Products!B:B,Products!F:F,0))');
+    formula('Total Amount', '=IF(E' + rowNumber + '="",,E' + rowNumber + '*F' + rowNumber + ')');
+    if (!clean_(providedValues['Due Date'])) formula('Due Date', '=IF(B' + rowNumber + '="",,B' + rowNumber + '+Settings!B6)');
+  }
+  if (datasetKey === 'suppliers') {
+    formula('Outstanding Payable', '=IF(A' + rowNumber + '="",,SUMIFS(Purchases!G:G,Purchases!C:C,B' + rowNumber + ')-SUMIFS(\'Payments Made\'!E:E,\'Payments Made\'!C:C,B' + rowNumber + '))');
+    formula('Last Payment Date', '=IF(A' + rowNumber + '="",,MAXIFS(\'Payments Made\'!B:B,\'Payments Made\'!C:C,B' + rowNumber + '))');
+  }
+}
+
+function appendManagementRecord_(datasetKey, values) {
+  const definition = MANAGEMENT_DEFINITIONS[datasetKey];
+  if (!definition || !definition.editable) throw new Error('This management view is read-only.');
+  const sheet = managementSheet_(definition);
+  const headers = managementHeaders_(sheet, definition);
+  if (!headers.length) throw new Error('The management sheet has no headers.');
+  const rowNumber = firstEmptyManagementRow_(sheet, definition);
+  const target = sheet.getRange(rowNumber, 1, 1, headers.length);
+  const templateRow = Math.max(definition.headerRow + 1, rowNumber - 1);
+  if (templateRow !== rowNumber) {
+    const template = sheet.getRange(templateRow, 1, 1, headers.length);
+    template.copyTo(target, SpreadsheetApp.CopyPasteType.PASTE_FORMAT, false);
+    template.copyTo(target, SpreadsheetApp.CopyPasteType.PASTE_DATA_VALIDATION, false);
+  }
+  const normalized = Object.assign({}, values || {});
+  if (definition.idHeader && !clean_(normalized[definition.idHeader])) {
+    normalized[definition.idHeader] = nextManagementId_(sheet, definition);
+  }
+  const row = headers.map(function (header) { return managementCellValue_(header, normalized[header]); });
+  target.setValues([row]);
+  applyManagementFormulas_(datasetKey, sheet, rowNumber, headers, normalized);
+  SpreadsheetApp.flush();
+  return sheet.getRange(rowNumber, 1, 1, headers.length).getDisplayValues()[0];
+}
+
+function addManagementRecord_(payload) {
+  requireAdmin_(payload.secret);
+  const datasetKey = clean_(payload.dataset);
+  const row = appendManagementRecord_(datasetKey, payload.values || {});
+  return json_({ ok: true, dataset: datasetKey, row: row });
+}
+
+function updateManagementRecord_(payload) {
+  requireAdmin_(payload.secret);
+  const datasetKey = clean_(payload.dataset);
+  const definition = MANAGEMENT_DEFINITIONS[datasetKey];
+  const rowNumber = Number(payload.rowNumber);
+  if (!definition || !definition.editable) throw new Error('This management view is read-only.');
+  const sheet = managementSheet_(definition);
+  if (!Number.isInteger(rowNumber) || rowNumber <= definition.headerRow || rowNumber > sheet.getLastRow()) {
+    throw new Error('The selected spreadsheet row is not valid.');
+  }
+  const headers = managementHeaders_(sheet, definition);
+  const normalized = Object.assign({}, payload.values || {});
+  headers.forEach(function (header, index) {
+    if (header === definition.idHeader || !Object.prototype.hasOwnProperty.call(normalized, header)) return;
+    sheet.getRange(rowNumber, index + 1).setValue(managementCellValue_(header, normalized[header]));
+  });
+  applyManagementFormulas_(datasetKey, sheet, rowNumber, headers, normalized);
+  SpreadsheetApp.flush();
+  return json_({
+    ok: true,
+    dataset: datasetKey,
+    rowNumber: rowNumber,
+    row: sheet.getRange(rowNumber, 1, 1, headers.length).getDisplayValues()[0]
+  });
+}
+
+function syncOrderToManagement_(trackingId, orderRow) {
+  const salesDefinition = MANAGEMENT_DEFINITIONS.sales;
+  const salesSheet = managementSheet_(salesDefinition);
+  if (salesSheet.getLastRow() > salesDefinition.headerRow) {
+    const existing = salesSheet.getRange(salesDefinition.headerRow + 1, 1, salesSheet.getLastRow() - salesDefinition.headerRow, 1)
+      .createTextFinder(trackingId).matchEntireCell(true).findNext();
+    if (existing) return;
+  }
+
+  const customerName = clean_(orderRow[5]) || 'Website customer';
+  const contactInfo = [clean_(orderRow[6]), clean_(orderRow[7])].filter(Boolean).join(' / ');
+  const customersDefinition = MANAGEMENT_DEFINITIONS.customers;
+  const customersSheet = managementSheet_(customersDefinition);
+  const customerNames = customersSheet.getLastRow() > customersDefinition.headerRow
+    ? customersSheet.getRange(customersDefinition.headerRow + 1, 2, customersSheet.getLastRow() - customersDefinition.headerRow, 1).getDisplayValues().flat()
+    : [];
+  if (customerNames.indexOf(customerName) === -1) {
+    appendManagementRecord_('customers', {
+      'Customer Name / Location': customerName,
+      'Sales Channel': 'Online',
+      'Preferred Pack Size': Number(orderRow[12]) + ' Pack',
+      'Contact Info': contactInfo,
+      'Campus Details': clean_(orderRow[8]),
+      'Status': 'Active',
+      'Notes': 'Created automatically from website order ' + trackingId,
+    });
+  }
+
+  const bars = Math.max(1, Number(orderRow[12]) || 1) * Math.max(1, Number(orderRow[13]) || 1);
+  const total = Math.max(0, Number(orderRow[14]) || 0);
+  appendManagementRecord_('sales', {
+    'Invoice Number': trackingId,
+    'Date': Utilities.formatDate(new Date(), Session.getScriptTimeZone(), 'yyyy-MM-dd'),
+    'Customer': customerName,
+    'Product': 'ActivBite Balanced Breakfast Bar Original',
+    'Quantity': bars,
+    'Selling Price': bars ? total / bars : total,
+    'Payment Type (Cash/Credit)': 'Cash',
+    'Notes': 'Website order; ' + clean_(orderRow[11]) + ' × ' + Math.max(1, Number(orderRow[13]) || 1),
+  });
 }
 
 function getSheet_(name, headers) {

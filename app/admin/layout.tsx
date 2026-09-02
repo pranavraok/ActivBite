@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import {
   ArrowUpRight,
   BarChart3,
+  ClipboardList,
   FileText,
   LogOut,
   Mail,
@@ -18,6 +19,7 @@ const adminNavigation = [
   { href: '/admin', label: 'Dashboard', icon: BarChart3 },
   { href: '/admin/orders', label: 'Orders', icon: Package },
   { href: '/admin/products', label: 'Products', icon: Package },
+  { href: '/admin/operations', label: 'Business Operations', icon: ClipboardList },
   { href: '/admin/waitlist', label: 'Waitlist Emails', icon: Users },
   { href: '/admin/wholesale', label: 'Wholesale Enquiries', icon: Mail },
   { href: '/admin/contact-enquiries', label: 'Contact Forms', icon: Mail },
