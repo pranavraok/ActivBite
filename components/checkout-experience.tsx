@@ -129,7 +129,8 @@ export default function CheckoutExperience() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const selectedPack = useMemo(() => {
-    const packCount = Number(searchParams.get('pack'));
+    const firstCartCount = Number((searchParams.get('items') || '').split(',')[0]?.split(':')[0]);
+    const packCount = firstCartCount || Number(searchParams.get('pack'));
     return PACKS.find((pack) => pack.count === packCount) || PACKS[3];
   }, [searchParams]);
 
@@ -138,7 +139,19 @@ export default function CheckoutExperience() {
     [searchParams]
   );
 
-  const total = selectedPack.price * quantity;
+  const cartItems = useMemo(() => {
+    const parsed = (searchParams.get('items') || '').split(',').map((entry) => {
+      const [countText, quantityText] = entry.split(':');
+      const pack = PACKS.find((candidate) => candidate.count === Number(countText));
+      const itemQuantity = clampQuantity(Number(quantityText));
+      return pack ? { pack, quantity: itemQuantity } : null;
+    }).filter((item): item is { pack: (typeof PACKS)[number]; quantity: number } => Boolean(item));
+    return parsed.length ? parsed : [{ pack: selectedPack, quantity }];
+  }, [quantity, searchParams, selectedPack]);
+
+  const total = cartItems.reduce((sum, item) => sum + item.pack.price * item.quantity, 0);
+  const totalMrp = cartItems.reduce((sum, item) => sum + item.pack.mrp * item.quantity, 0);
+  const totalPacks = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const updateField = <Field extends keyof CheckoutForm>(
     field: Field,
@@ -208,8 +221,7 @@ export default function CheckoutExperience() {
           deliveryPoint: form.deliveryPoint,
           hostelBlock: form.hostelBlock.trim(),
           roomOrLandmark: form.roomOrLandmark.trim(),
-          packCount: selectedPack.count,
-          quantity,
+          items: cartItems.map(({ pack, quantity: itemQuantity }) => ({ packCount: pack.count, quantity: itemQuantity })),
         }),
       });
       const data = await response.json().catch(() => ({}));
@@ -231,7 +243,7 @@ export default function CheckoutExperience() {
         paymentToken: data.paymentToken,
         packCount: Number(data.order.packCount),
         packLabel: String(data.order.packLabel),
-        packNote: selectedPack.note,
+        packNote: cartItems.length > 1 ? `${totalPacks} mixed packs` : selectedPack.note,
         quantity: Number(data.order.quantity),
         total: Number(data.order.total),
         customerName: form.fullName.trim(),
@@ -419,35 +431,33 @@ export default function CheckoutExperience() {
 
               <div className={styles.summaryCopy}>
                 <span>Breakfast ticket</span>
-                <h2>{selectedPack.label}</h2>
-                <p>Pack of {selectedPack.count} - {selectedPack.note}</p>
+                <h2>{cartItems.length > 1 ? 'Mixed breakfast stack' : selectedPack.label}</h2>
+                <p>{cartItems.map(({ pack, quantity: itemQuantity }) => `${pack.label} × ${itemQuantity}`).join(' · ')}</p>
                 <small className={styles.summaryOffer}>
-                  {selectedPack.discount > 0
-                    ? `You save ${formatPrice(selectedPack.discount)} on this pack`
-                    : 'No offer on this mini pack'}
+                  {totalMrp > total ? `You save ${formatPrice(totalMrp - total)} on this stack` : 'Straightforward pack pricing'}
                 </small>
               </div>
 
               <div className={styles.summaryRows}>
-                {selectedPack.discount > 0 && (
+                {totalMrp > total && (
                   <>
                     <div>
                       <span>MRP</span>
-                      <strong>{formatPrice(selectedPack.mrp)}</strong>
+                      <strong>{formatPrice(totalMrp)}</strong>
                     </div>
                     <div className={styles.discountRow}>
                       <span>Offer</span>
-                      <strong>-{formatPrice(selectedPack.discount)}</strong>
+                      <strong>-{formatPrice(totalMrp - total)}</strong>
                     </div>
                   </>
                 )}
                 <div>
-                  <span>Pack</span>
-                  <strong>{formatPrice(selectedPack.price)}</strong>
+                  <span>Stack</span>
+                  <strong>{cartItems.length} {cartItems.length === 1 ? 'pack size' : 'pack sizes'}</strong>
                 </div>
                 <div>
                   <span>Qty</span>
-                  <strong>{quantity}</strong>
+                  <strong>{totalPacks}</strong>
                 </div>
                 <div>
                   <span>Delivery</span>

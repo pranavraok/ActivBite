@@ -183,6 +183,7 @@ export default function OrderStatusExperience() {
     return PACKS.find((pack) => pack.count === packCount) || PACKS[3];
   }, [confirmedPaymentOrder]);
   const quantity = confirmedPaymentOrder?.quantity || 1;
+  const displayPackLabel = confirmedPaymentOrder?.packLabel || selectedPack.label;
   const total = confirmedPaymentOrder?.total || 0;
   const customerName = searchParams.get('name') || storedOrder?.customerName || 'Breakfast legend';
   const deliveryPoint = storedOrder
@@ -192,9 +193,9 @@ export default function OrderStatusExperience() {
     () => buildUpiPaymentUri({
       amount: total,
       orderId: checkoutOrderId,
-      note: `ActivBite ${checkoutOrderId} - ${selectedPack.label} x${quantity}`,
+      note: `ActivBite ${checkoutOrderId} - ${displayPackLabel}`,
     }),
-    [checkoutOrderId, quantity, selectedPack.label, total]
+    [checkoutOrderId, displayPackLabel, total]
   );
 
   useEffect(() => {
@@ -289,7 +290,7 @@ export default function OrderStatusExperience() {
               </button>
             </div>
             <div className={styles.orderFacts}>
-              <div><span>Pack</span><strong>{selectedPack.label} × {quantity}</strong></div>
+              <div><span>Your stack</span><strong>{displayPackLabel}</strong></div>
               <div><span>Total</span><strong>{confirmedPaymentOrder ? formatPrice(total) : 'Checking…'}</strong></div>
               <div><span>Drop point</span><strong>{deliveryPoint}</strong></div>
             </div>

@@ -15,6 +15,8 @@ const PACKS = {
   20: { label: 'Routine Pack', price: 825 },
   30: { label: 'Power Pack', price: 1149 },
 } as const;
+type PackCount = keyof typeof PACKS;
+type CartItem = { packCount: PackCount; quantity: number };
 
 const cleanText = (value: unknown, limit = 1000) =>
   typeof value === 'string' ? value.trim().slice(0, limit) : '';
@@ -32,9 +34,13 @@ export async function POST(request: NextRequest) {
   const deliveryPoint = cleanText(payload?.deliveryPoint, 120);
   const hostelBlock = cleanText(payload?.hostelBlock, 180);
   const roomOrLandmark = cleanText(payload?.roomOrLandmark, 220);
-  const packCount = Number(payload?.packCount) as keyof typeof PACKS;
-  const quantity = Number(payload?.quantity);
-  const pack = PACKS[packCount];
+  const requestedItems: unknown[] = Array.isArray(payload?.items)
+    ? payload.items
+    : [{ packCount: payload?.packCount, quantity: payload?.quantity }];
+  const items: CartItem[] = requestedItems.map((rawItem) => {
+    const item = (rawItem && typeof rawItem === 'object' ? rawItem : {}) as { packCount?: unknown; quantity?: unknown };
+    return { packCount: Number(item.packCount) as PackCount, quantity: Number(item.quantity) };
+  });
 
   if (customerName.length < 2) {
     return NextResponse.json({ message: 'Please enter the customer name.' }, { status: 400 });
@@ -48,16 +54,26 @@ export async function POST(request: NextRequest) {
   if (!deliveryPoint || hostelBlock.length < 2 || roomOrLandmark.length < 2) {
     return NextResponse.json({ message: 'Please complete the delivery details.' }, { status: 400 });
   }
-  if (!pack || !Number.isInteger(quantity) || quantity < 1 || quantity > 10) {
+  if (
+    items.length < 1 || items.length > 4 ||
+    items.some((item) => !PACKS[item.packCount] || !Number.isInteger(item.quantity) || item.quantity < 1 || item.quantity > 10) ||
+    new Set(items.map((item) => item.packCount)).size !== items.length
+  ) {
     return NextResponse.json({ message: 'The selected pack or quantity is invalid.' }, { status: 400 });
   }
 
+  const packLabel = items.map((item) => `${PACKS[item.packCount].label} × ${item.quantity}`).join(' + ');
+  const total = items.reduce((sum, item) => sum + PACKS[item.packCount].price * item.quantity, 0);
+  const storedPackCount = items.length === 1 ? items[0].packCount : 0;
+  const storedQuantity = items.length === 1 ? items[0].quantity : 1;
+  const source = `ActivBite checkout | Cart: ${items.map((item) => `${item.packCount}x${item.quantity}`).join(',')}`;
+
   try {
     const inventory = await listInventory();
-    const inventoryItem = inventory.find((item) => item.packCount === packCount);
-    if (!isPackAvailable(inventoryItem, quantity)) {
+    const unavailableItem = items.find((item) => !isPackAvailable(inventory.find((stock) => stock.packCount === item.packCount), item.quantity));
+    if (unavailableItem) {
       return NextResponse.json(
-        { message: `${pack.label} is currently out of stock. Please choose another pack.` },
+        { message: `${PACKS[unavailableItem.packCount].label} does not have enough stock for this order.` },
         { status: 409 }
       );
     }
@@ -75,11 +91,11 @@ export async function POST(request: NextRequest) {
           deliveryPoint,
           hostelBlock,
           roomOrLandmark,
-          packLabel: pack.label,
-          packCount,
-          quantity,
-          total: pack.price * quantity,
-          source: 'ActivBite checkout',
+          packLabel,
+          packCount: storedPackCount,
+          quantity: storedQuantity,
+          total,
+          source,
           createdAt: new Date().toISOString(),
         });
       } catch (error) {
@@ -92,10 +108,10 @@ export async function POST(request: NextRequest) {
 
     const order = {
       trackingId: saved.trackingId,
-      packLabel: pack.label,
-      packCount,
-      quantity,
-      total: pack.price * quantity,
+      packLabel,
+      packCount: storedPackCount,
+      quantity: storedQuantity,
+      total,
     };
 
     return NextResponse.json({

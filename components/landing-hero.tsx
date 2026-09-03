@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Backpack, Check, CircleHelp, CreditCard, Crown, MapPin, Menu, PackageCheck, ShoppingBag, ShoppingCart, Sparkles, Store, Utensils, X, Zap } from 'lucide-react';
+import { ArrowRight, Backpack, BicepsFlexed, Check, CircleHelp, CreditCard, Crown, Leaf, Mail, MapPin, Menu, PackageCheck, ShoppingBag, ShoppingCart, Sparkles, Store, Utensils, X, Zap } from 'lucide-react';
 import { CSSProperties, PointerEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { PUBLIC_NAV_LINKS } from '@/lib/public-navigation';
 import styles from './landing-hero.module.css';
 
-const heroTitle = 'BREAKFAST BAR'.split('');
+const heroTitle = 'MORNING FUEL'.split('');
 
 const heroRainIngredients = [
   { src: '/PNG/OAT.png', x: '2.5%', size: '30px', delay: '-1.2s', duration: '8.4s', drift: '18px', rotate: '210deg' },
@@ -481,7 +481,7 @@ export default function LandingHero() {
         ))}
       </div>
       <section className={styles.intro}>
-        <h1 aria-label="Breakfast Bar">{heroTitle.map((letter, index) => <span key={`${letter}-${index}`}>{letter === ' ' ? '\u00A0' : letter}</span>)}</h1>
+        <h1 aria-label="Morning Fuel">{heroTitle.map((letter, index) => <span key={`${letter}-${index}`}>{letter === ' ' ? '\u00A0' : letter}</span>)}</h1>
       </section>
 
       <div className={styles.foodScene} id="ingredients" aria-hidden="true">
@@ -663,7 +663,7 @@ export default function LandingHero() {
         <section ref={powerFinaleRef} data-nav-theme="dark" className={styles.powerUpChapter} aria-label="ActivBite fully fuelled">
         </section>
 
-        <SectionTicker items={tickerCopy.powered} order={8} />
+        <SectionTicker items={tickerCopy.powered} order={10} />
 
         <section data-nav-theme="light" className={`${styles.packFinale} ${shopVisible > .8 && finaleProgress > .8 ? styles.packFinaleReady : ''}`} aria-labelledby="pack-finale-title">
           <div className={styles.powerFinale} aria-hidden="true">
@@ -703,7 +703,7 @@ export default function LandingHero() {
           </Link>
         </section>
 
-        <SectionTicker items={tickerCopy.shop} order={10} />
+        <SectionTicker items={tickerCopy.shop} order={4} />
 
         <section
           data-nav-theme="light"
@@ -711,11 +711,15 @@ export default function LandingHero() {
         >
           <div className={styles.panelCopy}>
             <h2>One bar.<br /><em>Real breakfast energy.</em></h2>
-            <p>ActivBite Breakfast Bar is built with familiar ingredients like oats, peanuts, dates, poha, jaggery, elaichi, and chocolate—made for students who need something quick, filling, and easy to carry.</p>
+            <p>ActivBite is built with familiar ingredients like oats, peanuts, sattu, dates, poha, jaggery, elaichi, and chocolate—made for students who need something quick, filling, and easy to carry.</p>
             <p className={styles.supportingCopy}>It brings the comfort of a familiar Indian breakfast into a format that fits between an early lecture, a packed commute, or a morning when there is simply no time to sit down.</p>
             <Link className={styles.panelButton} href="/shop" onClick={hideJourneyBeforeRouteChange}>Explore packs <ArrowRight size={19} /></Link>
           </div>
-          <div className={styles.nutritionStamp}><b>300</b><span>kcal</span><i>9.3g protein</i><i>6.5g fibre</i></div>
+          <div className={styles.nutritionCards} aria-label="Nutrition highlights">
+            <div><Zap /><b>300</b><span>kcal</span></div>
+            <div><BicepsFlexed /><b>9.3g</b><span>protein</span></div>
+            <div><Leaf /><b>6.5g</b><span>fibre</span></div>
+          </div>
         </section>
 
         <SectionTicker items={tickerCopy.intro} order={2} />
@@ -732,22 +736,22 @@ export default function LandingHero() {
           <div className={styles.benefitGrid}>
             <article><Utensils /><b>Quick to eat</b><p>Open, bite, and move. No plate, preparation, washing up, or extra morning planning.</p></article>
             <article><Backpack /><b>Campus friendly</b><p>Made to travel easily from hostel to class, library, lab, gym, or the road home.</p></article>
-            <article><Sparkles /><b>Familiar ingredients</b><p>A recognisable mix of oats, peanuts, dates, jaggery, poha, elaichi, and chocolate.</p></article>
+            <article><Sparkles /><b>Familiar ingredients</b><p>Peanuts, sattu, and oats form the protein-forward core, rounded out with familiar Indian flavours.</p></article>
             <article><Zap /><b>A substantial bite</b><p>Each bar provides 300 kcal, with 9.3g protein and 6.5g fibre for a more satisfying breakfast.</p></article>
           </div>
         </section>
 
-        <SectionTicker items={tickerCopy.why} order={4} />
+        <SectionTicker items={tickerCopy.why} order={6} />
 
         <section
           data-nav-theme="dark"
           className={`${styles.journeyPanel} ${styles.howPanel}`}
         >
-          <div className={styles.panelHeading}><span>How it works</span><h2>Order in<br /><em>3 easy steps.</em></h2><p className={styles.sectionLead}>Choose the quantity that fits your routine, share your campus delivery details, and complete payment securely. We keep the process short from first click to final confirmation.</p></div>
+          <div className={styles.panelHeading}><span>How it works</span><h2>Order. Pay.<br /><em>Track.</em></h2><p className={styles.sectionLead}>Three quick moves from choosing your packs to receiving your tracking ID.</p></div>
           <div className={styles.stepsJourney}>
-            <article><i>01</i><PackageCheck /><b>Choose your pack</b><p>Pick 5, 10, 20, or 30 bars depending on whether you are trying ActivBite or stocking your routine.</p></article>
-            <article><i>02</i><MapPin /><b>Add delivery details</b><p>Share your name, contact details, and the most convenient delivery point inside NITK campus.</p></article>
-            <article><i>03</i><CreditCard /><b>Pay and relax</b><p>Complete payment using the UPI QR, submit the transaction ID, and keep your confirmation handy.</p></article>
+            <article><i>01</i><PackageCheck /><b>Build your stack</b><p>Mix any pack sizes you need.</p></article>
+            <article><i>02</i><MapPin /><b>Add delivery details</b><p>Tell us where to meet you on campus.</p></article>
+            <article><i>03</i><CreditCard /><b>Pay and track</b><p>Confirm UPI payment and follow your order.</p></article>
           </div>
         </section>
 
@@ -832,14 +836,20 @@ export default function LandingHero() {
           <nav className={styles.footerNav} aria-label="Footer navigation">
             <Link href="/shop" onClick={hideJourneyBeforeRouteChange}>Shop</Link>
             <Link href="/about">About</Link>
+            <Link href="/wholesale">Wholesale</Link>
             <Link href="/faq">FAQ</Link>
             <Link href="/contact">Contact</Link>
             <Link href="/order-status">Track order</Link>
-            <a href="https://www.instagram.com/activbite/" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="https://in.linkedin.com/in/shaunwin-royce" target="_blank" rel="noreferrer">LinkedIn</a>
           </nav>
+          <aside className={styles.footerSocialBlock} aria-label="ActivBite social profiles">
+            <span>Follow ActivBite</span>
+            <div className={styles.footerSocials}>
+              <a href="https://www.instagram.com/activbite/" target="_blank" rel="noreferrer" aria-label="ActivBite on Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2.2"/><circle cx="12" cy="12" r="4.1" fill="none" stroke="currentColor" strokeWidth="2.2"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor"/></svg><b>Instagram</b></a>
+              <a href="https://in.linkedin.com/in/shaunwin-royce" target="_blank" rel="noreferrer" aria-label="ActivBite on LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="2.5" fill="currentColor"/><circle cx="7" cy="8" r="1.35" fill="#2d1b10"/><path d="M5.8 10.2h2.4V18H5.8zm4.1 0h2.3v1.05c.65-.82 1.55-1.34 2.8-1.34 2.25 0 3.2 1.47 3.2 3.86V18h-2.45v-3.73c0-1.12-.22-2.16-1.57-2.16-1.5 0-1.83 1.13-1.83 2.72V18H9.9z" fill="#2d1b10"/></svg><b>LinkedIn</b></a>
+            </div>
+          </aside>
           <div className={styles.footerBottom}>
-            <a href="mailto:support@activbite.com">support@activbite.com</a>
+            <a className={styles.footerContact} href="mailto:support@activbite.com"><Mail /><span><small>Questions or order help?</small><strong>support@activbite.com</strong></span></a>
             <div><Link href="/terms">Terms</Link><Link href="/privacy-policy">Privacy</Link></div>
             <small>© 2026 ActivBite · Made for mornings that move.</small>
           </div>

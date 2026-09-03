@@ -78,7 +78,7 @@ const formatPrice = (price: number) =>
 export default function ShopExperience() {
   const router = useRouter();
   const [selectedPack, setSelectedPack] = useState<(typeof PACKS)[number]>(PACKS[3]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantities, setQuantities] = useState<Record<number, number>>({ 30: 1 });
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [isLoadingInventory, setIsLoadingInventory] = useState(true);
   const [inventoryError, setInventoryError] = useState('');
@@ -86,7 +86,10 @@ export default function ShopExperience() {
   useEffect(() => {
     const requestedCount = Number(new URLSearchParams(window.location.search).get('pack'));
     const requestedPack = PACKS.find((pack) => pack.count === requestedCount);
-    if (requestedPack) setSelectedPack(requestedPack);
+    if (requestedPack) {
+      setSelectedPack(requestedPack);
+      setQuantities({ [requestedPack.count]: 1 });
+    }
   }, []);
 
   useEffect(() => {
@@ -108,27 +111,34 @@ export default function ShopExperience() {
 
   const stockFor = (packCount: number) => inventory.find((item) => item.packCount === packCount);
   const selectedStock = stockFor(selectedPack.count);
-  const selectedAvailable = !inventoryError && isPackAvailable(selectedStock, quantity);
   const selectedPackAvailable = !inventoryError && isPackAvailable(selectedStock, 1);
-  const maxQuantity = selectedStock?.unitsRemaining === null || selectedStock?.unitsRemaining === undefined
-    ? 10
-    : Math.max(1, Math.min(10, selectedStock.unitsRemaining));
+  const basket = PACKS.map((pack) => ({ pack, quantity: quantities[pack.count] || 0 })).filter((item) => item.quantity > 0);
+  const basketTotal = basket.reduce((sum, item) => sum + item.pack.price * item.quantity, 0);
+  const basketCount = basket.reduce((sum, item) => sum + item.quantity, 0);
+  const basketAvailable = !inventoryError && basket.length > 0 && basket.every(({ pack, quantity }) => isPackAvailable(stockFor(pack.count), quantity));
+
+  const maxFor = (packCount: number) => {
+    const item = stockFor(packCount);
+    return item?.unitsRemaining === null || item?.unitsRemaining === undefined ? 10 : Math.max(0, Math.min(10, item.unitsRemaining));
+  };
+
+  const updateQuantity = (packCount: number, next: number) => {
+    const safeValue = Math.max(0, Math.min(maxFor(packCount), next));
+    setQuantities((current) => ({ ...current, [packCount]: safeValue }));
+  };
 
   useEffect(() => {
     if (isLoadingInventory || inventoryError || selectedPackAvailable) return;
     const firstAvailable = PACKS.find((pack) => isPackAvailable(stockFor(pack.count), 1));
     if (firstAvailable) {
       setSelectedPack(firstAvailable);
-      setQuantity(1);
+      setQuantities({ [firstAvailable.count]: 1 });
     }
   }, [inventory, inventoryError, isLoadingInventory, selectedPackAvailable]);
 
   const handleBuyNow = () => {
-    if (!selectedAvailable || isLoadingInventory) return;
-    const params = new URLSearchParams({
-      pack: String(selectedPack.count),
-      qty: String(quantity),
-    });
+    if (!basketAvailable || isLoadingInventory) return;
+    const params = new URLSearchParams({ items: basket.map(({ pack, quantity }) => `${pack.count}:${quantity}`).join(',') });
 
     router.push(`/checkout?${params.toString()}`);
   };
@@ -154,7 +164,7 @@ export default function ShopExperience() {
           </div>
 
           <p className={styles.intro}>
-            Made for busy mornings, long days, and quick checkouts. Choose a small trial pack or stock up for your weekly routine—every option contains the same 300 kcal breakfast bar with 9.3g protein and 6.5g fibre.
+            Pick one pack or mix a few together. Your total updates instantly, so building the right breakfast stack stays simple.
           </p>
 
           <div className={styles.statsGrid} aria-label="Nutrition highlights">
@@ -177,8 +187,8 @@ export default function ShopExperience() {
           <div className={styles.panelHeading}>
             <div>
               <span>Choose your pack</span>
-              <strong>Pick your routine</strong>
-              <small>Same breakfast bar. More value as you stock up.</small>
+              <strong>Build your breakfast stack</strong>
+              <small>Use + and − on any pack. Mix pack sizes freely.</small>
             </div>
             {isLoadingInventory ? (
               <div className={styles.stockChecking}>Checking stock…</div>
@@ -193,21 +203,17 @@ export default function ShopExperience() {
             )}
           </div>
 
-          <div className={styles.packOptions} role="radiogroup" aria-label="Select pack size">
+          <div className={styles.packOptions} aria-label="Build a mixed pack order">
             {PACKS.map((pack) => {
               const selected = pack.count === selectedPack.count;
               const packStock = stockFor(pack.count);
               const available = isPackAvailable(packStock, 1);
               return (
-                <button
+                <div
                   key={pack.count}
-                  type="button"
-                  role="radio"
-                  aria-checked={selected}
-                  disabled={!available}
                   aria-disabled={!available}
                   className={`${selected ? styles.selectedPack : ''} ${pack.discount === 0 ? styles.compactPack : ''} ${!available ? styles.soldOutPack : ''}`}
-                  onClick={() => { setSelectedPack(pack); setQuantity(1); }}
+                  onClick={() => setSelectedPack(pack)}
                 >
                   {pack.badge && (
                     <em className={pack.popular ? styles.bestDeal : undefined}>
@@ -230,34 +236,21 @@ export default function ShopExperience() {
                     <b>{formatPrice(pack.price)}</b>
                     <small>{formatPrice(Math.round(pack.price / pack.count))} / bar</small>
                   </span>
-                </button>
+                  <span className={styles.packQuantity} aria-label={`${pack.label} quantity`} onClick={(event) => event.stopPropagation()}>
+                    <button type="button" disabled={(quantities[pack.count] || 0) === 0} onClick={() => updateQuantity(pack.count, (quantities[pack.count] || 0) - 1)} aria-label={`Remove one ${pack.label}`}><Minus size={15} /></button>
+                    <b>{quantities[pack.count] || 0}</b>
+                    <button type="button" disabled={!available || (quantities[pack.count] || 0) >= maxFor(pack.count)} onClick={() => { setSelectedPack(pack); updateQuantity(pack.count, (quantities[pack.count] || 0) + 1); }} aria-label={`Add one ${pack.label}`}><Plus size={15} /></button>
+                  </span>
+                </div>
               );
             })}
           </div>
 
           <div className={styles.purchaseRow}>
-            <div className={styles.quantity} aria-label="Quantity">
-              <button
-                type="button"
-                onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-                disabled={quantity === 1}
-                aria-label="Decrease quantity"
-              >
-                <Minus size={17} />
-              </button>
-              <span>{quantity}</span>
-              <button
-                type="button"
-                onClick={() => setQuantity((value) => Math.min(maxQuantity, value + 1))}
-                disabled={!selectedPackAvailable || quantity >= maxQuantity}
-                aria-label="Increase quantity"
-              >
-                <Plus size={17} />
-              </button>
-            </div>
+            <div className={styles.basketSummary}><small>Your stack</small><strong>{basketCount} {basketCount === 1 ? 'pack' : 'packs'}</strong></div>
             <div className={styles.total}>
               <small>Total</small>
-              <strong>{formatPrice(selectedPack.price * quantity)}</strong>
+              <strong>{formatPrice(basketTotal)}</strong>
             </div>
           </div>
 
@@ -265,10 +258,10 @@ export default function ShopExperience() {
             type="button"
             className={styles.buyNow}
             onClick={handleBuyNow}
-            disabled={isLoadingInventory || !selectedAvailable}
+            disabled={isLoadingInventory || !basketAvailable}
           >
-            {!selectedPackAvailable ? 'Currently out of stock' : inventoryError ? 'Stock unavailable' : 'Purchase now'}
-            {selectedPackAvailable && !inventoryError && <ArrowRight size={20} />}
+            {inventoryError ? 'Stock unavailable' : basket.length === 0 ? 'Add a pack to continue' : !basketAvailable ? 'Check selected stock' : 'Purchase your stack'}
+            {basketAvailable && <ArrowRight size={20} />}
           </button>
 
           {inventoryError && <p className={styles.inventoryError}>{inventoryError} Please refresh and try again.</p>}

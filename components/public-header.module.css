@@ -1,12 +1,12 @@
 .header {
   position: fixed;
   z-index: 200;
-  top: .15rem;
+  top: 3vh;
   right: 0;
   left: 0;
   display: flex;
-  width: min(1320px, 86vw);
-  height: 5rem;
+  width: 92vw;
+  height: 6.2rem;
   margin: 0 auto;
   padding: 0;
   align-items: center;
@@ -23,20 +23,20 @@
   position: relative;
   display: block;
   flex: 0 0 auto;
-  width: 13.75rem;
-  height: 6rem;
-  overflow: visible;
+  width: 13.6rem;
+  height: 6.2rem;
+  overflow: hidden;
 }
 
 .logo img {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 14.375rem;
-  height: 14.375rem;
+  top: -5.55rem;
+  left: -1.72rem;
+  width: 16.35rem;
+  height: 16.35rem;
   max-width: none;
   object-fit: contain;
-  transform: translate(-50%, -50%);
+  transform: none;
   filter: drop-shadow(0 3px 4px rgba(92, 19, 0, .25));
   transition: opacity .3s ease, filter .3s ease;
 }
@@ -54,6 +54,7 @@
   display: flex;
   align-items: center;
   gap: clamp(1.125rem, 2.3vw, 2.5rem);
+  transform: translateY(-.85rem);
 }
 
 .nav a {
@@ -214,9 +215,9 @@
 }
 
 @media (max-width: 700px) {
-  .header { width: calc(100% - 1.5rem); height: 4.7rem; padding-inline: .15rem; }
+  .header { top:.75rem; width: calc(100% - 1.5rem); height: 4.7rem; padding-inline: .15rem; }
   .logo { width: 9.5rem; height: 4.3rem; }
-  .logo img { width: 10.5rem; height: 10.5rem; }
+  .logo img { top:-3.6rem; left:-.8rem; width: 11.5rem; height: 11.5rem; }
   .menuButton { display: grid; }
   .nav {
     position: absolute;
@@ -230,6 +231,7 @@
     border-radius: 1.25rem .35rem 1.25rem 1.25rem;
     background: linear-gradient(145deg, rgba(151, 34, 2, .97), rgba(235, 62, 5, .97));
     box-shadow: 0 1rem 2.1rem rgba(73, 25, 5, .32);
+    transform: none;
   }
   .nav.open { display: grid; }
   .nav a {

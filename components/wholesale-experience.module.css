@@ -1274,3 +1274,7 @@
     transition-duration: 1ms !important;
   }
 }
+
+.wholesalePage .copy h1,
+.wholesalePage .sectionIntro h2,
+.wholesalePage .journeyHeading h2 { line-height: .96; }

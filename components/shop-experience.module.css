@@ -13,6 +13,49 @@
   padding-top:7.1rem;
 }
 
+/* Mixed-stack builder */
+.packOptions>div {
+  position:relative;
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr) auto auto;
+  align-items:center;
+  width:100%;
+  min-height:4.25rem;
+  padding:.62rem .72rem;
+  border:1px solid #e5d3c3;
+  border-radius:.88rem;
+  color:#432a16;
+  background:#fff;
+  cursor:pointer;
+  gap:.68rem;
+  transition:border-color .18s ease,transform .18s ease,box-shadow .18s ease;
+}
+.packOptions>div:hover { border-color:#f0985c; transform:translateY(-1px); }
+.packOptions>div.selectedPack { border-color:#ef5b00; background:#fff5dc; box-shadow:inset .28rem 0 0 #ffd51d,0 .65rem 1.35rem rgba(143,55,0,.1); }
+.packOptions>div.soldOutPack { opacity:.58; }
+.packQuantity {
+  display:grid;
+  grid-template-columns:1.8rem 1.6rem 1.8rem;
+  min-height:2.15rem;
+  overflow:hidden;
+  border:1px solid #d9c3b2;
+  border-radius:.65rem;
+  background:#fff;
+}
+.packQuantity button { display:grid; padding:0; border:0; color:#5d3b23; background:transparent; cursor:pointer; place-items:center; }
+.packQuantity button:hover { background:#fff0de; }
+.packQuantity button:disabled { cursor:not-allowed; opacity:.3; }
+.packQuantity>b { display:grid; place-items:center; font-size:.82rem; }
+.basketSummary { display:flex; flex-direction:column; }
+.basketSummary small { color:#7c614e; font-size:.62rem; font-weight:900; text-transform:uppercase; }
+.basketSummary strong { color:#352213; font-size:.95rem; }
+
+@media (max-width:560px) {
+  .packOptions>div { grid-template-columns:auto minmax(0,1fr) auto; }
+  .packOptions>div .packPrice { display:none; }
+  .packQuantity { grid-column:2/-1; width:100%; }
+}
+
 .shopPage::before {
   position: absolute;
   inset: 0;
@@ -654,4 +697,113 @@
 
 @media (prefers-reduced-motion: reduce) {
   .shopPage *, .shopPage *::before, .shopPage *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
+}
+
+.packOptions .packQuantity button {
+  position:static;
+  display:grid;
+  width:auto;
+  min-height:0;
+  padding:0;
+  border:0;
+  border-radius:0;
+  color:#5d3b23;
+  background:transparent;
+  box-shadow:none;
+  place-items:center;
+  transform:none;
+}
+.packOptions .packQuantity button:hover { border:0; background:#fff0de; transform:none; }
+.packOptions .packQuantity button:disabled { opacity:.3; }
+
+/* Calm desktop composition: the builder is the primary task, while the product
+   visual supports it without becoming a competing third column. */
+@media (min-width: 1101px) {
+  .hero {
+    grid-template-columns: minmax(25rem, 29rem) minmax(0, 1fr);
+    grid-template-areas:
+      "copy buy"
+      "visual buy";
+    align-items: start;
+    width: calc(100vw - clamp(3rem, 6vw, 7rem));
+    max-width: 112rem;
+    min-height: calc(100dvh - 8rem);
+    margin: 0 auto;
+    padding: 2.5rem 0 3.5rem;
+    column-gap: clamp(2.5rem, 4vw, 5rem);
+    row-gap: .65rem;
+  }
+
+  .copy {
+    grid-area: copy;
+    align-self: end;
+    max-width: 32rem;
+  }
+
+  .copy h1 {
+    max-width: 31rem;
+    font-size: clamp(5.15rem, 6.4vw, 7.4rem);
+    line-height: .82;
+  }
+
+  .decorativeRule { width: min(25rem, 90%); }
+  .intro { max-width: 30rem; margin-bottom: 0; line-height: 1.5; }
+  .statsGrid { display: none; }
+
+  .buyPanel {
+    grid-area: buy;
+    align-self: center;
+    justify-self: end;
+    width: 100%;
+    max-width: none;
+    padding: 1.55rem;
+  }
+
+  .panelHeading { margin-bottom: 1.25rem; }
+  .panelHeading strong { font-size: 1.3rem; }
+  .panelHeading small { max-width: 23rem; font-size: .7rem; }
+
+  .packOptions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .8rem;
+  }
+
+  .packOptions > div {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 8.35rem;
+    padding: 1rem;
+    align-content: center;
+    gap: .55rem .7rem;
+  }
+
+  .packOptions > div .packPrice { align-self: center; }
+  .packOptions .packQuantity {
+    grid-column: 2 / -1;
+    justify-self: end;
+    width: 8rem;
+    margin-top: .35rem;
+  }
+
+  .purchaseRow {
+    margin: 1.15rem 0 .8rem;
+    padding: .9rem 1rem;
+    border-radius: 1rem;
+    background: #fff1df;
+  }
+
+  .buyNow { min-height: 3.4rem; }
+
+  .productVisual {
+    grid-area: visual;
+    min-height: 19rem;
+    margin-top: -.5rem;
+  }
+
+  .ingredientOrbit { display: none; }
+  .sunburst { left: 50%; width: min(28vw, 24rem); }
+  .productImage { top: 48%; width: min(30vw, 27rem); }
+  .miniPackImage { width: min(25vw, 22rem); }
+  .packCount { left: 4%; bottom: 1%; width: 6.1rem; }
+  .packCount strong { font-size: 2.8rem; }
+  .packCount span { font-size: .68rem; }
 }

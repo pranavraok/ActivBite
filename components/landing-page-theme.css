@@ -559,9 +559,10 @@
 
 /* Shop: one clear buying action, with quieter supporting stats and artwork. */
 [data-brand-page="shop"] [class*="hero"] {
-  grid-template-columns: minmax(20rem, .8fr) minmax(20rem, 28rem) minmax(23rem, .92fr) !important;
-  width: min(91vw, 86rem) !important;
-  gap: clamp(2rem, 3.3vw, 3.8rem) !important;
+  grid-template-columns: minmax(24rem, 29rem) minmax(0, 1fr) !important;
+  width: calc(100vw - clamp(3rem, 6vw, 7rem)) !important;
+  max-width: 112rem !important;
+  gap: clamp(2.5rem, 4vw, 5rem) !important;
 }
 
 [data-brand-page="shop"] [class*="statsGrid"] {
@@ -588,7 +589,7 @@
   box-shadow: 0 1.3rem 3rem rgba(74, 24, 4, .16) !important;
 }
 
-[data-brand-page="shop"] [class*="packOptions"] { gap: .55rem !important; }
+[data-brand-page="shop"] [class*="packOptions"] { gap: .8rem !important; }
 [data-brand-page="shop"] [class*="productVisual"] { min-height: 28rem !important; }
 [data-brand-page="shop"] [class*="packCount"] { width: 6.8rem !important; }
 [data-brand-page="shop"] [class*="packCount"] strong { font-size: 3rem !important; }

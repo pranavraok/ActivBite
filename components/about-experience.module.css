@@ -1271,3 +1271,22 @@
     transition-duration: 1ms !important;
   }
 }
+
+.aboutPage .copy h1,
+.aboutPage .sectionIntro h2,
+.aboutPage .missionCopy h2,
+.aboutPage .ctaBand h2 { line-height: .98; }
+
+.aboutPage .grantBadge {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  aspect-ratio: auto;
+  padding: .55rem .75rem;
+  border-radius: 999px;
+  gap: .35rem;
+  transform: none;
+}
+.aboutPage .grantBadge svg { width: 1rem; height: 1rem; }
+.aboutPage .grantBadge strong { font-size: .8rem; line-height: 1; }
+.aboutPage .grantBadge span { font-size: .58rem; line-height: 1; }

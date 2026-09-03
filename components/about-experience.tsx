@@ -21,22 +21,16 @@ const storyBeats = [
       'For two years at NITK, breakfast was the first thing to disappear on a rushed day. Weakness, sleepy classes, and falling focus made it clear that “just skip it” was not harmless.',
   },
   {
-    label: 'The realisation',
-    title: 'Then one student problem became a campus pattern.',
+    label: 'The first move',
+    title: 'A campus pattern became something worth testing.',
     body:
-      'The more students spoke about their mornings, the more familiar the story sounded. This was not one person’s bad routine; it was a problem hiding in plain sight across campus.',
-  },
-  {
-    label: 'The first chance',
-    title: 'A ₹50K Launchpad grant turned concern into action.',
-    body:
-      'The pitch earned a ₹50,000 grant and gave the idea a real beginning. There was now room to learn, test, fail, listen, and discover what a practical student breakfast could become.',
+      'Early Launchpad support helped the team move from concern to recipe trials—listening, adjusting, and learning what students would actually choose on a rushed morning.',
   },
   {
     label: 'The turning point',
     title: 'The almost-ending became the reason to continue.',
     body:
-      'When giving up felt easier, one mentor asked for one honest final try. More than 50 trials and 200+ tastings later, student feedback gave ActivBite the confidence to become a brand.',
+      'When giving up felt easier, one mentor asked for one honest final try. More than 50 trials and 200+ tastings later, student feedback gave ActivBite the confidence to keep building.',
   },
 ];
 
@@ -80,8 +74,8 @@ export default function AboutExperience() {
             />
             <div className={styles.grantBadge}>
               <Trophy size={20} />
-              <strong>₹50K</strong>
-              <span>Launchpad grant</span>
+              <strong>EARLY</strong>
+              <span>Launchpad support</span>
             </div>
           </div>
 
