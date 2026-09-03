@@ -1,4 +1,0 @@
-Warning: Custom Cache-Control headers detected for the following routes:
-  - /_next/:path*
-
-Setting a custom Cache-Control header can break Next.js development behavior.

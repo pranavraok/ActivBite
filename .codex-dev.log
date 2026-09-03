@@ -1,7 +1,0 @@
-▲ Next.js 16.2.6 (webpack)
-- Local:         http://localhost:3010
-- Environments: .env.local
-✓ Ready in 1947ms
-
-○ Compiling / ...
- HEAD / 200 in 5.4s (next.js: 4.8s, proxy.ts: 377ms, application-code: 317ms)
