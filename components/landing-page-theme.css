@@ -34,19 +34,8 @@
   filter: blur(24px) !important;
 }
 
-/* Open, typographic landing-page navigation. */
-[data-brand-page] > [class*="header"] {
-  top: .15rem !important;
-  height: 5rem !important;
-  padding-inline: 3.4vw !important;
-}
-
-[data-brand-page] [class*="logo"] { height: 4.8rem !important; }
-[data-brand-page] [class*="logo"] img {
-  filter: brightness(1.18) drop-shadow(0 3px 3px rgba(117, 24, 0, .24)) !important;
-}
-
-[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a,
+/* Page-local back links retain the brand treatment. The shared public header
+   owns its own styling so it stays pixel-identical between every route. */
 [data-brand-page] [class*="backLink"] {
   position: relative;
   min-width: 0 !important;
@@ -64,7 +53,6 @@
   text-shadow: 0 3px 4px rgba(119, 25, 2, .55);
 }
 
-[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a::after,
 [data-brand-page] [class*="backLink"]::after {
   position: absolute;
   right: 8%;
@@ -80,13 +68,11 @@
   transition: transform .3s cubic-bezier(.2, .8, .2, 1);
 }
 
-[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a:hover,
 [data-brand-page] [class*="backLink"]:hover {
   color: #fff8be !important;
   transform: translateY(-4px) rotate(-1deg) !important;
 }
 
-[data-brand-page] :is([class*="navLinks"], [class*="nav"], [class*="headerActions"]) a:hover::after,
 [data-brand-page] [class*="backLink"]:hover::after { transform: scaleX(1) rotate(-2deg); }
 
 [data-brand-page] [class*="shopLink"] {
@@ -310,15 +296,6 @@
 
 @media (max-width: 700px) {
   [data-brand-page] { padding-top: 4.6rem !important; }
-  [data-brand-page] > [class*="header"] {
-    top: .05rem !important;
-    height: 4.45rem !important;
-    padding-inline: 4vw !important;
-  }
-  [data-brand-page] [class*="logo"] {
-    width: 9rem !important;
-    height: 4.2rem !important;
-  }
   [data-brand-page] :is(
     [class*="buyPanel"], [class*="formCard"], [class*="summaryCard"],
     [class*="heroCard"], [class*="contactConsole"], [class*="faqShell"],
@@ -384,51 +361,6 @@
 
 [data-brand-page] :is(label, input, textarea, select, button) {
   font-weight: 700;
-}
-
-/* The common inner-page header uses the landing page's open navigation language. */
-[data-brand-page] [data-common-header] {
-  display: flex !important;
-  width: min(1320px, 86vw) !important;
-  height: 5rem !important;
-  padding: 0 !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-}
-
-[data-brand-page] [data-common-header] nav a {
-  min-width: 0 !important;
-  min-height: 0 !important;
-  padding: .75rem .25rem !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  color: #fff7e7 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  font-size: 15px !important;
-  font-weight: 800 !important;
-  letter-spacing: .018em !important;
-  text-shadow: 0 3px 4px rgba(119, 25, 2, .55) !important;
-}
-
-[data-brand-page] [data-common-header] nav a:last-child {
-  min-height: 2.65rem !important;
-  padding: 0 1rem !important;
-  border: 2px solid var(--ab-cocoa) !important;
-  border-radius: 999px !important;
-  color: var(--ab-cocoa) !important;
-  background: var(--ab-yellow) !important;
-  box-shadow: .25rem .28rem 0 var(--ab-orange) !important;
-}
-
-@media (max-width: 1100px) and (min-width: 701px) {
-  [data-brand-page] [data-common-header] nav a {
-    padding-inline: 3px !important;
-    font-size: 12px !important;
-  }
 }
 
 /* About: clean food panel, legible nutrition values and a single-line punch. */
@@ -508,30 +440,11 @@
   display: none !important;
 }
 
-@media (max-width: 700px) {
-  [data-brand-page] [data-common-header] { width: calc(100% - 1.5rem) !important; height: 4.7rem !important; padding-inline: .15rem !important; }
-  [data-brand-page] [data-common-header] nav { background: linear-gradient(145deg, rgba(151, 34, 2, .97), rgba(235, 62, 5, .97)) !important; }
-  [data-brand-page] [data-common-header] nav a {
-    padding: .72rem .8rem !important;
-    color: #fff !important;
-    font-size: 12px !important;
-    text-shadow: 0 2px 3px rgba(83, 19, 0, .4) !important;
-  }
-}
-
 @media (max-width: 980px) {
   [data-brand-page="checkout"] [class*="summaryColumn"] { position: static; }
 }
 
 @media (max-width: 700px) {
-  [data-brand-page] [data-common-header] {
-    top: .05rem !important;
-    width: 92vw !important;
-    height: 4.45rem !important;
-    padding: 0 !important;
-  }
-  [data-brand-page] [data-common-header] [class*="logo"] { width: 10.3125rem !important; height: 4.5rem !important; }
-  [data-brand-page] [data-common-header] [class*="logo"] img { width: 11.875rem !important; height: 11.875rem !important; }
   [data-brand-page="about"] [class*="foodCopy"] > h2,
   [data-brand-page="about"] [class*="ctaBand"] h2 {
     font-size: clamp(2.35rem, 11vw, 3.5rem) !important;

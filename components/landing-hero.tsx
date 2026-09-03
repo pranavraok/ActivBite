@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Backpack, BicepsFlexed, Check, CircleHelp, CreditCard, Crown, Leaf, Mail, MapPin, Menu, PackageCheck, ShoppingBag, ShoppingCart, Sparkles, Store, Utensils, X, Zap } from 'lucide-react';
+import { ArrowRight, Backpack, BicepsFlexed, Check, CircleHelp, CreditCard, Crown, Leaf, Mail, MapPin, PackageCheck, ShoppingCart, Sparkles, Store, Utensils, Zap } from 'lucide-react';
 import { CSSProperties, PointerEvent, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { PUBLIC_NAV_LINKS } from '@/lib/public-navigation';
+import PublicHeader from './public-header';
 import styles from './landing-hero.module.css';
 
 const heroTitle = 'MORNING FUEL'.split('');
@@ -117,11 +117,9 @@ const getTrackPoint = (progress: number, compact: boolean) => {
 export default function LandingHero() {
   const [loading, setLoading] = useState(true);
   const [introLocked, setIntroLocked] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [storyProgress, setStoryProgress] = useState(0);
   const [selectedPack, setSelectedPack] = useState(30);
   const [compactStory, setCompactStory] = useState(false);
-  const [navTheme, setNavTheme] = useState<'light' | 'dark'>('dark');
   const [ingredientLayerActive, setIngredientLayerActive] = useState(false);
   const storyRef = useRef<HTMLElement>(null);
   const ingredientRef = useRef<HTMLDivElement>(null);
@@ -194,31 +192,6 @@ export default function LandingHero() {
     update();
     media.addEventListener('change', update);
     return () => media.removeEventListener('change', update);
-  }, []);
-
-  useEffect(() => {
-    let frame = 0;
-    const syncHeaderTheme = () => {
-      frame = 0;
-      const sampleY = Math.min(82, window.innerHeight * .1);
-      const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-theme]'));
-      const active = sections.find((section) => {
-        const rect = section.getBoundingClientRect();
-        return rect.top <= sampleY && rect.bottom > sampleY;
-      });
-      setNavTheme(active?.dataset.navTheme === 'light' ? 'light' : 'dark');
-    };
-    const onViewportChange = () => {
-      if (!frame) frame = window.requestAnimationFrame(syncHeaderTheme);
-    };
-    syncHeaderTheme();
-    window.addEventListener('scroll', onViewportChange, { passive: true });
-    window.addEventListener('resize', onViewportChange);
-    return () => {
-      window.removeEventListener('scroll', onViewportChange);
-      window.removeEventListener('resize', onViewportChange);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
   }, []);
 
   useEffect(() => {
@@ -428,28 +401,7 @@ export default function LandingHero() {
 
   return (
     <main className={styles.page}>
-    <header className={`${styles.header} ${navTheme === 'light' ? styles.headerOnLight : styles.headerOnDark} ${loading ? styles.isLoading : styles.heroReady}`}>
-      <Link className={styles.logo} href="/" aria-label="ActivBite home">
-        <Image className={styles.logoWhite} src="/optimized/ab-logo.webp" alt="ActivBite" width={640} height={640} priority />
-        <Image className={styles.logoOrange} src="/PNG/LOGO_ORANGE.png" alt="" width={640} height={640} priority />
-      </Link>
-      <nav className={mobileOpen ? styles.mobileOpen : ''} aria-label="Main navigation">
-        {PUBLIC_NAV_LINKS.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={'highlighted' in link ? styles.shopAction : undefined}
-            onClick={() => setMobileOpen(false)}
-          >
-            {'highlighted' in link && <ShoppingBag size={17} aria-hidden="true" />}
-            {link.label}
-          </Link>
-        ))}
-      </nav>
-      <button className={styles.menuButton} type="button" aria-label={mobileOpen ? 'Close menu' : 'Open menu'} onClick={() => setMobileOpen((open) => !open)}>
-        {mobileOpen ? <X /> : <Menu />}
-      </button>
-    </header>
+    <PublicHeader />
     <section data-nav-theme="dark" className={`${styles.hero} ${loading ? styles.isLoading : styles.heroReady}`} onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
       <div className={`${styles.loader} ${!loading ? styles.loaderExit : ''}`} aria-hidden={!loading}>
         <div className={styles.loaderGlow} />
