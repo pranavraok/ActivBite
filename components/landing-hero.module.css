@@ -280,7 +280,7 @@
   .foodScene{inset:auto;z-index:9;left:50%;top:30.2%;width:96vw;height:96vw;transform:translateX(-50%);animation:mobileOrbit 12s linear 3s infinite;will-change:transform}
   .food{width:18vw;right:auto;bottom:auto;transform:none;animation:ingredientDrop .62s cubic-bezier(.2,.8,.26,1.18) var(--drop-delay) both,mobileCounterOrbit 12s linear 3s infinite;transform-origin:center;}
   .food figcaption{min-width:60px;padding:5px 8px 4px;font-size:7px;letter-spacing:.08em}
-  .oats{left:40.625%;top:2.625%}.peanuts{left:73.535%;top:21.625%}.elaichi{left:73.535%;top:59.625%}.dates{left:40.625%;top:78.625%}.jaggery{left:7.715%;top:59.625%}.poha{left:7.715%;top:21.625%}
+  .oats{left:40.625%;top:2.625%}.peanuts{left:73.535%;top:21.625%}.elaichi{left:73.535%;top:59.625%}.dates{left:40.625%;top:78.625%}.jaggery{left:16%;top:53%}.poha{left:7.715%;top:21.625%}
   @keyframes mobileOrbit{from{transform:translateX(-50%) rotate(0deg)}to{transform:translateX(-50%) rotate(360deg)}}
   @keyframes mobileCounterOrbit{0%{transform:rotate(0deg) scale(1)}25%{transform:rotate(-90deg) scale(.94)}50%{transform:rotate(-180deg) scale(1.05)}75%{transform:rotate(-270deg) scale(.97)}100%{transform:rotate(-360deg) scale(1)}}
   .heroReady .product{animation:mobileProductGroove 3.4s ease-in-out 3.2s infinite alternate}
@@ -3284,6 +3284,7 @@
   .shopFinaleButton>span b { font-size:.78rem; }
 }
 
+<<<<<<< Updated upstream
 /* Keep the revised editorial sequence authoritative over legacy chapter rules. */
 .productIntroPanel { order:1!important; }
 .packFinale { order:3!important; }
@@ -3386,4 +3387,796 @@
   .footerSocialBlock { flex-direction:column; }
   .footerSocials { grid-column:auto; }
   .footerSocials a b { display:inline; }
+=======
+/* ═══════════════════════════════════════════════
+   MOBILE RESPONSIVENESS FIXES
+   ═══════════════════════════════════════════════ */
+
+/* Global mobile overflow safety. */
+@media (max-width:700px) {
+  .page,.hero,.scrollStory,.storySticky { overflow-x:clip; }
+  .journeyPanel,.packFinale,.ingredientStory,.powerUpChapter,.journeyFooter { overflow-x:clip; }
+}
+
+/* Ingredient scroll section — ensure the sticky mascot and copy layers
+   render on mobile where the "permanent editorial" flow changes the
+   layout model from scroll-pinned to document-flow. */
+@media (max-width:520px) {
+  .journeyMascotLayer {
+    position:sticky!important;
+    top:0!important;
+    height:100svh!important;
+    margin-bottom:-100svh!important;
+    z-index:40!important;
+    pointer-events:none!important;
+    overflow:hidden!important;
+  }
+  .journeyMascotLayer.ingredientLayerInactive {
+    display:block!important;
+    visibility:hidden!important;
+    opacity:0!important;
+  }
+  .journeyMascotLayer.ingredientLayerActive {
+    display:block!important;
+    visibility:visible!important;
+    opacity:var(--mascot-visible)!important;
+  }
+
+  .ingredientStory {
+    min-height:500svh!important;
+    padding:0!important;
+    overflow-x:hidden!important;
+  }
+  .journeyMascotLayer.ingredientLayerActive { display:block!important; }
+  .ingredientStory .copyStack,
+  .ingredientStory .ingredientFlight {
+    position:sticky!important;
+  .storySticky > .sectionTicker { position:relative!important; }
+    height:100svh!important;
+    margin-bottom:-100svh!important;
+    overflow:hidden!important;
+  }
+
+  /* Ingredient copy cards: centre-aligned, capped width, no overflow. */
+  .ingredientCopy {
+    position:absolute!important;
+    left:4vw!important;
+    right:4vw!important;
+    width:auto!important;
+    top:8%!important;
+    height:auto!important;
+    max-height:75vh;
+    padding:0 2vw;
+    text-align:center;
+    align-items:center;
+    justify-content:flex-start;
+  }
+  .ingredientCopy h2 {
+    font-size:clamp(2.2rem,11vw,3.5rem)!important;
+    line-height:.82!important;
+    text-wrap:balance!important;
+    overflow-wrap:break-word!important;
+    word-break:break-word!important;
+  }
+  .ingredientCopy p {
+    font-size:.75rem!important;
+    line-height:1.5!important;
+    max-width:92vw!important;
+    overflow-wrap:break-word!important;
+  }
+  .ingredientCopy>span {
+    font-size:.55rem!important;
+    letter-spacing:.12em!important;
+  }
+  .ingredientCopy>div {
+    font-size:.5rem!important;
+    padding:4px 8px!important;
+  }
+
+  /* Flying ingredients: smaller, never overflow. */
+  .flyingIngredient {
+    width:clamp(80px,28vw,140px)!important;
+  }
+  .flyingIngredient figcaption {
+    font-size:.5rem!important;
+    padding:3px 8px!important;
+  }
+
+  /* Growth meter: compact. */
+  .growthMeter {
+    bottom:10px!important;
+    width:88vw!important;
+  }
+  .allergenNote {
+    bottom:28px!important;
+    font-size:5px!important;
+    max-width:88vw!important;
+  }
+
+  /* Journey panels: single column, no overflow. */
+  .journeyPanel {
+    grid-template-columns:1fr!important;
+    grid-template-rows:auto auto!important;
+    padding:70px 5vw 28px!important;
+    gap:12px!important;
+    overflow-x:hidden!important;
+  }
+  .productIntroPanel,
+  .whyPanel,
+  .howPanel,
+  .campusPanel,
+  .wholesalePanel,
+  .faqPanel {
+    grid-template-columns:1fr!important;
+  }
+
+  /* Panel text: cap widths so nothing bleeds off-screen. */
+  .panelCopy {
+    max-width:100%!important;
+    width:100%!important;
+  }
+  .panelCopy h2,
+  .panelHeading h2 {
+    font-size:clamp(2rem,10vw,3.2rem)!important;
+    line-height:.85!important;
+    text-wrap:balance!important;
+    overflow-wrap:break-word!important;
+    word-break:break-word!important;
+  }
+  .panelCopy p,
+  .finaleHeading p {
+    font-size:.8rem!important;
+    line-height:1.55!important;
+    max-width:100%!important;
+    overflow-wrap:break-word!important;
+  }
+  .panelCopy small {
+    font-size:.65rem!important;
+    max-width:100%!important;
+  }
+  .sectionLead {
+    font-size:.8rem!important;
+    line-height:1.55!important;
+    overflow-wrap:break-word!important;
+  }
+
+  /* Footer heading. */
+  .journeyFooter h2 {
+    font-size:clamp(2.4rem,12vw,3.8rem)!important;
+    text-wrap:balance!important;
+    overflow-wrap:break-word!important;
+  }
+
+  /* Finale heading. */
+  .finaleHeading h2 {
+    font-size:clamp(2rem,10vw,3.2rem)!important;
+    line-height:.82!important;
+    text-wrap:balance!important;
+  }
+  .finaleHeading h2 br { display:none; }
+
+  /* Pack grid stays at 2 columns but is tighter. */
+  .packGrid {
+    gap:8px!important;
+    width:100%!important;
+  }
+  .packGrid button {
+    min-height:130px!important;
+    padding:6px 8px 10px!important;
+  }
+  .packGrid button>img {
+    height:90px!important;
+  }
+  .packGrid button b {
+    font-size:10px!important;
+  }
+
+  /* Power-up chapter compact. */
+  .powerUpChapter {
+    min-height:42svh!important;
+    padding:0 4vw!important;
+  }
+  .powerUpChapter b {
+    font-size:clamp(1.8rem,10vw,3rem)!important;
+  }
+
+  /* Steps: single column, smaller cards. */
+  .stepsJourney {
+    grid-template-columns:1fr!important;
+    gap:8px!important;
+    grid-column:1/-1!important;
+  }
+  .stepsJourney article {
+    min-height:auto!important;
+    padding:14px!important;
+  }
+  .stepsJourney b {
+    font-size:13px!important;
+  }
+  .stepsJourney p {
+    font-size:9px!important;
+    line-height:1.45!important;
+  }
+
+  /* Benefit grid: 2 columns, tighter. */
+  .benefitGrid {
+    gap:8px!important;
+  }
+  .benefitGrid article {
+    min-height:auto!important;
+    padding:14px!important;
+  }
+  .benefitGrid b {
+    font-size:12px!important;
+  }
+  .benefitGrid p {
+    font-size:8px!important;
+    line-height:1.4!important;
+  }
+
+  /* FAQ list. */
+  .faqList {
+    gap:8px!important;
+  }
+  .faqList article {
+    padding:10px 12px!important;
+  }
+  .faqList b {
+    font-size:12px!important;
+  }
+  .faqList p {
+    font-size:8px!important;
+    line-height:1.4!important;
+  }
+
+  /* Campus visual: full-width. */
+  .campusVisual {
+    width:92vw!important;
+    padding:.4rem!important;
+  }
+  .campusVisual>img {
+    max-height:38svh!important;
+  }
+
+  /* Wholesale image: full width. */
+  .wholesaleImage {
+    width:92vw!important;
+    max-height:40svh!important;
+    padding:.4rem!important;
+  }
+  .wholesaleImage>img {
+    max-height:36svh!important;
+  }
+  .shopSticker {
+    font-size:.8rem!important;
+    min-width:4.5rem!important;
+    min-height:1.6rem!important;
+    padding:.35rem .5rem!important;
+  }
+  .shopStickerOne { left:-.3rem!important; top:4%!important; }
+  .shopStickerTwo { right:-.2rem!important; top:16%!important; }
+
+  /* Nutrition stamp: hidden on small panels, or repositioned. */
+  .nutritionStamp {
+    width:100px!important;
+    padding:12px!important;
+    position:relative!important;
+    right:auto!important;
+    bottom:auto!important;
+    justify-self:start!important;
+    margin-top:12px!important;
+  }
+  .nutritionStamp b {
+    font-size:40px!important;
+  }
+  .nutritionStamp span {
+    font-size:7px!important;
+    margin:3px 0 8px!important;
+  }
+  .nutritionStamp i {
+    font-size:6px!important;
+  }
+
+  /* Section tickers: slightly smaller. */
+  .sectionTicker {
+    min-height:2.8rem!important;
+    transform:rotate(-.3deg) scale(1.01)!important;
+  }
+  .sectionTicker span {
+    font-size:1.15rem!important;
+  }
+
+  /* ══════════════════════════════════════════════
+     1. HAMBURGER MENU — visible yellow circle
+     ══════════════════════════════════════════════ */
+  .header {
+    position:sticky!important;
+    top:0!important;
+    left:0!important;
+    right:0!important;
+    width:100%!important;
+    z-index:200!important;
+    background:rgba(151,34,2,.92)!important;
+    backdrop-filter:blur(14px) saturate(130%)!important;
+    border-radius:0!important;
+    box-shadow:0 4px 18px rgba(92,19,0,.25)!important;
+  }
+  .headerOnLight {
+    background:rgba(255,249,235,.94)!important;
+  }
+  .headerOnLight .menuButton {
+    color:#2d1b10!important;
+    background:#ffd51d!important;
+  }
+  .headerOnDark .menuButton {
+    color:#2d1b10!important;
+    background:#ffd51d!important;
+    box-shadow:0 4px 0 #a84400,0 8px 14px rgba(90,20,0,.3)!important;
+  }
+  .menuButton {
+    display:grid!important;
+    place-items:center!important;
+    width:44px!important;
+    height:44px!important;
+    border:2px solid #2d1b10!important;
+    border-radius:50%!important;
+    color:#2d1b10!important;
+    background:#ffd51d!important;
+    box-shadow:0 4px 0 #a84400,0 8px 14px rgba(90,20,0,.3)!important;
+    cursor:pointer!important;
+    touch-action:manipulation!important;
+  }
+  .menuButton svg { width:22px!important; height:22px!important; stroke-width:3!important; }
+  .header nav {
+    position:absolute!important;
+    z-index:210!important;
+    top:calc(100% + 6px)!important;
+    right:4vw!important;
+    left:auto!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-items:flex-end!important;
+    gap:2px!important;
+    padding:12px 16px!important;
+    border:2px solid #2d1b10!important;
+    border-radius:16px!important;
+    background:rgba(151,34,2,.97)!important;
+    box-shadow:0 14px 28px rgba(92,19,0,.4)!important;
+    opacity:0!important;
+    visibility:hidden!important;
+    transform:translateY(-10px) scale(.94)!important;
+    transform-origin:top right!important;
+    transition:opacity .2s,transform .2s,visibility .2s!important;
+    pointer-events:none!important;
+  }
+  .header nav.mobileOpen {
+    opacity:1!important;
+    visibility:visible!important;
+    transform:translateY(0) scale(1)!important;
+    pointer-events:auto!important;
+  }
+  .headerOnLight nav {
+    background:rgba(255,249,235,.98)!important;
+  }
+  .header nav a {
+    color:#fff!important;
+    text-shadow:0 2px 4px rgba(100,20,0,.45)!important;
+    padding:10px 12px!important;
+    font-size:13px!important;
+    white-space:nowrap!important;
+  }
+  .headerOnLight nav a {
+    color:#2d1b10!important;
+    text-shadow:none!important;
+  }
+  /* Hide desktop nav links on mobile — only hamburger shown */
+  .header nav a { display:none!important; }
+  .header nav.mobileOpen a { display:block!important; }
+}
+
+/* ══════════════════════════════════════════════
+   2. INGREDIENT SECTION — keep scroll animation
+      working on mobile; fix layout and blur.
+   ══════════════════════════════════════════════ */
+@media (max-width:520px) {
+  /* Keep tall so the scroll animation has room to play. */
+  .ingredientStory {
+    min-height:500svh!important;
+    padding:0!important;
+    overflow:clip!important;
+  }
+  /* Sticky layers must stay sticky for scroll-driven opacity. */
+  .ingredientStory .copyStack,
+  .ingredientStory .ingredientFlight {
+    position:sticky!important;
+    top:0!important;
+    height:100svh!important;
+    margin-bottom:-100svh!important;
+    pointer-events:none!important;
+  }
+  .ingredientStory .growthMeter {
+    position:sticky!important;
+    top:calc(100svh - 50px)!important;
+    bottom:auto!important;
+    z-index:14!important;
+    margin-bottom:-30px!important;
+  }
+  .ingredientStory>.allergenNote {
+    position:sticky!important;
+    top:calc(100svh - 74px)!important;
+    bottom:auto!important;
+  }
+  /* Fix copy card sizing and text overflow. */
+  .ingredientCopy {
+    left:4vw!important;
+    right:4vw!important;
+    width:auto!important;
+    height:auto!important;
+    max-height:none!important;
+    text-align:center!important;
+    align-items:center!important;
+  }
+  .ingredientCopy h2 {
+    font-size:clamp(1.8rem,10vw,3rem)!important;
+    line-height:.85!important;
+    text-wrap:balance!important;
+    overflow-wrap:break-word!important;
+  }
+  .ingredientCopy p {
+    font-size:.78rem!important;
+    line-height:1.55!important;
+    max-width:90vw!important;
+  }
+  /* Mascot layer: keep it in DOM but hide via visibility
+     so sticky positioning is not disrupted. */
+  .journeyMascotLayer.ingredientLayerInactive {
+    display:block!important;
+    visibility:hidden!important;
+    opacity:0!important;
+  }
+  .journeyMascotLayer.ingredientLayerActive {
+    display:block!important;
+    visibility:visible!important;
+  }
+  .journeyMascotLayer .eatingStage {
+    width:min(80vw,500px)!important;
+  }
+  /* Pack grid and finale */
+  .packGrid {
+    gap:10px!important;
+    width:100%!important;
+  }
+  .packGrid button {
+    min-height:auto!important;
+    padding:10px!important;
+    touch-action:manipulation!important;
+  }
+  .packGrid button>img { height:100px!important; }
+  .finaleHeading h2 {
+    font-size:clamp(2rem,11vw,3.5rem)!important;
+  }
+  .finaleHeading h2 br { display:none!important; }
+  .finaleHeading p {
+    font-size:.8rem!important;
+    max-width:90vw!important;
+    margin:0 auto!important;
+  }
+  .shopFinaleButton {
+    width:100%!important;
+    min-width:0!important;
+    touch-action:manipulation!important;
+  }
+  /* All panels */
+  .journeyPanel {
+    min-height:auto!important;
+    padding:60px 5vw 35px!important;
+    grid-template-columns:1fr!important;
+    gap:16px!important;
+  }
+  .productIntroPanel,
+  .whyPanel,
+  .howPanel,
+  .campusPanel,
+  .wholesalePanel,
+  .faqPanel {
+    grid-template-columns:1fr!important;
+    min-height:auto!important;
+  }
+  .panelCopy,
+  .panelHeading { max-width:100%!important; }
+  .panelCopy h2,.panelHeading h2,.journeyFooter h2,.finaleHeading h2 {
+    font-size:clamp(1.8rem,10vw,3rem)!important;
+    line-height:.85!important;
+    text-wrap:balance!important;
+  }
+  .panelCopy p,.finaleHeading p,.sectionLead {
+    font-size:.8rem!important;
+    line-height:1.55!important;
+    max-width:100%!important;
+  }
+  .panelCopy small { font-size:.68rem!important; }
+  .panelButton,.shopFinaleButton {
+    min-height:2.8rem!important;
+    touch-action:manipulation!important;
+  }
+  /* Benefit and step cards */
+  .benefitGrid { gap:8px!important; }
+  .benefitGrid article { min-height:auto!important; padding:14px!important; }
+  .benefitGrid b { font-size:12px!important; }
+  .benefitGrid p { font-size:8px!important; line-height:1.4!important; }
+  .stepsJourney { grid-template-columns:1fr!important; gap:8px!important; }
+  .stepsJourney article,.stepsJourney article:nth-child(2) { min-height:auto!important; padding:14px!important; transform:none!important; }
+  .faqList { gap:8px!important; }
+  .faqList article { padding:12px!important; }
+  .faqList b { font-size:12px!important; }
+  .faqList p { font-size:8px!important; }
+  /* Footer */
+  .journeyFooter {
+    grid-template-columns:1fr!important;
+    text-align:center!important;
+    padding:60px 5vw 24px!important;
+  }
+  .journeyFooter>img { width:120px!important; margin:0 auto!important; }
+  .journeyFooter h2 { font-size:clamp(2rem,14vw,3.5rem)!important; }
+  .footerCta { justify-self:center!important; }
+  .footerNav { grid-template-columns:repeat(3,1fr)!important; gap:6px!important; }
+  .footerNav a { font-size:9px!important; padding:6px 8px!important; }
+  .footerBottom { flex-direction:column!important; text-align:center!important; }
+  /* Nutrition stamp */
+  .nutritionStamp {
+    position:relative!important;
+    right:auto!important;
+    bottom:auto!important;
+    justify-self:start!important;
+    width:100px!important;
+    padding:14px!important;
+    margin-top:12px!important;
+  }
+  .nutritionStamp b { font-size:38px!important; }
+  /* Campus and wholesale */
+  .campusVisual,.wholesaleImage {
+    position:relative!important;
+    left:auto!important;
+    right:auto!important;
+    bottom:auto!important;
+    width:92vw!important;
+    max-height:none!important;
+  }
+  .campusVisual figcaption,.wholesaleImage figcaption {
+    font-size:.52rem!important;
+  }
+  .shopSticker {
+    font-size:.72rem!important;
+    min-width:4.5rem!important;
+    padding:.35rem .5rem!important;
+  }
+}
+
+/* ══════════════════════════════════════════════
+   3. TOUCH HOVER GUARD — suppress :hover transforms
+      on touch-only screens so taps work cleanly
+   ══════════════════════════════════════════════ */
+@media (hover:none) and (pointer:coarse) {
+  .packGrid button:hover,
+  .benefitGrid article:hover,
+  .stepsJourney article:hover,
+  .faqList article:hover,
+  .shopFinaleButton:hover,
+  .panelButton:hover,
+  .buyButton:hover,
+  .header nav a:hover {
+    transform:none!important;
+  }
+  .packGrid button:active,
+  .benefitGrid article:active,
+  .stepsJourney article:active,
+  .faqList article:active,
+  .shopFinaleButton:active,
+  .panelButton:active,
+  .buyButton:active {
+    transform:translateY(-2px)!important;
+    filter:brightness(1.03)!important;
+  }
+  /* Kill all hover-driven visual effects on touch */
+  .packGrid button:hover::before,
+  .header nav a:hover::before,
+  .header nav a:hover::after {
+    transform:none!important;
+    opacity:0!important;
+  }
+}
+
+/* Keep the chapters in document order. Only the mascot and ingredient layers
+   are pinned while the controller advances their progress from scroll. */
+.scrollStory {
+  height:auto!important;
+  overflow:visible!important;
+}
+.storySticky {
+  position:relative!important;
+  top:auto!important;
+  height:auto!important;
+  min-height:0!important;
+  display:flex!important;
+  flex-direction:column!important;
+  overflow:visible!important;
+}
+.journeyMascotLayer {
+  order:0!important;
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  height:100svh!important;
+  width:100%!important;
+  flex:none!important;
+  margin:0!important;
+  overflow:hidden!important;
+}
+.journeyMascotLayer.ingredientLayerInactive,
+.journeyMascotLayer.ingredientLayerActive { display:block!important; }
+.journeyMascotLayer.ingredientLayerInactive {
+  visibility:visible!important;
+  opacity:calc(var(--ingredient-visible) * var(--mascot-visible))!important;
+}
+.journeyMascotLayer.ingredientLayerActive {
+  visibility:visible!important;
+  opacity:calc(var(--ingredient-visible) * var(--mascot-visible))!important;
+}
+.storyTopline,
+.pathTrack { display:block!important; }
+.pathTrack { opacity:calc(var(--ingredient-visible) * (1 - var(--pack-reveal)))!important; }
+.ingredientStory {
+  order:3!important;
+  position:relative!important;
+  inset:auto!important;
+  min-height:720svh!important;
+  flex:none!important;
+  padding:0!important;
+}
+.ingredientStory .copyStack,
+.ingredientStory .ingredientFlight {
+  display:block!important;
+  position:fixed!important;
+  left:0!important;
+  right:0!important;
+  top:0!important;
+  height:100svh!important;
+  margin:0!important;
+}
+.ingredientStory .growthMeter { display:grid!important; }
+.ingredientStory .copyStack,
+.ingredientStory .ingredientFlight,
+.ingredientStory .growthMeter { opacity:var(--ingredient-visible)!important; }
+.powerUpChapter { display:none!important; }
+.packFinale,
+.journeyPanel,
+.journeyFooter {
+  position:relative!important;
+  inset:auto!important;
+  min-height:100svh!important;
+  flex:none!important;
+}
+.productIntroPanel { order:1!important; }
+.whyPanel { order:3!important; }
+.ingredientStory { order:5!important; }
+.powerUpChapter { order:7!important; }
+.packFinale { order:9!important; }
+.howPanel { order:11!important; }
+.campusPanel { order:13!important; }
+.wholesalePanel { order:15!important; }
+.faqPanel { order:17!important; }
+.journeyFooter { order:19!important; }
+.storySticky > .sectionTicker { position:relative!important; }
+
+@media (max-width:520px) {
+  .scrollStory { height:auto!important; }
+  .ingredientStory { min-height:500svh!important; }
+  .journeyMascotLayer { height:100svh!important; }
+  .pathTrackDesktop { display:none!important; }
+  .pathTrackMobile { display:block!important; left:1%!important; width:98%!important; }
+}
+
+@media (max-width:700px) {
+  .jaggery,.dates {
+    bottom:auto!important;
+  }
+  .jaggery {
+    left:16%!important;
+    top:53%!important;
+  }
+}
+
+.mobileBuyButton { display:none; }
+
+@media (max-width:700px) {
+  .mobileBuyButton {
+    position:fixed;
+    z-index:600;
+    right:max(1rem,env(safe-area-inset-right));
+    bottom:max(1rem,env(safe-area-inset-bottom));
+    display:flex;
+    width:auto;
+    min-width:0;
+    min-height:3.1rem;
+    padding:.55rem .85rem;
+    align-items:center;
+    justify-content:center;
+    gap:.45rem;
+    border:2px solid #2d1b10;
+    border-radius:999px;
+    color:#2d1b10;
+    background:#ffd51d;
+    box-shadow:.25rem .35rem 0 #a84400,0 .55rem 1rem rgba(90,20,0,.3);
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(1rem) scale(.94);
+    pointer-events:none;
+    font-family:var(--activbite-display-font);
+    font-size:.78rem;
+    letter-spacing:.025em;
+    line-height:1;
+    text-decoration:none;
+    text-transform:uppercase;
+    transition:opacity .2s ease,visibility .2s ease,transform .2s ease;
+  }
+  .mobileBuyButtonVisible {
+    opacity:1;
+    visibility:visible;
+    transform:none;
+    pointer-events:auto;
+  }
+  .mobileBuyButton svg {
+    box-sizing:content-box;
+    width:1rem;
+    height:1rem;
+    padding:.35rem;
+    border-radius:50%;
+    color:#ffd51d;
+    background:#2d1b10;
+    stroke-width:3;
+  }
+  .mobileBuyButton:active {
+    transform:translateY(2px);
+    box-shadow:.12rem .18rem 0 #a84400,0 .3rem .65rem rgba(90,20,0,.28);
+  }
+
+}
+
+/* Keep scroll-linked ingredient motion on the compositor. The JavaScript
+   progress value is already eased, so extra CSS transitions only add lag. */
+.ingredientStory .copyStack,
+.ingredientStory .ingredientFlight,
+.ingredientStory .growthMeter,
+.ingredientStory .pathTrack,
+.journeyMascotLayer {
+  transition:none!important;
+}
+
+.ingredientStory .ingredientCopy {
+  filter:none!important;
+  transition:none!important;
+  will-change:transform,opacity;
+}
+
+.ingredientStory .flyingIngredient {
+  left:0!important;
+  top:0!important;
+  contain:layout paint;
+  backface-visibility:hidden;
+  filter:drop-shadow(0 1rem .9rem rgba(85,17,0,.3))!important;
+  transition:none!important;
+  will-change:transform,opacity;
+}
+
+.journeyMascotLayer .eatingStage {
+  left:0!important;
+  top:0!important;
+  translate:none!important;
+  transform:
+    translate3d(var(--bar-x),var(--bar-y),0)
+    translate(-50%,-50%)
+    translate3d(calc(var(--bar-vibrate) * .45px),calc(var(--bar-vibrate) * -.2px),0)!important;
+  will-change:transform;
+>>>>>>> Stashed changes
 }

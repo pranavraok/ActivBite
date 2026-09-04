@@ -1,0 +1,182 @@
+/*
+ * Mobile overrides — loaded LAST to override all conflicting !important rules.
+ * Targets the landing page and shop page specifically.
+ */
+
+/* ─── 1. HAMBURGER MENU ─── */
+@media (max-width: 700px) {
+  [class*="landing-hero-module"] [class*="header"] {
+    position: sticky !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 200 !important;
+    background: rgba(151, 34, 2, 0.92) !important;
+    backdrop-filter: blur(14px) saturate(130%) !important;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 18px rgba(92, 19, 0, 0.25) !important;
+  }
+
+  [class*="landing-hero-module"] [class*="menuButton"] {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    border: 2px solid #2d1b10 !important;
+    border-radius: 50% !important;
+    color: #2d1b10 !important;
+    background: #ffd51d !important;
+    box-shadow: 0 4px 0 #a84400, 0 8px 14px rgba(90, 20, 0, 0.3) !important;
+    cursor: pointer !important;
+    touch-action: manipulation !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  [class*="landing-hero-module"] [class*="menuButton"] svg {
+    width: 22px !important;
+    height: 22px !important;
+    stroke-width: 3 !important;
+  }
+
+  [class*="landing-hero-module"] [class*="header"] [class*="nav"] {
+    position: absolute !important;
+    z-index: 210 !important;
+    top: calc(100% + 6px) !important;
+    right: 4vw !important;
+    left: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    gap: 2px !important;
+    padding: 12px 16px !important;
+    border: 2px solid #2d1b10 !important;
+    border-radius: 16px !important;
+    background: rgba(151, 34, 2, 0.97) !important;
+    box-shadow: 0 14px 28px rgba(92, 19, 0, 0.4) !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transform: translateY(-10px) scale(0.94) !important;
+    transition: opacity 0.2s, transform 0.2s, visibility 0.2s !important;
+    pointer-events: none !important;
+  }
+
+  [class*="landing-hero-module"] [class*="header"] [class*="nav"][class*="mobileOpen"] {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translateY(0) scale(1) !important;
+    pointer-events: auto !important;
+  }
+
+  [class*="landing-hero-module"] [class*="header"] [class*="nav"] a {
+    display: block !important;
+    padding: 10px 12px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    color: #fff !important;
+    text-shadow: 0 2px 4px rgba(100, 20, 0, 0.45) !important;
+  }
+
+  [class*="landing-hero-module"] [class*="headerOnLight"] [class*="menuButton"] {
+    color: #2d1b10 !important;
+    background: #ffd51d !important;
+  }
+
+  [class*="landing-hero-module"] [class*="headerOnLight"] [class*="nav"] a {
+    color: #2d1b10 !important;
+    text-shadow: none !important;
+  }
+
+  [class*="landing-hero-module"] [class*="headerOnLight"] [class*="nav"] {
+    background: rgba(255, 249, 235, 0.98) !important;
+  }
+
+  /* ─── 2. BUY NOW BUTTON ─── */
+  [class*="landing-hero-module"] [class*="buyButton"] {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  [class*="landing-hero-module"] [class*="isLoading"] [class*="buyButton"] {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ─── 3. INGREDIENT SCROLL SECTION ─── */
+  /* Ensure the section is tall enough for the scroll animation */
+  [class*="landing-hero-module"] [class*="ingredientStory"] {
+    min-height: 500svh !important;
+    overflow-x: clip !important;
+  }
+
+  /* Keep sticky children working */
+  [class*="landing-hero-module"] [class*="copyStack"],
+  [class*="landing-hero-module"] [class*="ingredientFlight"] {
+    position: sticky !important;
+    top: 0 !important;
+    height: 100svh !important;
+    margin-bottom: -100svh !important;
+    overflow: hidden !important;
+  }
+
+  [class*="landing-hero-module"] [class*="growthMeter"] {
+    position: sticky !important;
+    top: calc(100svh - 50px) !important;
+    bottom: auto !important;
+  }
+
+  [class*="landing-hero-module"] [class*="allergenNote"] {
+    position: sticky !important;
+    top: calc(100svh - 74px) !important;
+    bottom: auto !important;
+  }
+
+  /* Mascot layer: keep in DOM but hide visually when inactive */
+  [class*="landing-hero-module"] [class*="ingredientLayerInactive"] {
+    display: block !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+  }
+
+  [class*="landing-hero-module"] [class*="ingredientLayerActive"] {
+    display: block !important;
+    visibility: visible !important;
+  }
+
+  /* ─── 4. OVERFLOW FIX ─── */
+  /* Use clip instead of hidden to not break sticky */
+  [class*="landing-hero-module"] [class*="scrollStory"] {
+    overflow-x: clip !important;
+  }
+
+  [class*="landing-hero-module"] [class*="storySticky"] {
+    overflow-x: clip !important;
+  }
+
+  [class*="landing-hero-module"] [class*="page"] {
+    overflow-x: clip !important;
+  }
+
+  [class*="landing-hero-module"] [class*="hero"] {
+    overflow-x: clip !important;
+  }
+
+  /* ─── 5. TOUCH HOVER GUARD ─── */
+  /* All interactive elements: no hover transforms on touch */
+}
+
+/* Touch-only: suppress hover */
+@media (hover: none) and (pointer: coarse) {
+  [class*="landing-hero-module"] [class*="packGrid"] button:hover,
+  [class*="landing-hero-module"] [class*="benefitGrid"] article:hover,
+  [class*="landing-hero-module"] [class*="stepsJourney"] article:hover,
+  [class*="landing-hero-module"] [class*="faqList"] article:hover,
+  [class*="landing-hero-module"] [class*="shopFinaleButton"]:hover,
+  [class*="landing-hero-module"] [class*="panelButton"]:hover,
+  [class*="landing-hero-module"] [class*="buyButton"]:hover {
+    transform: none !important;
+  }
+}

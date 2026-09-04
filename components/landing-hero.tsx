@@ -117,6 +117,11 @@ const getTrackPoint = (progress: number, compact: boolean) => {
 export default function LandingHero() {
   const [loading, setLoading] = useState(true);
   const [introLocked, setIntroLocked] = useState(true);
+<<<<<<< Updated upstream
+=======
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [hasScrolledPastHero, setHasScrolledPastHero] = useState(false);
+>>>>>>> Stashed changes
   const [storyProgress, setStoryProgress] = useState(0);
   const [selectedPack, setSelectedPack] = useState(30);
   const [compactStory, setCompactStory] = useState(false);
@@ -125,6 +130,7 @@ export default function LandingHero() {
   const ingredientRef = useRef<HTMLDivElement>(null);
   const powerFinaleRef = useRef<HTMLElement>(null);
   const journeyLayerRef = useRef<HTMLDivElement>(null);
+  const heroBuyButtonRef = useRef<HTMLAnchorElement>(null);
   const ingredientLayerActiveRef = useRef(false);
   const targetStoryProgress = useRef(0);
   const renderedStoryProgress = useRef(0);
@@ -195,74 +201,101 @@ export default function LandingHero() {
   }, []);
 
   useEffect(() => {
-    let frame = 0;
-    let animationFrame = 0;
+    const heroBuyButton = heroBuyButtonRef.current;
+    if (!heroBuyButton) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setHasScrolledPastHero(!entry.isIntersecting);
+    });
+    observer.observe(heroBuyButton);
+    return () => observer.disconnect();
+  }, []);
 
-    const syncToScroll = () => {
+  useEffect(() => {
+    let frame = 0;
+<<<<<<< Updated upstream
+=======
+    const syncHeaderTheme = () => {
       frame = 0;
+      const sampleY = Math.min(82, window.innerHeight * .1);
+      const sections = Array.from(document.querySelectorAll<HTMLElement>('[data-nav-theme]'));
+      const active = sections.find((section) => {
+        const rect = section.getBoundingClientRect();
+        return rect.top <= sampleY && rect.bottom > sampleY;
+      });
+      setNavTheme(active?.dataset.navTheme === 'light' ? 'light' : 'dark');
+    };
+    const onViewportChange = () => {
+      if (!frame) frame = window.requestAnimationFrame(syncHeaderTheme);
+    };
+    syncHeaderTheme();
+    window.addEventListener('scroll', onViewportChange, { passive: true });
+    window.addEventListener('resize', onViewportChange);
+    return () => {
+      window.removeEventListener('scroll', onViewportChange);
+      window.removeEventListener('resize', onViewportChange);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
+>>>>>>> Stashed changes
+    let animationFrame = 0;
+    let scrollReadFrame = 0;
+    let lastAnimationTime = performance.now();
+
+    const updateScrollTarget = () => {
       const section = ingredientRef.current;
       if (!section) return;
       const rect = section.getBoundingClientRect();
-      const finaleRect = powerFinaleRef.current?.getBoundingClientRect();
       const distance = Math.max(1, section.offsetHeight - window.innerHeight);
       const nextTarget = clamp(-rect.top / distance);
-      const ingredientActive = rect.top <= 1 && rect.bottom > window.innerHeight;
-      const finaleActive = Boolean(finaleRect && finaleRect.top < window.innerHeight && finaleRect.bottom > 0);
-      const scrollingDown = window.scrollY >= lastScrollY.current;
-      if (scrollingDown && finaleRect && finaleRect.bottom <= window.innerHeight * .42) {
-        journeyDismissedRef.current = true;
-      } else if (!scrollingDown && (ingredientActive || Boolean(finaleRect && finaleRect.bottom > window.innerHeight * .5))) {
-        journeyDismissedRef.current = false;
-      }
-      lastScrollY.current = window.scrollY;
-      const nextActive = !journeyDismissedRef.current && (ingredientActive || finaleActive);
-      const clipBottom = !ingredientActive && finaleActive && finaleRect
-        ? Math.max(0, window.innerHeight - finaleRect.bottom)
-        : 0;
+      const ingredientActive = rect.top <= window.innerHeight && rect.bottom > window.innerHeight;
       targetStoryProgress.current = nextTarget;
-      journeyLayerRef.current?.style.setProperty('--mascot-clip-bottom', `${clipBottom}px`);
-
-      if (nextActive !== ingredientLayerActiveRef.current) {
-        ingredientLayerActiveRef.current = nextActive;
-        setIngredientLayerActive(nextActive);
-      }
-
-      if (!nextActive) {
-        const boundaryProgress = rect.top > 0 ? 0 : 1;
-        targetStoryProgress.current = boundaryProgress;
-        renderedStoryProgress.current = boundaryProgress;
-        setStoryProgress(boundaryProgress);
+      if (ingredientActive !== ingredientLayerActiveRef.current) {
+        ingredientLayerActiveRef.current = ingredientActive;
+        setIngredientLayerActive(ingredientActive);
       }
     };
 
-    const animate = () => {
+    const animate = (now: number) => {
+      animationFrame = 0;
       const current = renderedStoryProgress.current;
       const target = targetStoryProgress.current;
-      const settled = Math.abs(target - current) < .0001;
-      const next = settled ? target : current + (target - current) * .14;
-      renderedStoryProgress.current = next;
-      setStoryProgress(next);
-      animationFrame = settled ? 0 : window.requestAnimationFrame(animate);
+      const elapsed = Math.min(50, Math.max(0, now - lastAnimationTime));
+      lastAnimationTime = now;
+      const smoothing = 1 - Math.exp(-elapsed / 110);
+      const next = current + (target - current) * smoothing;
+      const settled = Math.abs(target - next) < .0001;
+      const renderedProgress = settled ? target : next;
+      renderedStoryProgress.current = renderedProgress;
+      setStoryProgress(renderedProgress);
+      if (!settled) animationFrame = window.requestAnimationFrame(animate);
     };
 
-    const onScroll = () => {
-      if (!frame) {
-        frame = window.requestAnimationFrame(() => {
-          syncToScroll();
-          if (!animationFrame) animationFrame = window.requestAnimationFrame(animate);
-        });
-      }
+    const scheduleAnimation = () => {
+      if (animationFrame) return;
+      lastAnimationTime = performance.now();
+      animationFrame = window.requestAnimationFrame(animate);
     };
 
-    syncToScroll();
-    animationFrame = window.requestAnimationFrame(animate);
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
+    const readScrollProgress = () => {
+      scrollReadFrame = 0;
+      updateScrollTarget();
+      scheduleAnimation();
+    };
+
+    const scheduleScrollRead = () => {
+      if (!scrollReadFrame) scrollReadFrame = window.requestAnimationFrame(readScrollProgress);
+    };
+
+    readScrollProgress();
+    window.addEventListener('scroll', scheduleScrollRead, { passive: true });
+    window.addEventListener('resize', scheduleScrollRead);
     return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.removeEventListener('resize', onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+      window.removeEventListener('scroll', scheduleScrollRead);
+      window.removeEventListener('resize', scheduleScrollRead);
+      window.cancelAnimationFrame(scrollReadFrame);
+      window.cancelAnimationFrame(animationFrame);
     };
   }, []);
 
@@ -384,14 +417,14 @@ export default function LandingHero() {
     '--chew': chew,
     '--mouth-open': Math.max(mouthOpen, chew * .72),
     '--swallow': swallow,
-    '--bar-x': `${journeyBarX}%`,
-    '--bar-y': `${journeyBarY}%`,
+    '--bar-x': `${journeyBarX}vw`,
+    '--bar-y': `${journeyBarY}svh`,
     '--camera-y': `${cameraY}vh`,
     '--bar-angle': `${journeyBarAngle}deg`,
     '--bar-scale': barScale,
     '--bar-flip': `${journeyBarFlip}deg`,
     '--bar-vibrate': barVibrate,
-    '--mascot-visible': ingredientLayerActive ? mascotVisible : 0,
+    '--mascot-visible': mascotVisible,
     '--track-progress': pathProgress,
     '--power-up': powerUp,
     '--power-pulse': powerPulse,
@@ -400,6 +433,7 @@ export default function LandingHero() {
   } as CSSProperties;
 
   return (
+    <>
     <main className={styles.page}>
     <PublicHeader />
     <section data-nav-theme="dark" className={`${styles.hero} ${loading ? styles.isLoading : styles.heroReady}`} onPointerMove={handlePointerMove} onPointerLeave={resetPointer}>
@@ -447,7 +481,7 @@ export default function LandingHero() {
 
       <section className={styles.product} aria-label="ActivBite Breakfast Bar">
         <Image src="/PNG/LANDINGPAGEBAR.png" alt="ActivBite balanced breakfast bar" width={1448} height={1086} priority sizes="(max-width: 700px) 110vw, 58vw" />
-        <Link href="/shop" className={styles.buyButton} onClick={hideJourneyBeforeRouteChange}>
+        <Link ref={heroBuyButtonRef} href="/shop" className={styles.buyButton} onClick={hideJourneyBeforeRouteChange}>
           <ShoppingCart aria-hidden="true" /> <span>Buy Now</span>
         </Link>
       </section>
@@ -588,12 +622,10 @@ export default function LandingHero() {
                 + originYOffset * (1 - arrival)
                 + Math.sin(local * Math.PI * 3) * (1 - eaten) * 1.25;
               const flightStyle = {
-                left: `${ingredientX}%`,
-                top: `${ingredientY}%`,
                 opacity: (rawLocal >= 0 && rawLocal < .96 ? arrival : 0) * (1 - clamp((eaten - .78) / .22)),
                 '--arrival': arrival,
                 '--eaten': eaten,
-                transform: `translate(-50%,-50%) scale(${ingredientScale}) rotate(${startRotation * (1 - arrival) + eaten * 18}deg)`,
+                transform: `translate3d(${ingredientX}vw,${ingredientY}svh,0) translate(-50%,-50%) scale(${ingredientScale}) rotate(${startRotation * (1 - arrival) + eaten * 18}deg)`,
               } as CSSProperties;
               return (
                 <figure className={styles.flyingIngredient} style={flightStyle} key={ingredient.name}>
@@ -810,5 +842,16 @@ export default function LandingHero() {
     </section>
 
     </main>
+    <Link
+      href="/shop"
+      className={`${styles.mobileBuyButton} ${hasScrolledPastHero ? styles.mobileBuyButtonVisible : ''}`}
+      aria-hidden={!hasScrolledPastHero}
+      tabIndex={hasScrolledPastHero ? 0 : -1}
+      onClick={hideJourneyBeforeRouteChange}
+    >
+      <ShoppingCart aria-hidden="true" />
+      <span>Buy Now</span>
+    </Link>
+    </>
   );
 }

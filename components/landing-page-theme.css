@@ -821,3 +821,33 @@
     border-top: 1px solid rgba(78, 39, 18, .16) !important;
   }
 }
+
+/* Touch-device hover guard: prevent :hover from firing on mobile tap
+   so that click/tap handlers fire cleanly. */
+@media (hover:none) and (pointer:coarse) {
+  [data-brand-page] :is(
+    [class*="buyPanel"], [class*="formCard"], [class*="summaryCard"],
+    [class*="heroCard"], [class*="storyCard"], [class*="locationCard"],
+    [class*="contactConsole"], [class*="faqShell"],
+    [class*="sidePanel"], [class*="ticketCard"], [class*="paymentCard"],
+    [class*="contentWrap"], [class*="article"], [class*="successCard"]
+  ):hover {
+    transform: none !important;
+  }
+  [data-brand-page] :is(
+    [class*="statsGrid"], [class*="promiseGrid"], [class*="quickSignalGrid"],
+    [class*="heroHighlights"], [class*="benefits"], [class*="valuesGrid"],
+    [class*="nutritionGrid"], [class*="directGrid"], [class*="promiseStack"],
+    [class*="quickCards"], [class*="slangGrid"]
+  ) > :is(div, span, article, a):hover {
+    transform: none !important;
+  }
+  [data-brand-page] :is(
+    [class*="statsGrid"], [class*="promiseGrid"], [class*="quickSignalGrid"],
+    [class*="heroHighlights"], [class*="benefits"], [class*="valuesGrid"],
+    [class*="nutritionGrid"], [class*="directGrid"], [class*="promiseStack"],
+    [class*="quickCards"], [class*="slangGrid"]
+  ) > :is(div, span, article, a):active {
+    transform: translateY(-1px) !important;
+  }
+}

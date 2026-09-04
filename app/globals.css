@@ -188,10 +188,12 @@
   }
   html {
     scrollbar-gutter: stable;
+    overflow-x: hidden;
   }
   body {
     @apply bg-background text-foreground;
     font-family: var(--activbite-body-font);
+    overflow-x: hidden;
   }
 }
 

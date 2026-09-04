@@ -695,6 +695,18 @@
   .reassurance span + span { padding-left: 0; border-left: 0; }
 }
 
+@media (hover:none) and (pointer:coarse) {
+  .packOptions button:hover,
+  .buyNow:hover {
+    transform: none !important;
+  }
+  .packOptions button:active,
+  .buyNow:active {
+    transform: translateY(-1px) !important;
+    filter: brightness(1.03) !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .shopPage *, .shopPage *::before, .shopPage *::after { animation-duration: 1ms !important; transition-duration: 1ms !important; }
 }

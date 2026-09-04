@@ -2,8 +2,6 @@
 
 import { useEffect } from 'react';
 
-const CLEANUP_FLAG = 'activbite-cache-cleaned-v1';
-
 export default function BrowserCacheCleanup() {
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -12,20 +10,22 @@ export default function BrowserCacheCleanup() {
 
     const cleanBrowserCache = async () => {
       try {
+        // Unregister ALL service workers
         const registrations =
           'serviceWorker' in navigator
             ? await navigator.serviceWorker.getRegistrations()
             : [];
+        await Promise.all(registrations.map((reg) => reg.unregister()));
 
-        await Promise.all(registrations.map((registration) => registration.unregister()));
-
+        // Delete ALL caches
         if ('caches' in window) {
           const cacheNames = await caches.keys();
-          await Promise.all(cacheNames.map((cacheName) => caches.delete(cacheName)));
+          await Promise.all(cacheNames.map((name) => caches.delete(name)));
         }
 
-        if (registrations.length > 0 && sessionStorage.getItem(CLEANUP_FLAG) !== 'done') {
-          sessionStorage.setItem(CLEANUP_FLAG, 'done');
+        const reloadKey = 'activbite-cache-cleanup-v3';
+        if (window.sessionStorage.getItem(reloadKey) !== 'done') {
+          window.sessionStorage.setItem(reloadKey, 'done');
           window.location.reload();
         }
       } catch {
