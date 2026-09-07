@@ -621,3 +621,21 @@
     transition-duration: 1ms !important;
   }
 }
+
+/* Mobile task-first flow: the message form comes before support context. */
+@media (max-width:900px) {
+  .contactPage { overflow-x:clip; padding-top:6.25rem; }
+  .hero { align-items:stretch; gap:1rem; }
+  .hero>.formCard { order:1; }
+  .hero>.copy { order:2; }
+  .copy { text-align:left; }
+  .copy h1,
+  .lead,
+  .supportList { margin-inline:0; }
+  .copy h1 { font-size:clamp(2.9rem,12vw,4.25rem); }
+  .formCard input,
+  .formCard textarea,
+  .topicGrid button,
+  .sendButton { min-height:2.9rem; font-size:max(.875rem,16px); }
+  .supportList strong { font-size:.875rem; }
+}

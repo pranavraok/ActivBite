@@ -1278,3 +1278,18 @@
 .wholesalePage .copy h1,
 .wholesalePage .sectionIntro h2,
 .wholesalePage .journeyHeading h2 { line-height: .96; }
+
+/* Mobile task-first flow: enquiry form before partnership explanation. */
+@media (max-width:920px) {
+  .wholesalePage { overflow-x:clip; padding-top:6.25rem; }
+  .wholesalePage .hero { align-items:stretch; gap:1rem; }
+  .wholesalePage .hero>.formCard { order:1!important; }
+  .wholesalePage .hero>.copy { order:2!important; text-align:left; }
+  .wholesalePage .copy h1,
+  .wholesalePage .intro { margin-inline:0; }
+  .wholesalePage .formCard input,
+  .wholesalePage .formCard select,
+  .wholesalePage .formCard textarea,
+  .submitButton { min-height:2.9rem; font-size:max(.875rem,16px); }
+  .wholesalePage .stockingJourney { margin-top:1.15rem; }
+}

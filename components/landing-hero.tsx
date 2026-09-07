@@ -17,6 +17,11 @@ const heroRainIngredients = [
   { src: '/PNG/ELAICHI.png', x: '15.5%', size: '27px', delay: '-3.4s', duration: '9.1s', drift: '12px', rotate: '190deg' },
   { src: '/PNG/JAGGERY.png', x: '18%', size: '22px', delay: '-.4s', duration: '10.7s', drift: '-9px', rotate: '-205deg' },
   { src: '/PNG/PEANUTS.png', x: '1%', size: '21px', delay: '-9.6s', duration: '12.1s', drift: '12px', rotate: '260deg' },
+  { src: '/PNG/OAT.png', x: '27%', size: '18px', delay: '-6.7s', duration: '12.8s', drift: '20px', rotate: '280deg' },
+  { src: '/PNG/ELAICHI.png', x: '39%', size: '15px', delay: '-2.1s', duration: '10.9s', drift: '-16px', rotate: '-310deg' },
+  { src: '/PNG/DATES.png', x: '51%', size: '21px', delay: '-9.2s', duration: '13.4s', drift: '14px', rotate: '240deg' },
+  { src: '/PNG/JAGGERY.png', x: '63%', size: '17px', delay: '-4.9s', duration: '11.7s', drift: '-18px', rotate: '-265deg' },
+  { src: '/PNG/POHA.png', x: '74%', size: '19px', delay: '-7.4s', duration: '12.5s', drift: '17px', rotate: '295deg' },
   { src: '/PNG/OAT.png', x: '82%', size: '24px', delay: '-4.5s', duration: '9.4s', drift: '10px', rotate: '185deg' },
   { src: '/PNG/DATES.png', x: '84.5%', size: '34px', delay: '-6.3s', duration: '10.8s', drift: '-14px', rotate: '-205deg' },
   { src: '/PNG/ELAICHI.png', x: '88%', size: '22px', delay: '-.8s', duration: '8.9s', drift: '9px', rotate: '200deg' },
@@ -161,8 +166,9 @@ export default function LandingHero() {
   };
 
   useEffect(() => {
-    const revealTimer = window.setTimeout(() => setLoading(false), 2600);
-    const unlockTimer = window.setTimeout(() => setIntroLocked(false), 3550);
+    const mobileViewport = window.matchMedia('(max-width: 900px)').matches;
+    const revealTimer = window.setTimeout(() => setLoading(false), mobileViewport ? 450 : 2600);
+    const unlockTimer = window.setTimeout(() => setIntroLocked(false), mobileViewport ? 700 : 3550);
     return () => {
       window.clearTimeout(revealTimer);
       window.clearTimeout(unlockTimer);
@@ -433,7 +439,7 @@ export default function LandingHero() {
         ))}
       </div>
       <section className={styles.intro}>
-        <h1 aria-label="Morning Fuel">{heroTitle.map((letter, index) => <span key={`${letter}-${index}`}>{letter === ' ' ? '\u00A0' : letter}</span>)}</h1>
+        <h1 aria-label="Morning Fuel">{heroTitle.map((letter, index) => <span style={{'--i': index} as React.CSSProperties} key={`${letter}-${index}`}>{letter === ' ' ? '\u00A0' : letter}</span>)}</h1>
       </section>
 
       <div className={styles.foodScene} id="ingredients" aria-hidden="true">
@@ -507,7 +513,7 @@ export default function LandingHero() {
           <path className={styles.pathTrackProgress} pathLength="1" d="M72 20 C59 26 40 38 31 55 C27 70 28 85 35 100 C39 115 36 130 29 145 C25 160 27 175 34 190 C38 205 36 220 30 235 C26 250 28 265 35 280 C38 295 36 310 31 325" />
         </svg>
 
-        <div id="ingredient-story" ref={ingredientRef} data-nav-theme="dark" className={styles.ingredientStory} aria-live="polite">
+        <div id="ingredient-story" ref={ingredientRef} data-nav-theme="dark" data-nav-theme-mobile="light" className={styles.ingredientStory} aria-live="polite">
           <div className={styles.ingredientChapterChrome} aria-hidden="true">
             <div>
               <span>Inside every ActivBite</span>
@@ -617,7 +623,7 @@ export default function LandingHero() {
 
         <SectionTicker items={tickerCopy.powered} order={10} />
 
-        <section data-nav-theme="light" className={`${styles.packFinale} ${shopVisible > .8 && finaleProgress > .8 ? styles.packFinaleReady : ''}`} aria-labelledby="pack-finale-title">
+        <section id="choose-your-pack" data-nav-theme="dark" className={`${styles.packFinale} ${shopVisible > .8 && finaleProgress > .8 ? styles.packFinaleReady : ''}`} aria-labelledby="pack-finale-title">
           <div className={styles.powerFinale} aria-hidden="true">
             <div className={styles.powerBurst} />
             <span>FULLY FUELLED!</span>
@@ -658,6 +664,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.shop} order={4} />
 
         <section
+          id="breakfast-energy"
           data-nav-theme="light"
           className={`${styles.journeyPanel} ${styles.productIntroPanel}`}
         >
@@ -677,6 +684,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.intro} order={2} />
 
         <section
+          id="why-activbite"
           data-nav-theme="dark"
           className={`${styles.journeyPanel} ${styles.whyPanel}`}
         >
@@ -696,6 +704,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.why} order={6} />
 
         <section
+          id="order-steps"
           data-nav-theme="dark"
           className={`${styles.journeyPanel} ${styles.howPanel}`}
         >
@@ -710,6 +719,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.steps} order={12} />
 
         <section
+          id="campus-delivery"
           data-nav-theme="light"
           className={`${styles.journeyPanel} ${styles.campusPanel}`}
         >
@@ -730,6 +740,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.campus} order={14} />
 
         <section
+          id="wholesale-preview"
           data-nav-theme="dark"
           className={`${styles.journeyPanel} ${styles.wholesalePanel}`}
         >
@@ -758,6 +769,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.wholesale} order={16} />
 
         <section
+          id="faq-preview"
           data-nav-theme="light"
           className={`${styles.journeyPanel} ${styles.faqPanel}`}
         >
@@ -773,6 +785,7 @@ export default function LandingHero() {
         <SectionTicker items={tickerCopy.faq} order={18} />
 
         <footer
+          id="home-footer"
           data-nav-theme="dark"
           className={`${styles.journeyPanel} ${styles.journeyFooter}`}
         >

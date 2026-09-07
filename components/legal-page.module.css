@@ -737,3 +737,9 @@
     transition-duration: 1ms !important;
   }
 }
+
+@media (max-width:700px) {
+  .legalPage { overflow-x:clip; }
+  .navLink { min-height:2.8rem; }
+  .article { overflow-wrap:anywhere; }
+}

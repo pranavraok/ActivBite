@@ -647,3 +647,29 @@
   .trackingForm button,
   .confirmationTrackButton { transition: none; }
 }
+
+/* Mobile task-first flow: tracking/payment controls before explanation. */
+@media (max-width:980px) {
+  .statusPage { overflow-x:clip; }
+  .statusLayout { align-items:stretch; gap:1.25rem; }
+  .statusLayout>.trackerCard,
+  .statusLayout>.paymentCard { order:1; }
+  .statusLayout>.orderCopy { order:2; text-align:left; }
+  .orderCopy h1,
+  .lead,
+  .microText,
+  .trackShortcut { margin-right:0; margin-left:0; }
+  .trackingHints { justify-items:start; }
+  .trackingForm input,
+  .trackingForm button,
+  .referenceForm input,
+  .referenceForm>button,
+  .upiButton { min-height:2.9rem; font-size:max(.875rem,16px); }
+}
+
+@media (max-width:620px) {
+  .statusLayout { padding-top:6rem; padding-bottom:2rem; }
+  .paymentBody { grid-template-columns:1fr; }
+  .qrBox { display:none; }
+  .upiHelp { margin-top:.65rem; }
+}

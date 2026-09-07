@@ -26,8 +26,11 @@ export default function PublicHeader() {
         const rect = section.getBoundingClientRect();
         return rect.top <= sampleY && rect.bottom > sampleY;
       });
+      const activeTheme = window.matchMedia('(max-width: 900px)').matches
+        ? active?.dataset.navThemeMobile ?? active?.dataset.navTheme
+        : active?.dataset.navTheme;
 
-      setNavTheme(active?.dataset.navTheme === 'light' ? 'light' : 'dark');
+      setNavTheme(activeTheme === 'light' ? 'light' : 'dark');
     };
 
     const onViewportChange = () => {

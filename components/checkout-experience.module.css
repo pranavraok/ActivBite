@@ -1013,3 +1013,19 @@
     transition-duration: 1ms !important;
   }
 }
+
+/* Mobile task-first flow: delivery fields first, context and summary after. */
+@media (max-width:900px) {
+  .checkoutPage { overflow-x:clip; padding-top:6.25rem; }
+  .shell { align-items:stretch; }
+  .leftColumn { display:flex; flex-direction:column; gap:.8rem; }
+  .leftColumn>.formCard { order:1; }
+  .leftColumn>.copy { order:2; }
+  .summaryColumn { order:3; }
+  .copy { text-align:left; }
+  .copy h1 { font-size:clamp(2.8rem,12vw,4rem); }
+  .formCard input,
+  .formCard select,
+  .payButton { min-height:2.9rem; font-size:max(.875rem,16px); }
+  .promiseGrid { margin-top:.1rem; }
+}

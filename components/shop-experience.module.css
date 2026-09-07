@@ -807,3 +807,26 @@
   .packCount strong { font-size: 2.8rem; }
   .packCount span { font-size: .68rem; }
 }
+
+/* Mobile task-first flow: pack builder before marketing copy and artwork. */
+@media (max-width:960px) {
+  .shopPage { overflow-x:clip; padding-top:6.25rem; }
+  .hero { align-items:stretch; gap:1rem; }
+  .hero>.buyPanel { order:1; width:100%; }
+  .hero>.copy { order:2; text-align:left; }
+  .hero>.productVisual { order:3; min-height:19rem; }
+  .copy h1,
+  .intro { margin-inline:0; }
+  .decorativeRule { margin-inline:0; }
+  .packOptions>div { min-height:4.75rem; }
+  .packOptions .packQuantity button,
+  .buyNow { min-height:2.9rem; }
+  .buyNow { font-size:max(.875rem,16px); }
+}
+
+@media (max-width:520px) {
+  .hero { width:min(100% - 1rem,30rem); }
+  .copy h1 { font-size:clamp(3rem,15vw,4.35rem); }
+  .statsGrid { display:none; }
+  .productVisual { min-height:16rem!important; }
+}

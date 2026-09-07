@@ -1272,6 +1272,12 @@
   }
 }
 
+@media (max-width:700px) {
+  .aboutPage { overflow-x:clip; }
+  .heroActions a,
+  .ctaActions a { min-height:2.9rem; }
+}
+
 .aboutPage .copy h1,
 .aboutPage .sectionIntro h2,
 .aboutPage .missionCopy h2,

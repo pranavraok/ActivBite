@@ -1087,3 +1087,9 @@
     transition-duration: 1ms !important;
   }
 }
+
+@media (max-width:760px) {
+  .faqPage { overflow-x:clip; }
+  .categoryTabs button,
+  .faqItem button { min-height:2.9rem; touch-action:manipulation; }
+}
