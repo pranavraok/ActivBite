@@ -97,6 +97,10 @@ export default function OrderStatusExperience() {
   const [isTracking, setIsTracking] = useState(false);
 
   useEffect(() => {
+    if (!isPaymentMode) setPaymentSuccess('');
+  }, [isPaymentMode]);
+
+  useEffect(() => {
     if (!isPaymentMode) return;
     const rawOrder = window.sessionStorage.getItem('activbite:lastOrder');
     if (!rawOrder) return;
@@ -155,7 +159,7 @@ export default function OrderStatusExperience() {
     setTrackedOrder(null);
     setTrackingError('');
     if (!TRACKING_ID_PATTERN.test(cleanedId)) {
-      setTrackingError('Enter the complete 8-character ID, for example AB7K2P9.');
+      setTrackingError('Enter the complete 8-character ID, for example AB7K2P9R.');
       return;
     }
     setIsTracking(true);
@@ -357,9 +361,11 @@ export default function OrderStatusExperience() {
               <label>Transaction / reference ID
                 <input value={paymentReference} onChange={(event) => {
                   setPaymentReference(event.target.value); setPaymentError('');
-                }} placeholder="Paste the UPI reference number" autoComplete="off" />
+                }} placeholder="Paste the UPI reference number" autoComplete="off"
+                aria-invalid={Boolean(paymentError)}
+                aria-describedby={paymentError ? 'payment-reference-error' : undefined} />
               </label>
-              {paymentError && <p className={styles.formError} role="alert">{paymentError}</p>}
+              {paymentError && <p id="payment-reference-error" className={styles.formError} role="alert">{paymentError}</p>}
               <button type="submit" disabled={
                 isSubmittingPayment || Boolean(paymentSuccess) || !confirmedPaymentOrder
               }>
@@ -371,7 +377,7 @@ export default function OrderStatusExperience() {
         </section>
       ) : (
         <section className={styles.statusLayout} data-nav-theme="dark">
-          <div className={styles.orderCopy}>
+          <div className={`${styles.orderCopy} ${styles.trackingIntro}`}>
             <p className={styles.microText}>Track ActivBite</p>
             <h1>Track breakfast.<span>Stay in the loop.</span></h1>
             <p className={styles.lead}>
@@ -397,15 +403,16 @@ export default function OrderStatusExperience() {
                 <input id="tracking-id" value={trackingId} onChange={(event) => {
                   setTrackingId(event.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 8));
                   setTrackingError(''); setTrackedOrder(null);
-                }} placeholder="AB7K2P9" autoCapitalize="characters" autoComplete="off"
-                spellCheck={false} maxLength={8} />
+                }} placeholder="AB7K2P9R" autoCapitalize="characters" autoComplete="off"
+                spellCheck={false} maxLength={8} aria-invalid={Boolean(trackingError)}
+                aria-describedby={trackingError ? 'tracking-error' : undefined} />
                 <button type="submit" disabled={isTracking}>
                   {isTracking ? <Loader2 className={styles.spinner} size={19} /> : <Search size={19} />}
                   {isTracking ? 'Checking...' : 'Show status'}
                 </button>
               </div>
             </form>
-            {trackingError && <p className={styles.trackingError} role="alert">{trackingError}</p>}
+            {trackingError && <p id="tracking-error" className={styles.trackingError} role="alert">{trackingError}</p>}
             {trackedOrder && (
               <div className={styles.statusResult} aria-live="polite">
                 <div className={styles.currentStatus}>
@@ -463,7 +470,8 @@ export default function OrderStatusExperience() {
               <strong>{checkoutOrderId}</strong>
             </div>
             <Link className={styles.confirmationTrackButton}
-              href={`/order-status?track=${encodeURIComponent(checkoutOrderId)}`}>
+              href={`/order-status?track=${encodeURIComponent(checkoutOrderId)}`}
+              onClick={() => setPaymentSuccess('')}>
               Track my order <ArrowRight size={20} />
             </Link>
             <p className={styles.confirmationFootnote}>Keep this ID handy for future updates.</p>

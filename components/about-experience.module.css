@@ -1296,3 +1296,335 @@
 .aboutPage .grantBadge svg { width: 1rem; height: 1rem; }
 .aboutPage .grantBadge strong { font-size: .8rem; line-height: 1; }
 .aboutPage .grantBadge span { font-size: .58rem; line-height: 1; }
+
+/* Final About page system: stronger hierarchy, readable storytelling and a
+   consistent mobile rhythm without affecting the shared header or homepage. */
+.aboutPage .hero {
+  grid-template-columns: minmax(28rem, 1fr) minmax(26rem, .82fr);
+  width: min(91vw, 88rem);
+  padding-block: 1.25rem 2.75rem;
+  gap: clamp(2rem, 5vw, 5.5rem);
+}
+
+.aboutPage .copy h1 {
+  max-width: 8ch;
+  font-size: clamp(4.8rem, 7.3vw, 7.35rem);
+  line-height: .82;
+  letter-spacing: -.015em;
+  text-wrap: balance;
+}
+
+.aboutPage .lead {
+  max-width: 34rem;
+  margin-top: 1.15rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.62;
+}
+
+.aboutPage .heroCard {
+  border: 2px solid #372015;
+  border-radius: 1.5rem .45rem 1.5rem .45rem;
+  box-shadow: .6rem .65rem 0 #ffd51d, 0 1.8rem 3.4rem rgba(102,29,0,.2);
+}
+
+.aboutPage .cardTop {
+  min-height: 2.3rem;
+  margin-bottom: .65rem;
+  padding-inline: .25rem;
+}
+
+.aboutPage .cardTop span,
+.aboutPage .cardTop strong {
+  font-size: .75rem;
+}
+
+.aboutPage .sectionIntro h2 {
+  max-width: 19ch;
+  font-size: clamp(3rem, 4.4vw, 5rem);
+  line-height: .86;
+  white-space: normal;
+  text-wrap: balance;
+}
+
+.aboutPage .sectionIntro p {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.65;
+}
+
+.aboutPage .storyCard h3 {
+  margin-top: 1.45rem;
+  font-size: 1.18rem;
+  line-height: 1.25;
+}
+
+.aboutPage .storyCard p {
+  color: #604b3e;
+  font-size: .94rem;
+  font-weight: 600;
+  line-height: 1.58;
+}
+
+.aboutPage .locationCard p {
+  font-size: .94rem;
+  line-height: 1.58;
+}
+
+.aboutPage .ctaBand {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  text-align: left;
+}
+
+.aboutPage .ctaBand h2 {
+  white-space: normal;
+  text-wrap: balance !important;
+}
+
+.ctaButton {
+  display: inline-flex;
+  min-height: 3.7rem;
+  padding: 0 1.35rem;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff3c7;
+  border-radius: .9rem;
+  color: #2b190c;
+  background: #ffd51d;
+  box-shadow: .35rem .4rem 0 #ef5b00;
+  gap: .7rem;
+  font-size: .88rem;
+  font-weight: 950;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px);
+  box-shadow: .35rem .58rem 0 #ef5b00;
+}
+
+.aboutPage .ctaButton {
+  color: #2b190c !important;
+  background: #ffd51d !important;
+  box-shadow: .35rem .4rem 0 #ef5b00 !important;
+}
+
+@media (max-width: 1080px) {
+  .aboutPage .hero {
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100% - 2rem, 48rem);
+    gap: 1.5rem;
+  }
+
+  .aboutPage .copy h1 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 760px) {
+  .aboutPage {
+    padding-top: 5.7rem;
+  }
+
+  .aboutPage .hero {
+    width: min(100% - 1.25rem, 42rem);
+    padding-block: .25rem 1.15rem;
+    gap: 1.25rem;
+  }
+
+  .aboutPage .microText {
+    width: 100%;
+    margin-bottom: .85rem;
+    padding: .65rem .55rem;
+    border: 2px solid #392116;
+    border-radius: .7rem .25rem .7rem .25rem;
+    color: #3b220c;
+    background: #ffd51d;
+    box-shadow: .25rem .3rem 0 #ef5b00;
+    font-size: .64rem;
+    letter-spacing: .065em;
+    line-height: 1.25;
+    white-space: nowrap;
+  }
+
+  .aboutPage .copy h1 {
+    max-width: 7ch;
+    margin-inline: auto;
+    font-size: clamp(3.45rem, 16.5vw, 4.55rem);
+    line-height: .8;
+  }
+
+  .aboutPage .lead {
+    max-width: 34ch;
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.58;
+  }
+
+  .aboutPage .heroCard {
+    width: 100%;
+    padding: .6rem;
+    border-radius: 1.15rem .35rem 1.15rem .35rem;
+    box-shadow: .42rem .48rem 0 #ffd51d;
+  }
+
+  .aboutPage .heroCard .productStage {
+    min-height: 14.25rem;
+    border-radius: .9rem;
+  }
+
+  .aboutPage .cardTop {
+    min-height: 2rem;
+    margin-bottom: .45rem;
+  }
+
+  .aboutPage .cardTop span,
+  .aboutPage .cardTop strong {
+    font-size: .66rem;
+  }
+
+  .aboutPage .cardStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .45rem;
+  }
+
+  .aboutPage .cardStats span {
+    min-height: 2.8rem;
+    padding: .45rem .3rem;
+    font-size: .7rem;
+  }
+
+  .aboutPage .storySection {
+    margin-top: 1.75rem;
+    padding-top: 1rem !important;
+  }
+
+  .aboutPage .sectionIntro {
+    margin-bottom: 1.25rem;
+    text-align: center;
+  }
+
+  .aboutPage .sectionIntro h2 {
+    max-width: 12ch;
+    margin-inline: auto;
+    font-size: clamp(2.35rem, 11vw, 3.05rem);
+    line-height: .86;
+    white-space: normal;
+  }
+
+  .aboutPage .sectionIntro p {
+    max-width: 32ch;
+    margin-top: .8rem;
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .aboutPage .storyGrid {
+    padding-left: 2.55rem;
+    gap: 1.1rem;
+  }
+
+  .aboutPage .storyGrid::before {
+    left: .95rem;
+    width: .22rem;
+  }
+
+  .aboutPage .storyCard {
+    padding: 1.2rem;
+    border-radius: 1rem .3rem 1rem .3rem;
+    box-shadow: .35rem .4rem 0 #ffd51d;
+  }
+
+  .aboutPage .storyCard:nth-child(odd)::before,
+  .aboutPage .storyCard:nth-child(even)::before {
+    left: -2.15rem;
+  }
+
+  .aboutPage .storyCard h3 {
+    margin: 1.25rem 0 .6rem;
+    padding-right: 1.9rem;
+    font-size: 1.12rem;
+    line-height: 1.28;
+  }
+
+  .aboutPage .storyCard p {
+    font-size: .94rem;
+    line-height: 1.56;
+  }
+
+  .aboutPage .missionBand {
+    margin-top: 1.9rem;
+    padding: 1.25rem;
+    border-radius: 1.15rem .35rem 1.15rem .35rem;
+    box-shadow: .4rem .46rem 0 #ffd51d !important;
+  }
+
+  .aboutPage .missionCopy h2 {
+    max-width: 13ch;
+    font-size: clamp(2.35rem, 10.5vw, 3rem);
+    line-height: .88;
+  }
+
+  .aboutPage .missionCopy p,
+  .aboutPage .locationCard p {
+    font-size: .96rem;
+    line-height: 1.58;
+  }
+
+  .aboutPage .locationCard {
+    padding: 1rem;
+    border: 2px solid #3a2214;
+    border-radius: .9rem;
+  }
+
+  .aboutPage .ctaBand {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 1.6rem;
+    padding: 1.55rem 1rem;
+    gap: 1.15rem;
+    text-align: center;
+  }
+
+  .aboutPage .ctaBand h2 {
+    max-width: 11ch;
+    margin-inline: auto;
+    font-size: clamp(2.25rem, 10.5vw, 3rem) !important;
+    line-height: .88 !important;
+    white-space: normal;
+  }
+
+  .aboutPage .ctaBand p {
+    font-size: .92rem;
+  }
+
+  .aboutPage .ctaButton {
+    width: 100%;
+    min-height: 3.5rem;
+  }
+
+  .aboutPage .bottomStrip {
+    margin-top: 1.25rem;
+    padding: .7rem 1rem;
+  }
+
+  .aboutPage .bottomStrip span {
+    justify-content: center;
+    min-height: 3rem;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .aboutPage .microText {
+    font-size: .58rem;
+    letter-spacing: .035em;
+  }
+
+  .aboutPage .copy h1 {
+    font-size: 3.25rem;
+  }
+}

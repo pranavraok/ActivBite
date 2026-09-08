@@ -673,3 +673,403 @@
   .qrBox { display:none; }
   .upiHelp { margin-top:.65rem; }
 }
+
+/* Final mobile order flow: primary action first, readable states, calm spacing. */
+@media (max-width: 980px) {
+  .statusPage {
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    overflow-x: clip;
+    background:
+      radial-gradient(circle at 84% 8%, rgba(255, 213, 29, .22), transparent 17rem),
+      linear-gradient(155deg, #fb6a05 0%, #ef4e00 58%, #d93a00 100%);
+  }
+
+  .glow {
+    top: 4rem;
+    right: -12rem;
+    width: 26rem;
+    height: 26rem;
+    opacity: .68;
+    filter: blur(48px);
+  }
+
+  .statusLayout {
+    width: min(calc(100% - 1.5rem), 42rem);
+    min-height: auto;
+    padding: .75rem 0 1.6rem;
+    align-items: stretch;
+    gap: 1.75rem;
+  }
+
+  .statusLayout > .trackerCard,
+  .statusLayout > .paymentCard {
+    order: 1;
+  }
+
+  .statusLayout > .orderCopy {
+    order: 2;
+  }
+
+  .trackingIntro {
+    display: none;
+  }
+
+  .trackerCard,
+  .paymentCard {
+    padding: 1.05rem;
+    border-radius: 1.1rem;
+    box-shadow: .28rem .3rem 0 var(--yellow), 0 .85rem 2rem rgba(83, 25, 0, .18);
+    animation: statusMobileEnter .5s ease-out both;
+  }
+
+  .trackerHeading > span,
+  .paymentCardHeader span {
+    color: #c84600;
+    font-size: .7rem;
+  }
+
+  .trackerHeading h2,
+  .paymentCardHeader h2 {
+    color: #2d1b10;
+    font-size: clamp(2.1rem, 9.5vw, 2.8rem);
+    line-height: .91;
+  }
+
+  .trackerHeading p {
+    margin-top: .55rem;
+    color: #5a4031;
+    font-size: .94rem;
+    font-weight: 500;
+    line-height: 1.55;
+  }
+
+  .trackingForm {
+    margin-top: 1rem;
+  }
+
+  .trackingForm label,
+  .referenceForm label {
+    color: #2d1b10;
+    font-size: .82rem;
+    font-weight: 800;
+  }
+
+  .trackingForm > div {
+    grid-template-columns: 1fr;
+    margin-top: .4rem;
+    gap: .65rem;
+  }
+
+  .trackingForm input,
+  .referenceForm input {
+    min-height: 3.2rem;
+    margin-top: 0;
+    padding-inline: .9rem;
+    border-radius: .7rem;
+    color: #2d1b10;
+    background: #fff;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .trackingForm input {
+    letter-spacing: .09em;
+  }
+
+  .trackingForm button,
+  .referenceForm > button,
+  .upiButton {
+    min-height: 3.25rem;
+    border-radius: .72rem;
+    color: #2d1b10;
+    font-size: .92rem;
+  }
+
+  .trackerHelp {
+    justify-content: center;
+    margin-top: .95rem;
+    padding-top: .85rem;
+    color: #694c3b;
+    font-size: .875rem;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .trackerHelp a {
+    color: #9f3500;
+  }
+
+  .orderCopy {
+    padding: .1rem .2rem 0;
+    text-align: center;
+    animation: statusMobileEnter .5s ease-out .08s both;
+  }
+
+  .microText {
+    margin: 0 auto .85rem;
+    font-size: .7rem;
+  }
+
+  .orderCopy h1 {
+    max-width: 24rem;
+    margin-inline: auto;
+    font-size: clamp(3rem, 12.5vw, 4.1rem);
+    line-height: .86;
+  }
+
+  .lead {
+    max-width: 35rem;
+    margin: 1rem auto 0;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .trackingHints {
+    grid-template-columns: 1fr;
+    max-width: 30rem;
+    margin: 1.1rem auto 0;
+    gap: .55rem;
+  }
+
+  .trackingHints span {
+    width: 100%;
+    min-height: 3rem;
+    justify-content: flex-start;
+    padding: .65rem .8rem;
+    color: #fff;
+    font-size: .86rem;
+    font-weight: 650;
+  }
+
+  .currentStatus {
+    padding: 1rem;
+    color: #fff;
+  }
+
+  .statusPage .trackerCard .currentStatus > span {
+    color: var(--yellow) !important;
+    font-size: .7rem;
+  }
+
+  .statusPage .trackerCard .currentStatus > strong {
+    color: #fff !important;
+    font-size: clamp(1.8rem, 8vw, 2.4rem);
+  }
+
+  .statusPage .trackerCard .currentStatus > p {
+    color: #f7e5da !important;
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+
+  .statusPage .trackerCard .statusTimeline {
+    grid-template-columns: 1fr !important;
+    margin-top: .85rem;
+    gap: 0 !important;
+  }
+
+  .statusPage .trackerCard .statusTimeline::before {
+    display: none !important;
+  }
+
+  .statusPage .trackerCard .statusTimeline li {
+    grid-template-columns: auto minmax(0, 1fr);
+    justify-items: start;
+    min-height: 2.85rem;
+    align-items: center;
+    color: #80695a;
+    text-align: left;
+    gap: .7rem;
+  }
+
+  .statusPage .trackerCard .statusTimeline li::before {
+    top: -1rem;
+    left: .92rem;
+    width: 2px;
+    height: 2rem;
+    transform: none;
+  }
+
+  .statusPage .trackerCard .statusTimeline i {
+    grid-column: 1;
+    width: 1.9rem;
+    height: 1.9rem;
+  }
+
+  .statusPage .trackerCard .statusTimeline li > span {
+    grid-column: 2;
+    margin: 0;
+    color: inherit;
+    font-size: .82rem;
+    line-height: 1.3;
+  }
+
+  .trackedFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .trackedFacts div:nth-child(even) {
+    border-left: 0;
+  }
+
+  .trackedFacts div + div {
+    border-top: 1px solid #e1cfc2;
+  }
+
+  .trackedFacts span {
+    color: #76594a;
+    font-size: .7rem;
+    opacity: 1;
+  }
+
+  .trackedFacts strong {
+    color: #2d1b10;
+    font-size: .86rem;
+  }
+
+  .paymentCardHeader {
+    display: grid;
+    padding-bottom: .85rem;
+  }
+
+  .paymentCardHeader > strong {
+    color: #b63b00;
+    font-size: 1.25rem;
+  }
+
+  .paymentBody {
+    grid-template-columns: 1fr;
+    margin-block: .9rem;
+  }
+
+  .payDetails {
+    padding: .85rem;
+    border: 1px solid #e3cbbb;
+    border-radius: .75rem;
+    background: #fff;
+  }
+
+  .payDetails > span,
+  .payDetails > p,
+  .upiHelp,
+  .exactAmountNotice span,
+  .confirmationFootnote {
+    font-size: .8rem;
+    line-height: 1.5;
+  }
+
+  .payDetails > strong {
+    color: #2d1b10;
+  }
+
+  .payDetails > p,
+  .upiHelp {
+    color: #604536;
+  }
+
+  .exactAmountNotice strong {
+    font-size: .84rem;
+  }
+
+  .demoNotice,
+  .paymentLoadError,
+  .formError,
+  .trackingError {
+    font-size: .875rem;
+    line-height: 1.45;
+  }
+
+  .trackingTicket {
+    grid-template-columns: minmax(0, 1fr) auto;
+    text-align: left;
+  }
+
+  .trackingTicket strong {
+    overflow-wrap: anywhere;
+    font-size: clamp(1.7rem, 9vw, 2.35rem);
+  }
+
+  .orderFacts {
+    max-width: 34rem;
+    margin-inline: auto;
+    text-align: left;
+  }
+
+  .orderFacts span {
+    color: rgba(255,255,255,.76);
+    opacity: 1;
+  }
+
+  .orderFacts strong {
+    color: #fff;
+    font-size: .86rem;
+  }
+
+  .trackShortcut {
+    min-height: 2.9rem;
+    margin: 1rem auto 0;
+    color: #fff;
+  }
+
+  .bottomStrip {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: .7rem 1rem;
+    gap: 0;
+  }
+
+  .bottomStrip span {
+    justify-content: center;
+    min-height: 3.1rem;
+    color: var(--ink);
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    text-align: center;
+    gap: .65rem;
+  }
+
+  .bottomStrip span + span {
+    border-top: 1px solid rgba(77, 38, 0, .22);
+  }
+
+  .bottomStrip svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .paymentConfirmationOverlay {
+    padding: 1rem;
+  }
+
+  .paymentConfirmationCard {
+    padding: 1.65rem 1.1rem 1.25rem;
+    border-radius: 1.15rem;
+    box-shadow: .4rem .45rem 0 var(--orange);
+  }
+
+  .paymentConfirmationCard h2 {
+    font-size: clamp(2.5rem, 11vw, 3.4rem);
+  }
+}
+
+@media (max-width: 620px) {
+  .qrBox {
+    display: none;
+  }
+}
+
+@keyframes statusMobileEnter {
+  from {
+    opacity: 0;
+    transform: translateY(.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

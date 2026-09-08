@@ -1293,3 +1293,175 @@
   .submitButton { min-height:2.9rem; font-size:max(.875rem,16px); }
   .wholesalePage .stockingJourney { margin-top:1.15rem; }
 }
+
+/* Final mobile wholesale pass: keep the enquiry first and make every control,
+   label and supporting step comfortable to read and tap. */
+@media (max-width: 920px) {
+  .wholesalePage {
+    padding-top: 5.55rem;
+  }
+
+  .wholesalePage .hero {
+    width: min(calc(100% - 1.25rem), 40rem) !important;
+    margin: .35rem auto 1.25rem !important;
+    gap: 1.45rem !important;
+  }
+
+  .wholesalePage .hero > .formCard {
+    width: 100% !important;
+    padding: 1.1rem !important;
+    border-radius: 1.15rem .35rem 1.15rem .35rem !important;
+    box-shadow: .42rem .48rem 0 #ef5b00 !important;
+  }
+
+  .wholesalePage .hero .formHeading {
+    margin-bottom: 1rem;
+  }
+
+  .wholesalePage .formEyebrow {
+    margin-bottom: .5rem;
+    font-size: .75rem;
+    line-height: 1.2;
+  }
+
+  .wholesalePage .formHeading h2,
+  .wholesalePage .successCard h2 {
+    max-width: 14ch;
+    font-size: clamp(1.9rem, 8.5vw, 2.45rem);
+    line-height: .92;
+    text-wrap: balance;
+  }
+
+  .wholesalePage .hero .formCard form {
+    gap: .82rem;
+  }
+
+  .wholesalePage .hero .gridTwo {
+    gap: .82rem;
+  }
+
+  .wholesalePage .hero .formCard label {
+    font-size: .875rem;
+    line-height: 1.25;
+    gap: .38rem;
+  }
+
+  .wholesalePage .formCard input,
+  .wholesalePage .formCard select,
+  .wholesalePage .formCard textarea {
+    min-height: 3.1rem;
+    padding-inline: .9rem;
+    border-width: 1.5px;
+    border-radius: .7rem;
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .wholesalePage .formCard textarea {
+    min-height: 6.2rem;
+    padding-block: .75rem;
+  }
+
+  .wholesalePage .formCard small,
+  .wholesalePage .formError {
+    font-size: .76rem;
+    line-height: 1.4;
+  }
+
+  .wholesalePage .confirmRow {
+    margin-top: .05rem;
+    gap: .75rem !important;
+  }
+
+  .wholesalePage .confirmRow input {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .wholesalePage .confirmRow span {
+    font-size: .875rem;
+    line-height: 1.5;
+  }
+
+  .wholesalePage .submitButton {
+    min-height: 3.55rem;
+    font-size: .95rem;
+  }
+
+  .wholesalePage .copy {
+    padding-top: .35rem;
+  }
+
+  .wholesalePage .copy h1 {
+    max-width: 8ch;
+    font-size: clamp(3.4rem, 15.5vw, 4.5rem);
+    line-height: .82;
+  }
+
+  .wholesalePage .intro {
+    max-width: 37rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .wholesalePage .copy .stockingJourney {
+    margin-top: 1.25rem;
+    padding: 1rem;
+  }
+
+  .wholesalePage .copy .journeyHeading {
+    margin-bottom: .65rem;
+  }
+
+  .wholesalePage .copy .journeyHeading > span {
+    font-size: .7rem;
+  }
+
+  .wholesalePage .copy .journeyHeading h2 {
+    margin-top: .35rem;
+    font-size: clamp(1.6rem, 7.2vw, 2rem);
+    line-height: .95;
+    white-space: normal;
+  }
+
+  .wholesalePage .copy .journeySteps li {
+    min-height: 2.85rem;
+    grid-template-columns: 2.35rem minmax(0, 1fr);
+    gap: .7rem;
+  }
+
+  .wholesalePage .copy .journeySteps li > span {
+    font-size: 1.35rem;
+  }
+
+  .wholesalePage .copy .journeySteps strong {
+    font-size: .82rem;
+    line-height: 1.35;
+  }
+
+  .wholesalePage .bottomStrip {
+    margin-top: 1.35rem;
+    padding: .7rem 1rem;
+  }
+
+  .wholesalePage .bottomStrip span {
+    justify-content: center;
+    min-height: 3rem;
+    font-size: 1.15rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .wholesalePage .hero > .formCard {
+    padding: .9rem !important;
+  }
+
+  .wholesalePage .confirmRow span {
+    font-size: .82rem;
+  }
+
+  .wholesalePage .copy h1 {
+    font-size: 3.2rem;
+  }
+}

@@ -200,6 +200,7 @@ export default function FaqExperience() {
                 key={category}
                 type="button"
                 className={category === activeCategory ? styles.activeTab : undefined}
+                aria-pressed={category === activeCategory}
                 onClick={() => {
                   setActiveCategory(category);
                   const nextFaq =

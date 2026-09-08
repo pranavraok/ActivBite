@@ -830,3 +830,425 @@
   .statsGrid { display:none; }
   .productVisual { min-height:16rem!important; }
 }
+
+/* Final mobile shop pass: compact pack rows, visible price, and one clear checkout action. */
+@media (max-width: 960px) {
+  .shopPage {
+    overflow-x: clip;
+    padding-top: 5.7rem;
+    background:
+      radial-gradient(circle at 85% 8%, rgba(255, 213, 29, .22), transparent 17rem),
+      linear-gradient(155deg, #fb6a05 0%, #ef4e00 58%, #d93a00 100%);
+  }
+
+  .glow {
+    top: 4rem;
+    right: -12rem;
+    width: 26rem;
+    height: 26rem;
+    opacity: .68;
+    filter: blur(48px);
+  }
+
+  .hero {
+    width: min(calc(100% - 1.5rem), 40rem);
+    margin: .55rem auto 1.5rem;
+    align-items: stretch;
+    gap: 1.65rem;
+  }
+
+  .hero > .buyPanel {
+    order: 1;
+    width: 100%;
+  }
+
+  .hero > .copy {
+    order: 2;
+  }
+
+  .hero > .productVisual {
+    order: 3;
+  }
+
+  .buyPanel {
+    padding: 1rem;
+    border: 1.5px solid #3a2214;
+    border-radius: 1.1rem;
+    color: #2d1b10;
+    background: #fffaf1;
+    box-shadow: .28rem .3rem 0 #ffd51d, 0 .85rem 2rem rgba(83, 25, 0, .18);
+    animation: shopMobileEnter .5s ease-out both;
+  }
+
+  .panelHeading {
+    align-items: flex-start;
+    margin-bottom: .85rem;
+    gap: .75rem;
+  }
+
+  .panelHeading span {
+    color: #c84600;
+    font-size: .7rem;
+  }
+
+  .panelHeading strong {
+    margin-top: .2rem;
+    color: #2d1b10;
+    font-size: 1.08rem;
+    line-height: 1.2;
+  }
+
+  .panelHeading small {
+    max-width: 18rem;
+    margin-top: .3rem;
+    color: #624838;
+    font-size: .75rem;
+    line-height: 1.4;
+  }
+
+  .inStock,
+  .lowStock,
+  .stockChecking,
+  .outOfStock {
+    flex: 0 0 auto;
+    max-width: 7.5rem;
+    color: #4c372a;
+    font-size: .75rem;
+    line-height: 1.25;
+  }
+
+  .inStock {
+    color: #17653a;
+  }
+
+  .lowStock {
+    color: #804500;
+  }
+
+  .outOfStock {
+    color: #8f2819;
+  }
+
+  .packOptions {
+    gap: .58rem;
+  }
+
+  .shopPage .buyPanel .packOptions > div {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    min-height: 5.15rem;
+    padding: .7rem;
+    border: 1.5px solid #dcc7b8 !important;
+    border-radius: .8rem !important;
+    color: #2d1b10 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    gap: .25rem .55rem;
+  }
+
+  .shopPage .buyPanel .packOptions > div.selectedPack {
+    border-color: #ef5b00 !important;
+    background: #fff4d2 !important;
+    box-shadow: inset .22rem 0 0 #ffd51d !important;
+  }
+
+  .radio {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+
+  .packCopy {
+    min-width: 0;
+  }
+
+  .packCopy strong {
+    color: #2d1b10;
+    font-size: .88rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .packCopy small {
+    overflow: hidden;
+    margin-top: .16rem;
+    color: #654b3c;
+    font-size: .7rem;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+  }
+
+  .offerLine {
+    margin-top: .2rem;
+  }
+
+  .offerLine s,
+  .offerLine mark,
+  .soldOutLabel {
+    font-size: .65rem;
+  }
+
+  .packPrice {
+    display: grid !important;
+    min-width: 3.55rem;
+  }
+
+  .packPrice b {
+    color: #2d1b10;
+    font-size: .9rem;
+  }
+
+  .packPrice small {
+    display: none;
+  }
+
+  .packOptions .packQuantity {
+    grid-column: auto;
+    grid-template-columns: 2rem 1.45rem 2rem;
+    width: auto;
+    min-height: 2.55rem;
+    margin: 0;
+    border-color: #cdb8a9;
+    border-radius: .62rem;
+  }
+
+  .packOptions .packQuantity button {
+    min-width: 2rem;
+    min-height: 2.55rem;
+    color: #2d1b10;
+    touch-action: manipulation;
+  }
+
+  .packOptions .packQuantity > b {
+    color: #2d1b10;
+    font-size: .82rem;
+  }
+
+  .packOptions em {
+    top: .38rem;
+    right: .55rem;
+    padding: .22rem .48rem;
+    font-size: .62rem;
+  }
+
+  .purchaseRow {
+    margin: .85rem 0 .7rem;
+    padding: .75rem .8rem;
+    border: 1px solid #ead6c6;
+    border-radius: .75rem;
+    background: #fff3df;
+  }
+
+  .basketSummary small,
+  .total small {
+    color: #6b5040;
+    font-size: .7rem;
+  }
+
+  .basketSummary strong {
+    color: #2d1b10;
+    font-size: .92rem;
+  }
+
+  .total {
+    display: grid;
+    justify-items: end;
+    gap: .08rem;
+  }
+
+  .total strong {
+    color: #b93f00;
+    font-size: 1.35rem;
+  }
+
+  .buyNow {
+    min-height: 3.3rem;
+    border: 1.5px solid #3a2214;
+    border-radius: .75rem;
+    color: #2d1b10;
+    font-size: .92rem;
+    letter-spacing: .04em;
+    box-shadow: 0 .25rem 0 #ef5b00;
+    touch-action: manipulation;
+  }
+
+  .buyNow:disabled {
+    color: #5b493d;
+    background: #f4d66a;
+    opacity: 1;
+  }
+
+  .inventoryError {
+    color: #8f2819;
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+
+  .reassurance {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: .85rem;
+    padding-top: .75rem;
+    color: #594236;
+    font-size: .75rem;
+    gap: .5rem;
+  }
+
+  .reassurance span {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .reassurance span + span {
+    padding-left: .5rem;
+    border-left: 1px solid rgba(124, 97, 78, .18);
+  }
+
+  .copy {
+    width: 100%;
+    padding: .1rem .2rem 0;
+    text-align: center;
+    animation: shopMobileEnter .5s ease-out .08s both;
+  }
+
+  .copy h1 {
+    max-width: 23rem;
+    margin-inline: auto;
+    color: #fff;
+    font-size: clamp(3rem, 12.5vw, 4rem);
+    line-height: .86;
+  }
+
+  .copy h1 span {
+    color: #ffd51d;
+  }
+
+  .decorativeRule {
+    width: min(18rem, 80%);
+    margin: .9rem auto;
+  }
+
+  .intro {
+    max-width: 34rem;
+    margin: 0 auto;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .statsGrid {
+    display: none;
+  }
+
+  .productVisual {
+    width: 100%;
+    min-height: 14rem !important;
+    animation: shopMobileEnter .5s ease-out .14s both;
+  }
+
+  .ingredientOrbit {
+    display: none;
+  }
+
+  .sunburst {
+    left: 50%;
+    width: min(72vw, 18rem);
+  }
+
+  .productImage {
+    top: 50%;
+    width: min(84vw, 21rem);
+  }
+
+  .miniPackImage {
+    width: min(72vw, 18rem);
+  }
+
+  .packCount {
+    left: 6%;
+    bottom: 2%;
+    width: 4.8rem;
+  }
+
+  .packCount strong {
+    font-size: 2.25rem;
+  }
+
+  .packCount span {
+    margin-top: .2rem;
+    font-size: .58rem;
+  }
+
+  .bottomStrip {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: .7rem 1rem;
+  }
+
+  .bottomStrip span {
+    justify-content: center;
+    min-height: 3.1rem;
+    color: #4d2600;
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    text-align: center;
+    gap: .65rem;
+  }
+
+  .bottomStrip span + span {
+    border-top: 1px solid rgba(77, 38, 0, .22);
+    border-left: 0;
+  }
+
+  .bottomStrip svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #4d2600;
+  }
+}
+
+@media (max-width: 520px) {
+  .hero {
+    width: min(calc(100% - 1.25rem), 30rem);
+  }
+
+  .shopPage .buyPanel .packOptions > div {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 5.45rem;
+  }
+
+  .shopPage .buyPanel .packOptions > div:has(em) {
+    min-height: 6.35rem;
+    padding-top: 1.8rem;
+  }
+
+  .radio {
+    display: none;
+  }
+
+  .packPrice {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .packOptions .packQuantity {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+  }
+
+  .packCopy {
+    grid-row: 1 / span 2;
+  }
+}
+
+@keyframes shopMobileEnter {
+  from {
+    opacity: 0;
+    transform: translateY(.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

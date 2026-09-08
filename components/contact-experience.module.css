@@ -623,19 +623,263 @@
 }
 
 /* Mobile task-first flow: the message form comes before support context. */
-@media (max-width:900px) {
-  .contactPage { overflow-x:clip; padding-top:6.25rem; }
-  .hero { align-items:stretch; gap:1rem; }
-  .hero>.formCard { order:1; }
-  .hero>.copy { order:2; }
-  .copy { text-align:left; }
+@media (max-width: 900px) {
+  .contactPage {
+    overflow-x: clip;
+    padding-top: 5.7rem;
+    background:
+      radial-gradient(circle at 85% 8%, rgba(255, 209, 30, .22), transparent 17rem),
+      linear-gradient(155deg, #fb6a05 0%, #ef4e00 58%, #d93a00 100%);
+  }
+
+  .glow {
+    top: 4rem;
+    right: -12rem;
+    width: 26rem;
+    height: 26rem;
+    opacity: .7;
+    filter: blur(50px);
+  }
+
+  .hero {
+    align-items: stretch;
+    width: min(calc(100% - 1.5rem), 39rem);
+    margin: .55rem auto 1.5rem;
+    gap: 1.7rem;
+  }
+
+  .hero > .formCard {
+    order: 1;
+  }
+
+  .hero > .copy {
+    order: 2;
+  }
+
+  .formCard {
+    padding: 1.05rem;
+    border-radius: 1.15rem;
+    box-shadow: 0 .85rem 2rem rgba(83, 25, 0, .18), .28rem .3rem 0 #ffd51d;
+    animation: contactMobileEnter .5s ease-out both;
+  }
+
+  .formHeading {
+    align-items: center;
+    margin-bottom: .95rem;
+  }
+
+  .formHeading p {
+    margin-bottom: .32rem;
+    font-size: .7rem;
+  }
+
+  .formHeading h2 {
+    font-size: clamp(1.95rem, 8.2vw, 2.55rem);
+    line-height: .94;
+  }
+
+  .formCard form {
+    gap: .85rem;
+  }
+
+  .topicFieldset legend,
+  .formGrid label {
+    font-size: .82rem;
+    font-weight: 800;
+  }
+
+  .topicFieldset legend {
+    margin-bottom: .48rem;
+  }
+
+  .topicGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .48rem;
+  }
+
+  .topicGrid button {
+    min-height: 2.8rem;
+    padding: .55rem .45rem;
+    border-radius: .65rem;
+    font-size: .8rem;
+    font-weight: 800;
+  }
+
+  .topicGrid button:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .formGrid {
+    gap: .75rem;
+  }
+
+  .formGrid label {
+    gap: .32rem;
+  }
+
+  .formGrid input,
+  .formGrid textarea {
+    min-height: 3.15rem;
+    padding-inline: .9rem;
+    border-radius: .7rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .formGrid textarea {
+    min-height: 7rem;
+    padding-top: .78rem;
+    line-height: 1.45;
+  }
+
+  .topicFieldset small,
+  .formGrid small,
+  .formError {
+    font-size: .76rem;
+  }
+
+  .consentRow {
+    align-items: center;
+    font-size: .78rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .consentRow input {
+    width: 1.3rem;
+    height: 1.3rem;
+  }
+
+  .sendButton {
+    min-height: 3.25rem;
+    border-radius: .75rem;
+    font-size: .92rem;
+  }
+
+  .copy {
+    width: 100%;
+    padding: .1rem .15rem 0;
+    text-align: center;
+    animation: contactMobileEnter .5s ease-out .08s both;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    margin-bottom: .8rem;
+    padding: .45rem .72rem;
+    border: 1px solid rgba(255, 213, 29, .55);
+    border-radius: 999px;
+    background: rgba(72, 21, 3, .16);
+    font-size: .68rem;
+  }
+
   .copy h1,
   .lead,
-  .supportList { margin-inline:0; }
-  .copy h1 { font-size:clamp(2.9rem,12vw,4.25rem); }
-  .formCard input,
-  .formCard textarea,
-  .topicGrid button,
-  .sendButton { min-height:2.9rem; font-size:max(.875rem,16px); }
-  .supportList strong { font-size:.875rem; }
+  .supportList {
+    margin-inline: auto;
+  }
+
+  .copy h1 {
+    max-width: 23rem;
+    font-size: clamp(2.85rem, 12vw, 4rem);
+    line-height: .87;
+  }
+
+  .lead {
+    max-width: 34rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .supportList {
+    margin-top: 1.15rem;
+    border-radius: .9rem;
+    text-align: left;
+  }
+
+  .supportList > a,
+  .supportList > div {
+    min-height: 4.2rem;
+    padding: .75rem .9rem;
+    gap: .8rem;
+  }
+
+  .supportList small {
+    font-size: .68rem;
+  }
+
+  .supportList strong {
+    font-size: .86rem;
+    font-weight: 750;
+    line-height: 1.35;
+  }
+
+  .bottomStrip {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: .7rem 1rem;
+  }
+
+  .bottomStrip span {
+    justify-content: center;
+    min-height: 3.1rem;
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    text-align: center;
+    gap: .65rem;
+  }
+
+  .bottomStrip span + span {
+    border-top: 1px solid rgba(77, 38, 0, .22);
+    border-left: 0;
+  }
+
+  .bottomStrip svg {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .successModalBackdrop {
+    padding: 1rem;
+  }
+
+  .successModal {
+    padding: 1.7rem 1.15rem 1.35rem;
+    border-radius: 1.1rem;
+  }
+
+  .successModal h2 {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .confirmationCopy {
+    font-size: .9rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .formHeading > span {
+    display: none;
+  }
+
+  .formGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fullWidth {
+    grid-column: auto;
+  }
+}
+
+@keyframes contactMobileEnter {
+  from {
+    opacity: 0;
+    transform: translateY(.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

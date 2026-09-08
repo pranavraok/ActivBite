@@ -275,7 +275,7 @@ export default function CheckoutExperience() {
 
       <PublicHeader />
 
-      <section className={styles.shell} data-nav-theme="light">
+      <section className={styles.shell} data-nav-theme="dark">
         <div className={styles.leftColumn}>
           <div className={styles.copy}>
             <h1>Almost there.</h1>

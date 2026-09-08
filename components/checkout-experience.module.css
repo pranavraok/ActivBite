@@ -1016,16 +1016,219 @@
 
 /* Mobile task-first flow: delivery fields first, context and summary after. */
 @media (max-width:900px) {
-  .checkoutPage { overflow-x:clip; padding-top:6.25rem; }
-  .shell { align-items:stretch; }
-  .leftColumn { display:flex; flex-direction:column; gap:.8rem; }
+  .checkoutPage {
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    overflow-x: clip;
+    padding-top: 5.95rem;
+    background:
+      radial-gradient(circle at 85% 18%, rgba(255, 214, 45, .2), transparent 16rem),
+      linear-gradient(165deg, #fb5c08 0%, #ef4b05 58%, #d93b02 100%);
+  }
+
+  .shell {
+    width: min(calc(100% - 1.5rem), 36rem);
+    margin: .15rem auto 1rem;
+    align-items: stretch;
+    gap: .7rem;
+  }
+
+  .leftColumn { display:flex; flex-direction:column; gap:.7rem; }
   .leftColumn>.formCard { order:1; }
   .leftColumn>.copy { order:2; }
   .summaryColumn { order:3; }
-  .copy { text-align:left; }
-  .copy h1 { font-size:clamp(2.8rem,12vw,4rem); }
+
+  .copy { display: none; }
+
+  .formCard {
+    padding: 1rem .95rem .85rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 1rem 2.2rem rgba(94,26,0,.18);
+    gap: .65rem;
+  }
+
+  .formHeading { margin-bottom: .05rem; }
+
+  .formHeading h2 { font-size: 1.22rem; }
+
+  .formHeading span {
+    min-height: 1.75rem;
+    padding-inline: .6rem;
+    font-size: .68rem;
+  }
+
+  .gridTwo { gap: .65rem; }
+
+  .formCard label {
+    font-size: .875rem;
+    font-weight: 750;
+    gap: .34rem;
+  }
+
   .formCard input,
   .formCard select,
-  .payButton { min-height:2.9rem; font-size:max(.875rem,16px); }
-  .promiseGrid { margin-top:.1rem; }
+  .payButton {
+    min-height: 3rem;
+    font-size: max(.875rem, 16px);
+  }
+
+  .formCard input,
+  .formCard select {
+    padding-inline: .78rem;
+    border-radius: .68rem;
+  }
+
+  .confirmRow {
+    grid-template-columns: 1.2rem 1fr;
+    gap: .62rem;
+  }
+
+  .confirmRow span {
+    font-size: .76rem;
+    line-height: 1.42;
+  }
+
+  .payButton {
+    min-height: 3.2rem;
+    border-radius: .78rem;
+    box-shadow: 0 .45rem 0 #ee6a00, 0 .9rem 1.4rem rgba(142,59,0,.14);
+  }
+
+  .payButton:hover { transform: none; }
+
+  .legalLinks {
+    margin-top: .05rem;
+    font-size: .72rem;
+  }
+
+  .summaryColumn { gap: .65rem; }
+
+  .promiseGrid {
+    margin-top: 0;
+    gap: .42rem;
+  }
+
+  .promiseGrid span {
+    min-height: 2.45rem;
+    padding-inline: .35rem;
+    font-size: .7rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .summaryCard {
+    border-radius: 1.18rem;
+    background: rgba(116, 31, 0, .22);
+    box-shadow: 0 .85rem 1.8rem rgba(94,26,0,.15);
+  }
+
+  .summaryHeader {
+    min-height: 3.15rem;
+    padding: .65rem .9rem;
+  }
+
+  .summaryHeader h2 { font-size: .95rem; }
+  .summaryHeader strong { font-size: 1.35rem; }
+
+  .summaryBody {
+    display: grid;
+    grid-template-columns: 7.25rem minmax(0, 1fr);
+    padding: .75rem;
+    border-radius: .7rem 0 1.12rem 1.12rem;
+    gap: .2rem .75rem;
+  }
+
+  .summaryImage {
+    min-height: 0;
+    height: 7.25rem;
+    border-radius: .72rem;
+  }
+
+  .summaryImage img { width: 95%; }
+
+  .summaryCopy {
+    align-self: center;
+    min-width: 0;
+    padding: .1rem 0;
+  }
+
+  .summaryCopy h2 {
+    margin-top: .25rem;
+    font-size: 1.18rem;
+    line-height: 1.05;
+  }
+
+  .summaryCopy p {
+    margin-top: .14rem;
+    font-size: .76rem;
+    line-height: 1.3;
+  }
+
+  .summaryOffer {
+    margin-top: .32rem;
+    font-size: .64rem;
+    line-height: 1.25;
+  }
+
+  .summaryRows,
+  .totalRow,
+  .foodNotice {
+    grid-column: 1 / -1;
+  }
+
+  .summaryRows {
+    margin-top: .55rem;
+    padding: .65rem 0;
+    gap: .5rem .8rem;
+  }
+
+  .summaryRows div,
+  .totalRow { font-size: .78rem; }
+
+  .totalRow { padding: .62rem 0; }
+
+  .foodNotice {
+    padding: .62rem .68rem;
+    font-size: .72rem;
+  }
+
+  .bottomStrip {
+    padding: .65rem 1rem;
+    text-align: center;
+  }
+
+  .bottomStrip span {
+    justify-content: center;
+    min-height: 2.65rem;
+    font-size: 1.18rem;
+  }
+}
+
+@media (max-width:420px) {
+  .shell { width: calc(100% - 1rem); }
+
+  .formCard { padding-inline: .82rem; }
+
+  .promiseGrid { gap: .3rem; }
+
+  .promiseGrid span {
+    padding-inline: .2rem;
+    font-size: .65rem;
+    gap: .2rem;
+  }
+
+  .promiseGrid svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    padding: .14rem;
+  }
+
+  .summaryBody {
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: .18rem .62rem;
+  }
+
+  .summaryImage { height: 6.5rem; }
 }

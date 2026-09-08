@@ -1,7 +1,9 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import {
+  ArrowRight,
   MapPin,
   Rocket,
   Soup,
@@ -141,6 +143,9 @@ export default function AboutExperience() {
           <h2>Breakfast that keeps up with you.</h2>
           <p>#NoMoreHungryMornings</p>
         </div>
+        <Link className={styles.ctaButton} href="/shop">
+          Choose your pack <ArrowRight size={20} aria-hidden="true" />
+        </Link>
       </section>
 
       <section className={styles.bottomStrip} data-nav-theme="light" aria-label="ActivBite promise">

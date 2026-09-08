@@ -1093,3 +1093,271 @@
   .categoryTabs button,
   .faqItem button { min-height:2.9rem; touch-action:manipulation; }
 }
+
+/* Final mobile FAQ pass: answers first, readable contrast, and no nested-card clutter. */
+@media (max-width: 760px) {
+  .faqPage {
+    overflow-x: clip;
+    padding-top: 5.7rem;
+    background:
+      radial-gradient(circle at 85% 8%, rgba(255, 213, 29, .22), transparent 17rem),
+      linear-gradient(155deg, #fb6a05 0%, #ef4e00 58%, #d93a00 100%);
+  }
+
+  .glow {
+    top: 4rem;
+    right: -12rem;
+    width: 26rem;
+    height: 26rem;
+    opacity: .68;
+    filter: blur(48px);
+  }
+
+  .faqPage .hero {
+    display: flex;
+    flex-direction: column;
+    width: min(calc(100% - 1.5rem), 39rem);
+    margin: .55rem auto 1.5rem;
+    gap: 1.75rem;
+  }
+
+  .faqPage .faqShell {
+    order: 1;
+    width: 100%;
+    margin: 0;
+    padding: 1rem;
+    border: 1.5px solid #3a2214 !important;
+    border-radius: 1.1rem !important;
+    color: #302016 !important;
+    background: #fffaf1 !important;
+    box-shadow: .28rem .3rem 0 #ffd51d !important;
+    animation: faqMobileEnter .5s ease-out both;
+  }
+
+  .faqPage .copy {
+    order: 2;
+    padding: .1rem .2rem 0;
+    color: #fff;
+    text-align: center;
+    animation: faqMobileEnter .5s ease-out .08s both;
+  }
+
+  .faqPage .faqIntro {
+    margin-bottom: .85rem;
+  }
+
+  .faqPage .faqIntro span {
+    color: #c84600;
+    font-size: .7rem;
+  }
+
+  .faqPage .faqIntro h2 {
+    margin-top: .3rem;
+    color: #2d1b10;
+    font-size: clamp(2.05rem, 9.4vw, 2.75rem);
+    line-height: .91;
+  }
+
+  .faqPage .categoryTabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    overflow: visible;
+    margin-top: .85rem;
+    padding: 0 0 .9rem;
+    border-bottom: 1.5px solid rgba(58, 34, 20, .18);
+    gap: .48rem;
+  }
+
+  .faqPage .categoryTabs button {
+    min-width: 0;
+    min-height: 2.75rem;
+    padding: .45rem .3rem;
+    border: 1.5px solid rgba(58, 34, 20, .45);
+    border-radius: .65rem;
+    color: #3d2b20;
+    background: #fff;
+    font-size: .72rem;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .faqPage .categoryTabs .activeTab {
+    border-color: #3a2214 !important;
+    color: #2d1b10 !important;
+    background: #ffd51d !important;
+    box-shadow: 0 .2rem 0 #ef5b00 !important;
+    transform: none;
+  }
+
+  .faqPage .faqList {
+    display: block;
+  }
+
+  .faqPage .faqList .faqItem {
+    border: 0 !important;
+    border-bottom: 1.5px solid rgba(58, 34, 20, .18) !important;
+    border-radius: 0 !important;
+    color: #302016 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .faqPage .faqList .faqItem:first-child {
+    border-top: 1.5px solid rgba(58, 34, 20, .18) !important;
+  }
+
+  .faqPage .faqList .faqItemOpen {
+    background: #fff3dd !important;
+  }
+
+  .faqPage .questionButton {
+    grid-template-columns: minmax(0, 1fr) auto;
+    min-height: 4.65rem;
+    padding: .8rem .35rem;
+    color: #2d1b10;
+    gap: .42rem .65rem;
+  }
+
+  .faqPage .questionButton span {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    color: #c84600;
+    background: transparent;
+    font-size: .68rem;
+    letter-spacing: .1em;
+  }
+
+  .faqPage .questionButton strong {
+    color: #2d1b10;
+    font-size: .95rem;
+    font-weight: 800;
+    line-height: 1.35;
+  }
+
+  .faqPage .questionButton svg {
+    color: #d94c00;
+  }
+
+  .faqPage .answer {
+    margin: 0 .35rem;
+    padding: 0 0 1rem;
+    color: #4d382b;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .faqPage .answer a {
+    color: #b93f00;
+    font-weight: 800;
+  }
+
+  .helpNote {
+    align-items: flex-start;
+    margin-top: .9rem;
+    padding: .85rem;
+    border-radius: .75rem;
+    color: #fffaf1;
+    background: #3a2214;
+  }
+
+  .faqPage .faqShell .helpNote > span {
+    display: block;
+    color: #fffaf1 !important;
+    font-size: .86rem;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .faqPage .faqShell .helpNote > span > strong,
+  .faqPage .faqShell .helpNote > span > a {
+    color: #ffd51d !important;
+  }
+
+  .faqPage .faqShell .helpNote > span > strong {
+    display: block;
+    margin-bottom: .1rem;
+  }
+
+  .faqPage .microText {
+    display: inline-flex;
+    margin: 0 auto .8rem !important;
+    padding: .45rem .72rem;
+    border: 1px solid rgba(255, 213, 29, .55);
+    border-radius: 999px;
+    color: #ffd51d;
+    background: rgba(72, 21, 3, .16);
+    font-size: .68rem !important;
+  }
+
+  .faqPage .copy h1 {
+    max-width: 23rem;
+    margin-inline: auto;
+    color: #fff;
+    font-size: clamp(2.9rem, 12.5vw, 4rem);
+    line-height: .86;
+  }
+
+  .faqPage .copy h1 span {
+    color: #ffd51d;
+  }
+
+  .faqPage .copy > p:last-child {
+    max-width: 34rem;
+    margin: 1rem auto 0;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .bottomStrip {
+    grid-template-columns: 1fr;
+    min-height: auto;
+    padding: .7rem 1rem;
+  }
+
+  .bottomStrip span {
+    justify-content: center;
+    min-height: 3.1rem;
+    color: #4d2600;
+    font-size: clamp(1.05rem, 5vw, 1.35rem);
+    text-align: center;
+    gap: .65rem;
+  }
+
+  .bottomStrip span + span {
+    border-top: 1px solid rgba(77, 38, 0, .22);
+    border-left: 0;
+  }
+
+  .bottomStrip svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: #4d2600;
+  }
+}
+
+@keyframes faqMobileEnter {
+  from {
+    opacity: 0;
+    transform: translateY(.65rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Keep the dark support bar readable despite the shared card color rules. */
+.faqPage .faqShell .helpNote > span {
+  color: #fffaf1 !important;
+}
+
+.faqPage .faqShell .helpNote > span > strong,
+.faqPage .faqShell .helpNote > span > a {
+  color: #ffd51d !important;
+}
