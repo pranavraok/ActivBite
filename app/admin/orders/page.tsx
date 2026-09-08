@@ -170,7 +170,7 @@ export default function OrdersPage() {
     const isUpdating = updatingId === order.trackingId;
 
     return (
-      <article key={order.trackingId} className="p-5">
+      <article key={order.trackingId} className="p-4 sm:p-5">
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
             <div className="flex flex-wrap items-center gap-2">
@@ -243,7 +243,7 @@ export default function OrdersPage() {
         </div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-2 sm:gap-4 xl:grid-cols-5">
         {[
           { label: 'Total orders', value: orders.length, icon: Package },
           { label: 'Awaiting approval', value: paymentChecks, icon: WalletCards },
@@ -251,12 +251,12 @@ export default function OrdersPage() {
           { label: 'Active deliveries', value: activeOrders, icon: Truck },
           { label: 'Delivered', value: delivered, icon: CheckCircle2 },
         ].map(({ label, value, icon: Icon }) => (
-          <div key={label} className="rounded-xl border border-border bg-white p-5">
+          <div key={label} className="rounded-xl border border-border bg-white p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-muted-foreground">{label}</p>
               <Icon size={20} className="text-primary" />
             </div>
-            <p className="mt-2 text-3xl font-bold text-foreground">{value}</p>
+            <p className="mt-2 text-2xl font-bold text-foreground sm:text-3xl">{value}</p>
           </div>
         ))}
       </div>

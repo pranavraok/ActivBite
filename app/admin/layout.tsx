@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import {
   ArrowUpRight,
   BarChart3,
@@ -10,8 +11,10 @@ import {
   FileText,
   LogOut,
   Mail,
+  Menu,
   Package,
   Users,
+  X,
 } from 'lucide-react';
 import styles from './admin-shell.module.css';
 
@@ -28,6 +31,27 @@ const adminNavigation = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+
+  useEffect(() => {
+    setIsNavigationOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!isNavigationOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsNavigationOpen(false);
+    };
+
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isNavigationOpen]);
 
   const handleLogout = async () => {
     await fetch('/api/admin/logout', { method: 'POST' });
@@ -45,7 +69,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className={styles.shell}>
-      <aside className={styles.sidebar}>
+      <button
+        type="button"
+        className={`${styles.sidebarBackdrop} ${isNavigationOpen ? styles.sidebarBackdropVisible : ''}`}
+        onClick={() => setIsNavigationOpen(false)}
+        aria-label="Close admin navigation"
+        tabIndex={isNavigationOpen ? 0 : -1}
+      />
+
+      <aside
+        id="admin-navigation"
+        className={`${styles.sidebar} ${isNavigationOpen ? styles.sidebarOpen : ''}`}
+      >
         <Link href="/" className={styles.brand} aria-label="ActivBite home">
           <span className={styles.brandLogo}>
             <Image
@@ -58,6 +93,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </span>
           <span className={styles.brandTag}>Admin portal</span>
         </Link>
+
+        <button
+          type="button"
+          className={styles.sidebarCloseButton}
+          onClick={() => setIsNavigationOpen(false)}
+          aria-label="Close admin navigation"
+        >
+          <X size={20} />
+        </button>
 
         <nav className={styles.navigation} aria-label="Admin navigation">
           <p className={styles.navigationLabel}>Command centre</p>
@@ -73,6 +117,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 key={item.href}
                 href={item.href}
                 className={`${styles.navLink} ${isActive ? styles.navLinkActive : ''}`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <Icon size={18} />
                 <span>{item.label}</span>
@@ -99,9 +144,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       <main className={styles.main}>
         <header className={styles.topbar}>
-          <div>
-            <p className={styles.topbarEyebrow}>ActivBite command centre</p>
-            <h1>{activePage.label}</h1>
+          <div className={styles.topbarIdentity}>
+            <button
+              type="button"
+              className={styles.mobileMenuButton}
+              onClick={() => setIsNavigationOpen(true)}
+              aria-label="Open admin navigation"
+              aria-controls="admin-navigation"
+              aria-expanded={isNavigationOpen}
+            >
+              <Menu size={21} />
+            </button>
+            <div>
+              <p className={styles.topbarEyebrow}>ActivBite command centre</p>
+              <h1>{activePage.label}</h1>
+            </div>
           </div>
           <Link href="/" className={styles.siteLink}>
             <span>View website</span>

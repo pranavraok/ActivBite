@@ -425,3 +425,115 @@
     transition-duration: 1ms !important;
   }
 }
+
+/* Final mobile login pass: readable controls, compact branding, keyboard-safe flow. */
+@media (max-width: 520px) {
+  .page {
+    width: 100%;
+    min-width: 0;
+    max-width: 100vw;
+    min-height: 100svh;
+    overflow-x: clip;
+  }
+
+  .brandPanel {
+    padding: .65rem 1rem .25rem;
+  }
+
+  .logo {
+    width: 11rem;
+    height: 4.15rem;
+  }
+
+  .logo img {
+    width: 11.5rem !important;
+    height: 11.5rem !important;
+  }
+
+  .formPanel {
+    padding: .3rem .75rem max(1.5rem, env(safe-area-inset-bottom));
+  }
+
+  .cardWrap {
+    width: min(100%, 28rem);
+  }
+
+  .homeLink {
+    min-height: 2.5rem;
+    margin-bottom: .65rem;
+    font-size: .8rem;
+  }
+
+  .card {
+    padding: 1.25rem 1rem 1.15rem;
+    border-radius: 1.15rem .32rem 1.15rem .32rem;
+    box-shadow: .28rem .34rem 0 var(--login-yellow), 0 .85rem 1.8rem rgba(80, 26, 0, .14);
+  }
+
+  .securityBadge {
+    min-height: 2.1rem;
+    font-size: .68rem;
+  }
+
+  .formEyebrow {
+    margin: 1.05rem 0 .55rem;
+    font-size: .7rem;
+  }
+
+  .card h1 {
+    font-size: clamp(2.45rem, 12vw, 3rem);
+  }
+
+  .intro {
+    margin: .7rem 0 1.15rem;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .form {
+    gap: .9rem;
+  }
+
+  .field label {
+    font-size: .875rem;
+  }
+
+  .inputWrap input {
+    min-height: 3.2rem;
+    font-size: max(.9rem, 16px);
+  }
+
+  .visibilityButton {
+    width: 2.5rem;
+    height: 2.5rem;
+    right: .45rem;
+  }
+
+  .fieldError,
+  .submitError {
+    font-size: .76rem;
+    line-height: 1.4;
+  }
+
+  .submitButton {
+    min-height: 3.25rem;
+    font-size: .9rem;
+  }
+
+  .privacyNote {
+    margin-top: .9rem;
+    font-size: .7rem;
+    line-height: 1.4;
+  }
+}
+
+@media (max-width: 350px) {
+  .card {
+    padding-inline: .85rem;
+  }
+
+  .securityBadge {
+    font-size: .64rem;
+  }
+}

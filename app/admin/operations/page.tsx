@@ -563,7 +563,7 @@ export default function OperationsPage() {
       {success && <div className="flex items-center justify-between rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm font-bold text-green-800"><span className="flex items-center gap-2"><CheckCircle2 size={18} />{success}</span><button type="button" aria-label="Dismiss success message" onClick={() => setSuccess('')}><X size={17} /></button></div>}
       {error && !dialogOpen && <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-bold text-red-700">{error}</div>}
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <section className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <MetricCard label="Sales value" value={money.format(totals.sales)} note={`${sales?.rows.length || 0} sales records`} icon={<TrendingUp size={20} />} />
         <MetricCard label="Purchases" value={money.format(totals.purchases)} note={`${purchases?.rows.length || 0} purchase records`} icon={<ShoppingCart size={20} />} />
         <MetricCard label="Expenses" value={money.format(totals.expenses)} note={`${expenses?.rows.length || 0} expense records`} icon={<IndianRupee size={20} />} />

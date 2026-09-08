@@ -75,7 +75,7 @@ export default function AdminDashboard() {
   const stockAlerts = inventory.filter((item) => item.status !== 'in_stock');
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.16em] text-primary">Today at ActivBite</p>
         <h1 className="mt-1 text-3xl font-bold text-foreground">Live command centre</h1>
@@ -95,15 +95,15 @@ export default function AdminDashboard() {
         </Link>
       )}
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-2 md:gap-4 xl:grid-cols-4">
         {stats.map(({ label, value, note, icon: Icon }) => (
-          <Link key={label} href="/admin/orders" className="rounded-xl border border-border bg-white p-5 transition-shadow hover:shadow-md">
+          <Link key={label} href="/admin/orders" className="rounded-xl border border-border bg-white p-4 transition-shadow hover:shadow-md sm:p-5">
             <div className="flex items-center justify-between">
-              <div className="grid h-11 w-11 place-items-center rounded-lg bg-primary/10"><Icon size={22} className="text-primary" /></div>
+              <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 sm:h-11 sm:w-11"><Icon size={21} className="text-primary" /></div>
               {isLoading && <span className="text-xs font-semibold text-muted-foreground">Loading…</span>}
             </div>
             <h2 className="mt-4 text-sm font-medium text-muted-foreground">{label}</h2>
-            <p className="mt-1 text-3xl font-bold text-foreground">{isLoading ? '—' : value}</p>
+            <p className="mt-1 text-2xl font-bold text-foreground sm:text-3xl">{isLoading ? '—' : value}</p>
             <p className="mt-1 text-xs font-semibold text-primary">{note}</p>
           </Link>
         ))}

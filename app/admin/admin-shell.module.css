@@ -36,6 +36,12 @@
   border-right: 1px solid rgba(255, 213, 29, .18);
 }
 
+.sidebarBackdrop,
+.mobileMenuButton,
+.sidebarCloseButton {
+  display: none;
+}
+
 .sidebar::before {
   position: absolute;
   inset: 0;
@@ -195,6 +201,15 @@
   background: rgba(255,255,255,.07);
 }
 
+.navLink:focus-visible,
+.logoutButton:focus-visible,
+.siteLink:focus-visible,
+.mobileMenuButton:focus-visible,
+.sidebarCloseButton:focus-visible {
+  outline: 3px solid #ffd51d;
+  outline-offset: 3px;
+}
+
 .main {
   min-width: 0;
   overflow: auto;
@@ -231,6 +246,13 @@
   line-height: 1.1;
 }
 
+.topbarIdentity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: .75rem;
+}
+
 .siteLink {
   display: inline-flex;
   min-height: 2.55rem;
@@ -255,19 +277,51 @@
 
 @media (max-width: 900px) {
   .shell {
-    grid-template-columns: 1fr;
+    display: block;
+    min-width: 0;
   }
 
   .sidebar {
-    position: relative;
-    height: auto;
+    position: fixed;
+    z-index: 50;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(21rem, calc(100vw - 3rem));
+    height: 100dvh;
+    border-right-color: rgba(255, 213, 29, .28);
+    box-shadow: 1.2rem 0 3rem rgba(31, 14, 4, .28);
+    transform: translateX(-105%);
+    transition: transform .24s ease;
+  }
+
+  .sidebarOpen {
+    transform: translateX(0);
+  }
+
+  .sidebarBackdrop {
+    position: fixed;
+    z-index: 40;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: rgba(34, 17, 8, .48);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease;
+  }
+
+  .sidebarBackdropVisible {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .brand {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: .6rem 1rem;
+    min-height: 5rem;
+    padding: .6rem 4rem .6rem 1rem;
   }
 
   .brandLogo {
@@ -281,51 +335,159 @@
   }
 
   .navigation {
-    display: flex;
-    padding: .55rem .75rem .8rem;
-    overflow-x: auto;
+    display: grid;
+    padding: .85rem;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 
-  .navigationLabel,
-  .workspaceStatus {
-    display: none;
+  .navigationLabel {
+    display: block;
   }
 
   .navLink {
-    flex: 0 0 auto;
-    min-height: 2.5rem;
-    white-space: nowrap;
+    min-height: 3rem;
+    font-size: .82rem;
   }
 
   .sidebarFooter {
-    position: absolute;
-    top: .75rem;
-    right: .75rem;
-    padding: 0;
-    border: 0;
+    position: relative;
+    top: auto;
+    right: auto;
+    padding: .9rem;
+    border-top: 1px solid rgba(255,255,255,.12);
+  }
+
+  .workspaceStatus {
+    display: flex;
   }
 
   .logoutButton {
-    width: 2.45rem;
-    min-height: 2.45rem;
+    width: 100%;
+    min-height: 2.85rem;
   }
 
-  .logoutButton span {
-    display: none;
+  .sidebarCloseButton {
+    position: absolute;
+    z-index: 3;
+    top: 1rem;
+    right: 1rem;
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: .75rem;
+    color: #fff8ea;
+    background: rgba(255,255,255,.08);
+    cursor: pointer;
+  }
+
+  .main {
+    min-height: 100dvh;
+    overflow: visible;
   }
 
   .topbar {
-    min-height: 4.5rem;
+    min-height: 4.65rem;
+    padding: .65rem 1rem;
+    gap: .75rem;
+  }
+
+  .mobileMenuButton {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    flex: 0 0 auto;
+    place-items: center;
+    border: 1.5px solid #29170c;
+    border-radius: .75rem;
+    color: #29170c;
+    background: #ffd51d;
+    box-shadow: .16rem .18rem 0 #ef5b00;
+    cursor: pointer;
+  }
+
+  .content {
+    padding: 1.15rem;
+  }
+
+  .content :global(input),
+  .content :global(select),
+  .content :global(textarea) {
+    font-size: 1rem;
+  }
+
+  .content :global(button),
+  .content :global(a) {
+    touch-action: manipulation;
   }
 }
 
 @media (max-width: 540px) {
-  .brandTag,
   .siteLink span {
     display: none;
   }
 
-  .brand {
-    padding-right: 4rem;
+  .topbar {
+    padding-inline: .8rem;
+  }
+
+  .topbarIdentity {
+    gap: .65rem;
+  }
+
+  .topbarEyebrow {
+    max-width: 12rem;
+    overflow: hidden;
+    font-size: .56rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .topbar h1 {
+    max-width: 12rem;
+    overflow: hidden;
+    font-size: 1.08rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .siteLink {
+    width: 2.6rem;
+    min-height: 2.6rem;
+    flex: 0 0 auto;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .content {
+    padding: .9rem;
+  }
+
+  .content :global(.space-y-8) {
+    --tw-space-y-reverse: 0;
+  }
+
+  .content :global(h1.text-3xl),
+  .content :global(h2.text-3xl) {
+    font-size: 1.65rem;
+    line-height: 1.12;
+  }
+
+  .content :global(.p-5) {
+    padding: 1rem;
+  }
+
+  .content :global(.p-12),
+  .content :global(.p-10) {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebarBackdrop {
+    transition: none;
   }
 }

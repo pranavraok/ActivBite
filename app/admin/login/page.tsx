@@ -115,10 +115,14 @@ export default function AdminLoginPage() {
                     placeholder="admin@activbite.com"
                     autoComplete="username"
                     spellCheck={false}
+                    aria-invalid={Boolean(errors.email)}
+                    aria-describedby={errors.email ? 'admin-email-error' : undefined}
                   />
                 </div>
                 {errors.email ? (
-                  <p className={styles.fieldError}>{errors.email.message}</p>
+                  <p id="admin-email-error" className={styles.fieldError} role="alert">
+                    {errors.email.message}
+                  </p>
                 ) : null}
               </div>
 
@@ -132,6 +136,8 @@ export default function AdminLoginPage() {
                     type={showPassword ? 'text' : 'password'}
                     placeholder="Enter your password"
                     autoComplete="current-password"
+                    aria-invalid={Boolean(errors.password)}
+                    aria-describedby={errors.password ? 'admin-password-error' : undefined}
                   />
                   <button
                     type="button"
@@ -144,7 +150,9 @@ export default function AdminLoginPage() {
                   </button>
                 </div>
                 {errors.password ? (
-                  <p className={styles.fieldError}>{errors.password.message}</p>
+                  <p id="admin-password-error" className={styles.fieldError} role="alert">
+                    {errors.password.message}
+                  </p>
                 ) : null}
               </div>
 
